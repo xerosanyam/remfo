@@ -1,2 +1,20 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script lang="ts">
+	import { enhance } from '$app/forms';
+
+	export let form;
+</script>
+
+{#if form?.missing}<p class="error">Please provide email!</p>{/if}
+{#if form?.incorrect}<p class="error">Invalid credentials!</p>{/if}
+
+<form method="post" use:enhance>
+	<div>
+		<label for="email">Email</label>
+		<input id="email" type="email" name="email" value={form?.email ?? ''} required />
+	</div>
+	<div>
+		<label for="password">Password</label>
+		<input id="password" type="password" name="password" autocomplete="current-password" required />
+	</div>
+	<button type="submit">Login</button>
+</form>
