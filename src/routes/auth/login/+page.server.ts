@@ -1,4 +1,4 @@
-import { fail, json } from '@sveltejs/kit'
+import { fail } from '@sveltejs/kit'
 import type { RequestEvent } from './$types.js'
 
 export const actions = {
@@ -14,9 +14,12 @@ async function login(event: RequestEvent) {
 	if (!email) {
 		return fail(400, { email, missing: true });
 	}
+	if (!password) {
+		return fail(400, { email, missing_password: true });
+	}
 
-	if (email === 'admin' && password === 'admin') {
-		return json({ text: 'logged in' })
+	if (email === 'admin@gmail.com' && password === 'admin') {
+		return { text: 'logged in' }
 	} else {
 		console.error('Incorrect email or password', { email, password })
 		return fail(400, { email, incorrect: true })

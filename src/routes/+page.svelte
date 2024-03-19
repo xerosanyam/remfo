@@ -1,20 +1,4 @@
-<script lang="ts">
-	import { enhance } from '$app/forms';
+<h1>Remfo</h1>
 
-	export let form;
-</script>
-
-{#if form?.missing}<p class="error">Please provide email!</p>{/if}
-{#if form?.incorrect}<p class="error">Invalid credentials!</p>{/if}
-
-<form method="post" use:enhance>
-	<div>
-		<label for="email">Email</label>
-		<input id="email" type="email" name="email" value={form?.email ?? ''} required />
-	</div>
-	<div>
-		<label for="password">Password</label>
-		<input id="password" type="password" name="password" autocomplete="current-password" required />
-	</div>
-	<button type="submit">Login</button>
-</form>
+<a href="auth/login">Sign in</a>
+<a href="auth/signup">Sign up</a>
