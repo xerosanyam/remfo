@@ -20,6 +20,31 @@ B) **Revise Old Stuff**: Quickly review previously saved content to reinforce yo
 
 Interested in contributing to Remfo? Whether you're a developer, designer, or simply passionate about improving learning experiences, there's a place for you in our community! Join us in shaping the future of Remfo.
 
+## How to begin 🛠️
+
+Are you a new developer looking to get involved with Remfo? Fantastic! Here's how you can start:
+
+1. **Clone the Repository**: First, clone the Remfo repository to your local machine using Git.
+
+   ```bash
+   git clone https://github.com/xerosanyam/remfo.git
+   ```
+
+2. **Install Dependencies**: Navigate into the project directory and install dependencies using npm, pnpm, or yarn.
+
+   ```bash
+   cd remfo
+   npm install
+   ```
+
+3. **Start Development Server**: Once dependencies are installed, start a development server using the following command:
+
+   ```bash
+   npm run dev
+   ```
+
+   This will launch the Remfo app in your default web browser, allowing you to begin development.
+
 ---
 
 _Happy Learning!_ 📚
