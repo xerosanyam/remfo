@@ -1,20 +1,34 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-
-	export let form;
+	import { superForm } from 'sveltekit-superforms';
+	export let data;
+	const { form, errors, constraints } = superForm(data.form);
 </script>
-
-{#if form?.missing}<p class="error">Please provide email!</p>{/if}
-{#if form?.incorrect}<p class="error">Invalid credentials!</p>{/if}
 
 <form method="post" use:enhance>
 	<div>
 		<label for="email">Email</label>
-		<input id="email" type="email" name="email" value={form?.email ?? ''} required />
+		<input
+			id="email"
+			name="email"
+			type="email"
+			aria-invalid={$errors.email ? 'true' : undefined}
+			bind:value={$form.email}
+			{...$constraints.email}
+		/>
+		{#if $errors.email}<span>{$errors.email}</span>{/if}
 	</div>
 	<div>
 		<label for="password">Password</label>
-		<input id="password" type="password" name="password" autocomplete="current-password" required />
+		<input
+			id="password"
+			name="password"
+			type="password"
+			autocomplete="current-password"
+			aria-invalid={$errors.password ? 'true' : undefined}
+			bind:value={$form.password}
+		/>
+		{#if $errors.password}<span>{$errors.password}</span>{/if}
 	</div>
 	<button type="reset">Reset</button>
 	<button type="submit">Login</button>

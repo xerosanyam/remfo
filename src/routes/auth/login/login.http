@@ -1,0 +1,27 @@
+### no email
+POST {{$dotenv origin}}/auth/login
+Content-Type: application/x-www-form-urlencoded
+
+?? body status == 400
+
+### wrong email 1
+POST {{$dotenv origin}}/auth/login
+Content-Type: application/x-www-form-urlencoded
+email=12
+
+?? body status == 400
+
+### wrong email 2
+POST {{$dotenv origin}}/auth/login
+Content-Type: application/x-www-form-urlencoded
+email=12+12@gmail.c
+
+?? body status == 400
+
+### right email
+POST {{$dotenv origin}}/auth/login
+Content-Type: application/x-www-form-urlencoded
+email=admin@gmail.com
+&password=admins
+
+?? body status == 302
