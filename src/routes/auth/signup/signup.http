@@ -1,0 +1,46 @@
+# @no-redirect
+### no email
+POST {{$dotenv origin}}/auth/signup
+Content-Type: application/x-www-form-urlencoded
+
+?? body status == 400
+
+### wrong email 1
+POST {{$dotenv origin}}/auth/signup
+Content-Type: application/x-www-form-urlencoded
+email=12
+
+?? body status == 400
+
+### wrong email 2
+POST {{$dotenv origin}}/auth/signup
+Content-Type: application/x-www-form-urlencoded
+email=12+12@gmail.c
+
+?? body status == 400
+
+### right email
+POST http://localhost:5173/auth/signup
+Content-Type: application/x-www-form-urlencoded
+
+email=admin@gmail.com
+
+?? body status == 307
+
+# if you want to check browser behavior, pass ACCEPT header
+### right email
+POST http://localhost:5173/auth/signup
+Accept: application/xml
+Content-Type: application/x-www-form-urlencoded
+
+email=admin@gmail.com
+
+?? status == 307
+
+### new email
+POST http://localhost:5173/auth/signup
+Content-Type: application/x-www-form-urlencoded
+
+email=new@gmail.com
+
+?? body type == success
