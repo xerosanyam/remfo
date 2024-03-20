@@ -4,12 +4,18 @@
 	export let form;
 </script>
 
-{#if form?.missing}<p class="error">Please provide email!</p>{/if}
-
 <form method="post" use:enhance>
 	<div>
 		<label for="email">Email</label>
-		<input id="email" type="email" name="email" value={form?.email ?? ''} required />
+		<input
+			id="email"
+			type="email"
+			name="email"
+			aria-invalid={form?.errors?.email ? true : undefined}
+			value={form?.data?.email ?? ''}
+			required
+		/>
+		{#if form?.errors?.email}<span>{form?.errors.email}</span>{/if}
 	</div>
 	<button type="reset">Reset</button>
 	<button type="submit">Sign up</button>
