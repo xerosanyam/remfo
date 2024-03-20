@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
+	import { superForm } from 'sveltekit-superforms';
 
-	export let form;
+	export let data;
+	const { form, errors, constraints, enhance, message } = superForm(data.form);
 </script>
 
 <form method="post" use:enhance>
@@ -11,12 +12,13 @@
 			id="email"
 			type="email"
 			name="email"
-			aria-invalid={form?.errors?.email ? true : undefined}
-			value={form?.data?.email ?? ''}
-			required
+			aria-invalid={$errors?.email ? 'true' : undefined}
+			bind:value={$form.email}
+			{...$constraints}
 		/>
-		{#if form?.errors?.email}<span>{form?.errors.email}</span>{/if}
+		{#if $errors?.email}<span>{$errors.email}</span>{/if}
 	</div>
 	<button type="reset">Reset</button>
 	<button type="submit">Sign up</button>
+	{#if $message}<span>{$message}</span>{/if}
 </form>
