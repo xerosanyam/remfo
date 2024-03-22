@@ -5,8 +5,8 @@
   "elements": [
     {
       "type": "text",
-      "version": 41,
-      "versionNonce": 145503676,
+      "version": 43,
+      "versionNonce": 49718791,
       "isDeleted": false,
       "id": "-kY0pgL_-vHim-LJEZsvZ",
       "fillStyle": "solid",
@@ -26,7 +26,7 @@
       "frameId": null,
       "roundness": null,
       "boundElements": [],
-      "updated": 1710312340852,
+      "updated": 1710795561882,
       "link": null,
       "locked": false,
       "fontSize": 20,
@@ -37,12 +37,12 @@
       "containerId": null,
       "originalText": "1. User enters email\n",
       "lineHeight": 1.25,
-      "baseline": 42
+      "baseline": 43
     },
     {
       "type": "text",
-      "version": 106,
-      "versionNonce": 1336415236,
+      "version": 108,
+      "versionNonce": 1236525545,
       "isDeleted": false,
       "id": "5IHgHQewy7RRB4-ks0zat",
       "fillStyle": "solid",
@@ -62,7 +62,7 @@
       "frameId": null,
       "roundness": null,
       "boundElements": [],
-      "updated": 1710312340853,
+      "updated": 1710795561883,
       "link": null,
       "locked": false,
       "fontSize": 20,
@@ -73,12 +73,12 @@
       "containerId": null,
       "originalText": "User receives Email",
       "lineHeight": 1.25,
-      "baseline": 17
+      "baseline": 18
     },
     {
       "type": "text",
-      "version": 24,
-      "versionNonce": 1838554684,
+      "version": 26,
+      "versionNonce": 1164070183,
       "isDeleted": false,
       "id": "Saaktd9a2j0QkNJlw4maR",
       "fillStyle": "solid",
@@ -98,7 +98,7 @@
       "frameId": null,
       "roundness": null,
       "boundElements": [],
-      "updated": 1710312340853,
+      "updated": 1710795561883,
       "link": null,
       "locked": false,
       "fontSize": 20,
@@ -109,12 +109,12 @@
       "containerId": null,
       "originalText": "/signup",
       "lineHeight": 1.25,
-      "baseline": 17
+      "baseline": 18
     },
     {
       "type": "text",
-      "version": 56,
-      "versionNonce": 1963914116,
+      "version": 58,
+      "versionNonce": 1922153673,
       "isDeleted": false,
       "id": "V-YCIWHWUq5Soo-OOg0oJ",
       "fillStyle": "solid",
@@ -134,7 +134,7 @@
       "frameId": null,
       "roundness": null,
       "boundElements": [],
-      "updated": 1710312340853,
+      "updated": 1710795561883,
       "link": null,
       "locked": false,
       "fontSize": 20,
@@ -145,12 +145,12 @@
       "containerId": null,
       "originalText": "2. User clicks on link in email",
       "lineHeight": 1.25,
-      "baseline": 17
+      "baseline": 18
     },
     {
       "type": "text",
-      "version": 67,
-      "versionNonce": 1580136124,
+      "version": 69,
+      "versionNonce": 101453895,
       "isDeleted": false,
       "id": "SssOo4HUguECEKs8Ns3E0",
       "fillStyle": "solid",
@@ -170,7 +170,7 @@
       "frameId": null,
       "roundness": null,
       "boundElements": [],
-      "updated": 1710312340853,
+      "updated": 1710795561883,
       "link": null,
       "locked": false,
       "fontSize": 20,
@@ -181,7 +181,7 @@
       "containerId": null,
       "originalText": "Set Password/ Reset Password page",
       "lineHeight": 1.25,
-      "baseline": 17
+      "baseline": 18
     },
     {
       "type": "freedraw",
@@ -902,8 +902,8 @@
     },
     {
       "type": "text",
-      "version": 55,
-      "versionNonce": 426631940,
+      "version": 57,
+      "versionNonce": 1018248105,
       "isDeleted": false,
       "id": "tqhKAj_YCTyDFikYf6nIz",
       "fillStyle": "solid",
@@ -923,7 +923,7 @@
       "frameId": null,
       "roundness": null,
       "boundElements": [],
-      "updated": 1710312340853,
+      "updated": 1710795561883,
       "link": null,
       "locked": false,
       "fontSize": 20,
@@ -934,12 +934,12 @@
       "containerId": null,
       "originalText": "/password\n",
       "lineHeight": 1.25,
-      "baseline": 42
+      "baseline": 43
     },
     {
       "type": "text",
-      "version": 106,
-      "versionNonce": 1729675068,
+      "version": 108,
+      "versionNonce": 248541031,
       "isDeleted": false,
       "id": "DAGRlcyZMiMW5dJItX2Wi",
       "fillStyle": "solid",
@@ -959,7 +959,7 @@
       "frameId": null,
       "roundness": null,
       "boundElements": [],
-      "updated": 1710312340854,
+      "updated": 1710795561884,
       "link": null,
       "locked": false,
       "fontSize": 20,
@@ -970,7 +970,7 @@
       "containerId": null,
       "originalText": "1. User enters passwords\n2. User re-enters password\n3. Passwords match?\n4. Save to DB",
       "lineHeight": 1.25,
-      "baseline": 92
+      "baseline": 93
     },
     {
       "type": "rectangle",
