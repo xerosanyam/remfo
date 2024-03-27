@@ -4,6 +4,8 @@
 	const { form, errors, constraints, enhance } = superForm(data.form);
 </script>
 
+<h1>Sign in</h1>
+
 <form method="post" use:enhance>
 	<div>
 		<label for="email">Email</label>

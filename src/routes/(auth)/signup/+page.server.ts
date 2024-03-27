@@ -3,6 +3,7 @@ import type { RequestEvent } from './$types.js'
 import { message, superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { z } from "zod";
+import { ROUTES } from '$lib/routes.util.js';
 
 const schema = z.object({
 	email: z.string().email()
@@ -27,7 +28,7 @@ async function signup(event: RequestEvent) {
 
 	// check for both user exists and email is verified
 	if (form.data.email === 'admin@gmail.com') {
-		return redirect(307, '/auth/login')
+		return redirect(307, ROUTES.LOGIN)
 	}
 
 	return message(form, 'Success. Please check email.')

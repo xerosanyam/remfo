@@ -3,6 +3,7 @@ import type { RequestEvent } from './$types.js'
 import { z } from 'zod';
 import { setError, superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
+import { ROUTES } from '$lib/routes.util.js';
 
 const schema = z.object({
 	email: z.string().email(),
@@ -28,7 +29,7 @@ async function login(event: RequestEvent) {
 	}
 
 	if (email === 'admin@gmail.com' && password === 'admins') {
-		redirect(302, '/home')
+		redirect(302, ROUTES.HOME)
 	}
 
 	return setError(form, 'email', 'Wrong email or password.');
