@@ -31,3 +31,11 @@ WHERE
 INSERT INTO auth_user(id, github_id, username)
     VALUES ("12_id", "12_github_id", "12_username");
 
+ALTER TABLE auth_user
+    ADD COLUMN picture text;
+
+SELECT
+    *
+FROM
+    auth_user;
+

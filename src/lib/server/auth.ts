@@ -1,10 +1,14 @@
 import { dev } from "$app/environment";
-import { GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET } from "$env/static/private";
+import {
+	GOOGLE_CLIENT_ID,
+	GOOGLE_CLIENT_SECRET,
+	REDIRECT_URI
+} from "$env/static/private";
 
 import { Lucia } from "lucia";
 import { PostgresJsAdapter } from "@lucia-auth/adapter-postgresql";
 
-import { GitHub } from "arctic";
+import { Google } from "arctic";
 
 import { sql } from "$lib/db/db.util";
 
@@ -22,8 +26,8 @@ export const lucia = new Lucia(adapter, {
 	},
 	getUserAttributes: (attributes) => {
 		return {
-			githubId: attributes.github_id,
-			username: attributes.username
+			name: attributes.given_name,
+			picture: attributes.picture
 		};
 	}
 });
@@ -36,11 +40,10 @@ declare module "lucia" {
 }
 
 interface DatabaseUserAttributes {
-	github_id: string;
-	username: string;
+	given_name: string;
+	picture: string;
 }
 
-
-export const github = new GitHub(
-	GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET
-);
+export const google = new Google(
+	GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, REDIRECT_URI
+)
