@@ -24,6 +24,7 @@ async function add(event: RequestEvent) {
 	if (!form.valid) {
 		return fail(400, { form });
 	}
+	// TODO: save to database
 	redirect(302, '/add')
 }
 
