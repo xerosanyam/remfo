@@ -48,3 +48,7 @@ DROP TABLE remfo.auth_user;
 
 DROP TABLE remfo.user_session;
 
+DELETE FROM remfo.auth_user;
+
+DELETE FROM remfo.user_session;
+

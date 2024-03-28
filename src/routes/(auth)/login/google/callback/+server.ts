@@ -1,5 +1,4 @@
 import { OAuth2RequestError } from "arctic";
-import { generateId } from "lucia";
 import { google, lucia } from "$lib/server/auth";
 
 import type { RequestEvent } from "@sveltejs/kit";
@@ -28,8 +27,11 @@ export async function GET(event: RequestEvent): Promise<Response> {
 		const user = await response.json();
 
 		const existingUser = await getGoogleUserWhereEmail(user.email);
-		let id = existingUser.id;
 		if (existingUser) {
+			await insertOrUpdateGoogleUser({
+				id: existingUser.id,
+				...user
+			});
 			const session = await lucia.createSession(existingUser.id, {});
 			const sessionCookie = lucia.createSessionCookie(session.id);
 			event.cookies.set(sessionCookie.name, sessionCookie.value, {
@@ -37,8 +39,11 @@ export async function GET(event: RequestEvent): Promise<Response> {
 				...sessionCookie.attributes
 			});
 		} else {
-			const userId = generateId(15);
-			id = userId
+			const userId = crypto.randomUUID();
+			await insertOrUpdateGoogleUser({
+				id: userId,
+				...user
+			});
 			const session = await lucia.createSession(userId, {});
 			const sessionCookie = lucia.createSessionCookie(session.id);
 			event.cookies.set(sessionCookie.name, sessionCookie.value, {
@@ -46,10 +51,6 @@ export async function GET(event: RequestEvent): Promise<Response> {
 				...sessionCookie.attributes
 			});
 		}
-		await insertOrUpdateGoogleUser({
-			id,
-			...user
-		});
 		return new Response(null, {
 			status: 302,
 			headers: {
@@ -57,6 +58,7 @@ export async function GET(event: RequestEvent): Promise<Response> {
 			}
 		});
 	} catch (e) {
+		console.log('GET ~ e:', e)
 		// the specific error message depends on the provider
 		if (e instanceof OAuth2RequestError) {
 			// invalid code
