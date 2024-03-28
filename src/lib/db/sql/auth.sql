@@ -1,14 +1,14 @@
-CREATE TABLE auth_user(
+CREATE TABLE remfo.auth_user(
     id text PRIMARY KEY
 );
 
-CREATE TABLE user_session(
+CREATE TABLE remfo.user_session(
     id text PRIMARY KEY,
     expires_at timestamptz NOT NULL,
-    user_id text NOT NULL REFERENCES auth_user(id)
+    user_id text NOT NULL REFERENCES remfo.auth_user(id)
 );
 
-ALTER TABLE auth_user
+ALTER TABLE remfo.auth_user
     ADD COLUMN github_id text UNIQUE,
     ADD COLUMN username text;
 
@@ -17,24 +17,24 @@ SELECT
 FROM
     pg_tables
 WHERE
-    tablename = 'auth_user'
-    OR tablename = 'user_session';
+    tablename = 'remfo.auth_user'
+    OR tablename = 'remfo.user_session';
 
 SELECT
     *
 FROM
     information_schema.columns
 WHERE
-    table_name = 'auth_user';
+    table_name = 'remfo.auth_user';
 
-INSERT INTO auth_user(id, github_id, username)
+INSERT INTO remfo.auth_user(id, github_id, username)
     VALUES ("12_id", "12_github_id", "12_username");
 
-ALTER TABLE auth_user
+ALTER TABLE remfo.auth_user
     ADD COLUMN picture text;
 
 SELECT
     *
 FROM
-    auth_user;
+    remfo.auth_user;
 
