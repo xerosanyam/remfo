@@ -19,6 +19,6 @@ suppose, I want to setup hi@domain.com
 ### Domain comparisions
 
 - porkbun supports 20 free forwards (hi@domain.com, hello@domain.com) etc.
-- - it doesn't support wildcard/catch-all. (anything@remfo.com will get lost)
+- - it doesn't support wildcard/catch-all. (anything@domain.com will get lost)
 - ionos supports unlimited forwards and wildcard domains
 - godaddy has made it chargeable (afaik)

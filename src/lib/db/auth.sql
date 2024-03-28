@@ -1,4 +1,3 @@
--- Active: 1710228112139@@aws-0-ap-south-1.pooler.supabase.com@5432@postgres@remfo
 CREATE TABLE auth_user(
     id text PRIMARY KEY
 );
