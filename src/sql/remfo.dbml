@@ -1,0 +1,21 @@
+Table auth.users{
+  id uuid [pk]
+}
+
+Table remfo.cards{
+  id uuid [pk, default: `gen_random_uuid()`]
+  front text [not null]
+  back text [not null]
+  user_id uuid [not null]
+  easiness real [not null, default:2.5]
+  interval smallint [not null, default:0]
+  repetitions smallint [not null, default:0]
+  next_practice timestamptz  [not null, default: `now()`]
+  created_at timestamptz [not null, default: `now()`]
+  updated_at timestamptz [not null, default: `now()`]
+  indexes {
+    next_practice
+  }
+}
+
+ref: auth.users.id-remfo.cards.user_id

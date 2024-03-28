@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { superForm } from 'sveltekit-superforms';
 	export let data;
-	const { form, errors, constraints, enhance } = superForm(data.form);
+	const { form, errors, constraints } = superForm(data.form);
 </script>
 
 <h1>Sign in</h1>
 
-<form method="post" use:enhance>
+<form method="post">
 	<div>
 		<label for="email">Email</label>
 		<input
