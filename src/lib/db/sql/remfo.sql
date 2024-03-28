@@ -1,7 +1,11 @@
 CREATE SCHEMA "remfo";
 
-CREATE TABLE "remfo"."cards"(
-  "id" uuid PRIMARY KEY DEFAULT (gen_random_uuid()),
+CREATE TABLE "remfo"."auth_user"(
+  "id" uuid PRIMARY KEY
+);
+
+CREATE TABLE "remfo"."card"(
+  "id" uuid PRIMARY KEY,
   "front" text NOT NULL CHECK (front <> ''),
   "back" text NOT NULL CHECK (back <> ''),
   "user_id" uuid NOT NULL,
@@ -13,10 +17,10 @@ CREATE TABLE "remfo"."cards"(
   "updated_at" timestamptz NOT NULL DEFAULT (now())
 );
 
-CREATE INDEX ON "remfo"."cards"("next_practice");
+CREATE INDEX ON "remfo"."card"("next_practice");
 
-ALTER TABLE "remfo"."cards"
-  ADD FOREIGN KEY ("user_id") REFERENCES "auth"."users"("id");
+ALTER TABLE "remfo"."card"
+  ADD FOREIGN KEY ("user_id") REFERENCES "remfo"."auth_user"("id");
 
-DROP TABLE remfo.cards;
+DROP TABLE remfo.card;
 
