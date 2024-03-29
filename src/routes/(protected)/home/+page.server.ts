@@ -6,6 +6,7 @@ import { z } from "zod";
 import { ROUTES } from "$lib/routes.util.js";
 
 import type { RequestEvent } from "./$types.js";
+import { insertCard } from "$lib/db/card.util.js";
 
 const schema = z.object({
 	front: z.string().min(1).max(140),
@@ -23,11 +24,25 @@ export const actions = {
 }
 
 async function add(event: RequestEvent) {
-	const form = await superValidate(event, zod(schema));
-	if (!form.valid) {
-		return fail(400, { form });
-	}
-	// TODO: save to database
-	redirect(302, ROUTES.HOME)
-}
+	try {
+		if (!event.locals.user) {
+			redirect(302, ROUTES.LOGIN);
+		}
 
+		const form = await superValidate(event, zod(schema));
+		if (!form.valid) {
+			return fail(400, { form });
+		}
+
+		await insertCard({
+			id: crypto.randomUUID(),
+			front: form.data.front,
+			back: form.data.back,
+			user_id: event.locals.user.id
+		});
+
+		redirect(302, ROUTES.HOME);
+	} catch (err) {
+		console.log('add ~ err:', err);
+	}
+}
