@@ -1,26 +1,23 @@
 import { fail, redirect } from "@sveltejs/kit";
 import { superValidate } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters";
-import { z } from "zod";
 
 import { ROUTES } from "$lib/routes.util.js";
 
 import type { RequestEvent } from "./$types.js";
 import { insertCard } from "$lib/db/card.util.js";
+import { cardAddSchema, cardReviewSchema } from "$lib/schemas.js";
 
-const schema = z.object({
-	front: z.string().min(1).max(140),
-	back: z.string().min(1).max(140)
-});
 
 export async function load() {
-	const form = await superValidate(zod(schema));
-
-	return { form };
+	const addForm = await superValidate(zod(cardAddSchema));
+	const reviewForm = await superValidate(zod(cardReviewSchema))
+	return { addForm, reviewForm };
 }
 
 export const actions = {
-	default: add
+	add,
+	review
 }
 
 async function add(event: RequestEvent) {
@@ -29,7 +26,7 @@ async function add(event: RequestEvent) {
 			redirect(302, ROUTES.LOGIN);
 		}
 
-		const form = await superValidate(event, zod(schema));
+		const form = await superValidate(event, zod(cardAddSchema));
 		if (!form.valid) {
 			return fail(400, { form });
 		}
@@ -40,6 +37,23 @@ async function add(event: RequestEvent) {
 			back: form.data.back,
 			user_id: event.locals.user.id
 		});
+
+		redirect(302, ROUTES.HOME);
+	} catch (err) {
+		console.log('add ~ err:', err);
+	}
+}
+
+async function review(event: RequestEvent) {
+	try {
+		if (!event.locals.user) {
+			redirect(302, ROUTES.LOGIN);
+		}
+
+		const form = await superValidate(event, zod(cardReviewSchema));
+		if (!form.valid) {
+			return fail(400, { form });
+		}
 
 		redirect(302, ROUTES.HOME);
 	} catch (err) {
