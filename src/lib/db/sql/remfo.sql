@@ -24,3 +24,8 @@ ALTER TABLE "remfo"."card"
 
 DROP TABLE remfo.card;
 
+SELECT
+  *
+FROM
+  remfo.card;
+
