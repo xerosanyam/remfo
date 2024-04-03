@@ -1,8 +1,11 @@
-import type { RequestEvent } from "./$types.js";
 import { fail, redirect } from "@sveltejs/kit";
 import { superValidate } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters";
 import { z } from "zod";
+
+import { ROUTES } from "$lib/routes.util.js";
+
+import type { RequestEvent } from "./$types.js";
 
 const schema = z.object({
 	front: z.string().min(1).max(140),
@@ -24,6 +27,7 @@ async function add(event: RequestEvent) {
 	if (!form.valid) {
 		return fail(400, { form });
 	}
-	redirect(302, '/add')
+	// TODO: save to database
+	redirect(302, ROUTES.HOME)
 }
 

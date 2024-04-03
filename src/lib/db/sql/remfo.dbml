@@ -1,9 +1,9 @@
-Table auth.users{
+Table remfo.auth_user{
   id uuid [pk]
 }
 
-Table remfo.cards{
-  id uuid [pk, default: `gen_random_uuid()`]
+Table remfo.card{
+  id uuid [pk]
   front text [not null]
   back text [not null]
   user_id uuid [not null]
@@ -18,4 +18,4 @@ Table remfo.cards{
   }
 }
 
-ref: auth.users.id-remfo.cards.user_id
+ref: remfo.auth_user.id-remfo.card.user_id
