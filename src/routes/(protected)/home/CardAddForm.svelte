@@ -17,7 +17,7 @@
 			rows="4"
 			{...$constraints.front}
 		/>
-		{#if $errors}<span>{$errors.front}</span>{/if}
+		{#if $errors.front}<span>{$errors.front}</span>{/if}
 	</div>
 	<div>
 		<label for="back">Answer 🙋:</label>
