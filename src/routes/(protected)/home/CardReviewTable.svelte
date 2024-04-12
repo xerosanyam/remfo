@@ -6,7 +6,7 @@
 	const { errors } = superForm(data);
 </script>
 
-<h2>Try to recall the answer:</h2>
+<h2>Try to recall the answer</h2>
 <form method="post" action="?/review">
 	<table>
 		<tbody>
