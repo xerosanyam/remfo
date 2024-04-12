@@ -6,6 +6,7 @@
 	const { form, errors, constraints } = superForm(data);
 </script>
 
+<h2>Add something you'd like to remember:</h2>
 <form method="post" action="?/add">
 	<div>
 		<label for="front">Question:</label>

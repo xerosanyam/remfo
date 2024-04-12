@@ -3,10 +3,11 @@
 </script>
 
 <slot />
+<hr />
 <nav>
-	<ul>
+	<ol>
 		<li>
 			<Logout />
 		</li>
-	</ul>
+	</ol>
 </nav>
