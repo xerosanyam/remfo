@@ -1,9 +1,9 @@
 <script lang="ts">
-	import CardAddForm from './CardAddForm.svelte';
-	import CardReviewForm from './CardReviewForm.svelte';
+	import CardAddTable from './CardAddTable.svelte';
+	import CardReviewTable from './CardReviewTable.svelte';
 	export let data;
 </script>
 
-<h1>Add something you'd like to remember:</h1>
-<CardAddForm data={data.addForm} />
-<CardReviewForm data={data.reviewForm} />
+<CardAddTable data={data.addForm} />
+<hr />
+<CardReviewTable data={data.reviewForm} />

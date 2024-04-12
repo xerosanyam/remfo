@@ -6,7 +6,7 @@ export const cardAddSchema = z.object({
 });
 export type CardAddSchema = typeof cardAddSchema;
 
-export const difficulty = ['Challenging', 'Hard', 'Good', 'Easy'] as const
+export const difficulty = ['Easy', 'Good', 'Hard', 'Challenging'] as const
 
 export const cardReviewSchema = z.object({ difficulty: z.enum(difficulty).default('' as 'Hard') })
 export type CardReviewSchema = typeof cardReviewSchema;
