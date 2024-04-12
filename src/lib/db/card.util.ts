@@ -20,3 +20,13 @@ export const insertCard = async ({
 		console.error('insertCard ~ err:', err)
 	}
 };
+
+export const getCards = async (user_id: string) => {
+	try {
+		const query = (sql: postgres.TransactionSql) => sql`select * from remfo.card`;
+		const data = await authTxn(user_id, query)
+		return data
+	} catch (err) {
+		console.error('getCards ~ err:', err)
+	}
+}

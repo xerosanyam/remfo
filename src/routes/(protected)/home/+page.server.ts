@@ -5,14 +5,18 @@ import { zod } from "sveltekit-superforms/adapters";
 import { ROUTES } from "$lib/routes.util.js";
 
 import type { RequestEvent } from "./$types.js";
-import { insertCard } from "$lib/db/card.util.js";
+import { getCards, insertCard } from "$lib/db/card.util.js";
 import { cardAddSchema, cardReviewSchema } from "$lib/schemas.js";
 
 
-export async function load() {
+export async function load({ locals }) {
+	if (!locals?.user?.id) {
+		redirect(302, ROUTES.LOGIN)
+	}
+	const cards = await getCards(locals.user.id)
 	const addForm = await superValidate(zod(cardAddSchema));
 	const reviewForm = await superValidate(zod(cardReviewSchema))
-	return { addForm, reviewForm };
+	return { addForm, reviewForm, cards };
 }
 
 export const actions = {
