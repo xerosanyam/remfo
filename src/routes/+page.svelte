@@ -67,6 +67,11 @@
 									>Essays</a
 								>
 							</li>
+							<li>
+								<a href="https://github.com/xerosanyam/remfo/milestones" target="_blank"
+									>Why this website is so ugly?- Milestones we are chasing</a
+								>
+							</li>
 						</ol>
 					</td>
 				</tr>
