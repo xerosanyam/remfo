@@ -1,1 +1,7 @@
-<a href="/login/google">Sign in with Google</a>
+<script lang="ts">
+	export let text: string;
+</script>
+
+<form action="/login/google">
+	<button>{text} with Google</button>
+</form>
