@@ -33,6 +33,7 @@
 				</tr>
 			</tbody>
 		</table>
+		<hr />
 	</li>
 	<li>
 		<h2>Old User</h2>
