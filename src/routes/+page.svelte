@@ -52,7 +52,7 @@
 		<hr />
 	</li>
 	<li>
-		<h2>Other Info</h2>
+		<h2>Others</h2>
 		<table>
 			<tbody>
 				<tr>
@@ -61,6 +61,11 @@
 						<ol>
 							<li>
 								<a href="https://github.com/xerosanyam/remfo" target="_blank">See code on Github</a>
+							</li>
+							<li>
+								<a href="https://github.com/xerosanyam/remfo/tree/main/essays" target="_blank"
+									>Essays</a
+								>
 							</li>
 						</ol>
 					</td>
