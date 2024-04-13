@@ -10,10 +10,10 @@ import { PostgresJsAdapter } from "@lucia-auth/adapter-postgresql";
 
 import { Google } from "arctic";
 
-import { sql } from "$lib/db/db.util";
+import { sql_postgres } from "$lib/db/db.util";
 
 
-const adapter = new PostgresJsAdapter(sql, {
+const adapter = new PostgresJsAdapter(sql_postgres, {
 	user: "remfo.auth_user",
 	session: "remfo.user_session"
 });

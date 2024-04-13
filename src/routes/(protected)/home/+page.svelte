@@ -12,6 +12,7 @@
 	</li>
 	<li>
 		<CardReviewTable data={data.reviewForm} />
+		Total cards: {data.cards?.length}
 		<hr />
 	</li>
 	<li>

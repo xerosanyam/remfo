@@ -1,7 +1,7 @@
-import { sql } from "$lib/db/db.util";
+import { sql_postgres } from "$lib/db/db.util";
 
 export const getGoogleUserWhereEmail = async (email: string) => {
-	const rows = await sql`SELECT
+	const rows = await sql_postgres`SELECT
 								*
 							FROM
 								remfo.auth_user
@@ -29,7 +29,7 @@ export const insertOrUpdateGoogleUser = async ({
 	email_verified: boolean,
 	locale: string
 }) => {
-	await sql`INSERT INTO remfo.auth_user(id,name, given_name, family_name, picture, email, email_verified, locale)
+	await sql_postgres`INSERT INTO remfo.auth_user(id,name, given_name, family_name, picture, email, email_verified, locale)
     			VALUES (${id},${name}, ${given_name}, ${family_name}, ${picture}, ${email}, ${email_verified}, ${locale})
 				ON CONFLICT (id) DO UPDATE
 					SET name = excluded.name,
