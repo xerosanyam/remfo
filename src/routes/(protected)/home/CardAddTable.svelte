@@ -22,9 +22,7 @@
 						{...$constraints.front}
 					/>
 				</td>
-				<td>
-					{#if $errors.front}<span>{$errors.front}</span>{/if}
-				</td>
+				{#if $errors.front}<td>{$errors.front}</td>{/if}
 			</tr>
 			<tr>
 				<th>
@@ -40,9 +38,7 @@
 						{...$constraints.back}
 					/>
 				</td>
-				<td>
-					{#if $errors.back}<span>{$errors.back}</span>{/if}
-				</td>
+				{#if $errors.back}<td>{$errors.back}</td>{/if}
 			</tr>
 			<tr>
 				<th>Action(s):</th>

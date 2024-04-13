@@ -12,4 +12,4 @@ Make it usable, go deeper. Add important actions. add keyboard shortcuts(maybe).
 
 Its like we are designing the engine.. once it is fine-tuned, then we will work on look and feel.
 
-also, did you notice that app works without JS?
+also, did you notice that app works without JS on frontend?
