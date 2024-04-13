@@ -1,0 +1,10 @@
+<h1>Pricing</h1>
+<table>
+	<tbody>
+		<tr>
+			<th></th>
+			<th>Free</th>
+			<th>Pro</th>
+		</tr>
+	</tbody>
+</table>
