@@ -19,15 +19,15 @@
 					<th>Action(s):</th>
 					<td>
 						<ol>
-							<li><Google text={'Sign Up'} /></li>
 							<li>
 								<a
 									target="_blank"
 									href="https://docs.google.com/presentation/d/15eZbXXVoR0B73-2Ct-eYs2ukjJsQoZFWxEh5WYqUGAc/edit?usp=sharing"
-									>Understand the idea on Google Slides</a
+									>Why do you need Remfo? - Learn more thru Google Slides</a
 								>
 							</li>
-							<li><a href={ROUTES.PRICING}>Pricing</a></li>
+							<li><a href={ROUTES.PRICING}>Pricing (Free & Membership Plan)</a></li>
+							<li><Google text={'Sign Up'} /></li>
 						</ol>
 					</td>
 				</tr>
@@ -44,6 +44,7 @@
 					<td>
 						<ol>
 							<li><Google text={'Sign In'} /></li>
+							<li>Recommend to a friend</li>
 						</ol>
 					</td>
 				</tr>
@@ -52,7 +53,7 @@
 		<hr />
 	</li>
 	<li>
-		<h2>Others</h2>
+		<h2>Developers</h2>
 		<table>
 			<tbody>
 				<tr>
@@ -60,16 +61,24 @@
 					<td>
 						<ol>
 							<li>
-								<a href="https://github.com/xerosanyam/remfo" target="_blank">See code on Github</a>
-							</li>
-							<li>
-								<a href="https://github.com/xerosanyam/remfo/tree/main/essays" target="_blank"
-									>Essays</a
+								<a href="https://github.com/xerosanyam/remfo" target="_blank">View code on Github</a
 								>
 							</li>
 							<li>
-								<a href="https://github.com/xerosanyam/remfo/milestones" target="_blank"
-									>Why this website is so ugly?- Milestones we are chasing</a
+								<a href="https://github.com/xerosanyam/remfo/tree/main/essays" target="_blank"
+									>All Essays</a
+								>
+								<ol>
+									<li>
+										<a href="https://github.com/xerosanyam/remfo/milestones" target="_blank"
+											>Why this website is so ugly?- Milestones we are chasing</a
+										>
+									</li>
+								</ol>
+							</li>
+							<li>
+								<a href="https://github.com/xerosanyam/remfo" target="_blank"
+									>Star this project on Github</a
 								>
 							</li>
 						</ol>
