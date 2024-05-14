@@ -28,5 +28,15 @@ export const getCards = async (user_id: string) => {
 		return data
 	} catch (err) {
 		console.error('getCards ~ err:', err)
+		return []
+	}
+}
+
+export const deleteCard = async ({ user_id, card_id }: { user_id: string, card_id: string }) => {
+	try {
+		const query = (sql: postgres.TransactionSql) => sql`delete from remfo.card where id = ${card_id}`;
+		await authTxn(user_id, query)
+	} catch (err) {
+		console.error('deleteCard ~ err:', err)
 	}
 }

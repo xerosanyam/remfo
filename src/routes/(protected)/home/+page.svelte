@@ -11,8 +11,9 @@
 		<hr />
 	</li>
 	<li>
-		<CardReviewTable data={data.reviewForm} />
-		Total cards: {data.cards?.length}
+		{#if data.cards.length > 0}
+			<CardReviewTable data={data.reviewForm} card={data.cards[0]} />
+		{/if}
 		<hr />
 	</li>
 	<li>
