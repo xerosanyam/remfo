@@ -26,15 +26,23 @@ export const testConnection = async () => {
 	}
 }
 
-export function authTxn<T>(
+export async function authTxn<T>(
 	userId: string,
 	cb: (sql_authenticated: postgres.TransactionSql) => T | Promise<T>,
 ): Promise<T> {
-
-	return sql_postgres.begin(async (sql) => {
+	console.time('authTxn')
+	let data
+	await sql_postgres.begin(async (sql) => {
+		console.time('set-role')
 		await sql`SET LOCAL ROLE authenticated`
+		console.timeEnd('set-role')
+		console.time('set-config')
 		await sql`SELECT set_config('request.jwt.claim.sub', ${userId}, TRUE)`;
-
-		return cb(sql);
-	}) as Promise<T>;
+		console.timeEnd('set-config')
+		console.time('cb')
+		data = await cb(sql);
+		console.timeEnd('cb')
+	})
+	console.timeEnd('authTxn')
+	return data as T;
 }
