@@ -1,4 +1,4 @@
-import { authTxn } from '$lib/db/db.util';
+import { authTxn, sql_postgres } from '$lib/db/db.util';
 import type postgres from 'postgres';
 
 export const insertCard = async ({
@@ -13,9 +13,11 @@ export const insertCard = async ({
 	user_id: string;
 }) => {
 	try {
-		const query = (sql: postgres.TransactionSql) => sql`INSERT INTO remfo.card(id, front, back, user_id)
+		console.time('insertCard')
+		const query = sql_postgres`INSERT INTO remfo.card(id, front, back, user_id)
   				VALUES (${id}, ${front}, ${back}, ${user_id})`;
-		await authTxn(user_id, query)
+		await query
+		console.timeEnd('insertCard')
 	} catch (err) {
 		console.error('insertCard ~ err:', err)
 	}
@@ -23,8 +25,10 @@ export const insertCard = async ({
 
 export const getCards = async (user_id: string) => {
 	try {
-		const query = (sql: postgres.TransactionSql) => sql`select * from remfo.card`;
-		const data = await authTxn(user_id, query)
+		console.time('getCards')
+		const query =  sql_postgres`select * from remfo.card where user_id=${user_id}`
+		const data = await query
+		console.timeEnd('getCards')
 		return data
 	} catch (err) {
 		console.error('getCards ~ err:', err)
