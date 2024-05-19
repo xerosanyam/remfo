@@ -9,6 +9,12 @@ export const sql_postgres = postgres(CONNECTION_STRING, {
 	},
 });
 
+async function shutdownGracefully() {
+	await sql_postgres.end()
+}
+
+process.on('exit', shutdownGracefully);
+
 export const testConnection = async () => {
 	try {
 		const rows = await sql_postgres`SELECT NOW()`;
