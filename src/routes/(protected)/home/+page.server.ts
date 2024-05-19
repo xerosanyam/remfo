@@ -13,10 +13,15 @@ export async function load({ locals }) {
 	if (!locals?.user?.id) {
 		redirect(302, ROUTES.LOGIN)
 	}
-	const cards = await getCards(locals.user.id)
+
 	const addForm = await superValidate(zod(cardAddSchema));
 	const reviewForm = await superValidate(zod(cardReviewSchema))
-	return { addForm, reviewForm, cards };
+
+	return {
+		addForm,
+		reviewForm,
+		cards: await getCards(locals.user.id)
+	};
 }
 
 export const actions = {
