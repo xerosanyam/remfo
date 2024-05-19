@@ -1,5 +1,4 @@
 <script>
-	export const prerender = true;
 	import Google from '$lib/components/Google.svelte';
 	import { ROUTES } from '$lib/routes.util';
 </script>

@@ -3,6 +3,7 @@ import { google, lucia } from "$lib/server/auth";
 
 import type { RequestEvent } from "@sveltejs/kit";
 import { getGoogleUserWhereEmail, insertOrUpdateGoogleUser } from "$lib/db/google.db";
+import { ROUTES } from "$lib/routes.util";
 
 export async function GET(event: RequestEvent): Promise<Response> {
 	const code = event.url.searchParams.get("code");
@@ -27,34 +28,32 @@ export async function GET(event: RequestEvent): Promise<Response> {
 		const user = await response.json();
 
 		const existingUser = await getGoogleUserWhereEmail(user.email);
+		let userId = null;
 		if (existingUser) {
 			await insertOrUpdateGoogleUser({
 				id: existingUser.id,
 				...user
 			});
-			const session = await lucia.createSession(existingUser.id, {});
-			const sessionCookie = lucia.createSessionCookie(session.id);
-			event.cookies.set(sessionCookie.name, sessionCookie.value, {
-				path: ".",
-				...sessionCookie.attributes
-			});
+			userId = existingUser.id;
 		} else {
-			const userId = crypto.randomUUID();
+			const newUserId = crypto.randomUUID();
 			await insertOrUpdateGoogleUser({
-				id: userId,
+				id: newUserId,
 				...user
 			});
-			const session = await lucia.createSession(userId, {});
-			const sessionCookie = lucia.createSessionCookie(session.id);
-			event.cookies.set(sessionCookie.name, sessionCookie.value, {
-				path: ".",
-				...sessionCookie.attributes
-			});
+			userId = newUserId;
 		}
+
+		const session = await lucia.createSession(userId, {});
+		const sessionCookie = lucia.createSessionCookie(session.id);
+		event.cookies.set(sessionCookie.name, sessionCookie.value, {
+			path: ".",
+			...sessionCookie.attributes
+		});
 		return new Response(null, {
 			status: 302,
 			headers: {
-				Location: "/"
+				Location: ROUTES.HOME
 			}
 		});
 	} catch (e) {
