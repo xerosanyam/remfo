@@ -1,5 +1,4 @@
-import { authTxn, sql_postgres } from '$lib/db/db.util';
-import type postgres from 'postgres';
+import { sql_postgres } from '$lib/db/db.util';
 
 export const insertCard = async ({
 	id,
@@ -26,7 +25,7 @@ export const insertCard = async ({
 export const getCards = async (user_id: string) => {
 	try {
 		console.time('getCards')
-		const query =  sql_postgres`select * from remfo.card where user_id=${user_id}`
+		const query = sql_postgres`select id from remfo.card where user_id=${user_id}`
 		const data = await query
 		console.timeEnd('getCards')
 		return data
@@ -38,8 +37,10 @@ export const getCards = async (user_id: string) => {
 
 export const deleteCard = async ({ user_id, card_id }: { user_id: string, card_id: string }) => {
 	try {
-		const query = (sql: postgres.TransactionSql) => sql`delete from remfo.card where id = ${card_id}`;
-		await authTxn(user_id, query)
+		console.time('deleteCard')
+		const query = sql_postgres`delete from remfo.card where id = ${card_id} and user_id = ${user_id}`;
+		await query
+		console.timeEnd('deleteCard')
 	} catch (err) {
 		console.error('deleteCard ~ err:', err)
 	}
