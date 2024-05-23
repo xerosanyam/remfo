@@ -2,20 +2,20 @@ import { dev } from "$app/environment";
 import {
 	GOOGLE_CLIENT_ID,
 	GOOGLE_CLIENT_SECRET,
-	REDIRECT_URI
+	REDIRECT_URI,
 } from "$env/static/private";
 
 import { Lucia } from "lucia";
-import { PostgresJsAdapter } from "@lucia-auth/adapter-postgresql";
+import { LibSQLAdapter } from "@lucia-auth/adapter-sqlite";
 
 import { Google } from "arctic";
 
-import { sql_postgres } from "$lib/db/db.util";
+import { turso_client } from "$lib/db/turso.db";
 
 
-const adapter = new PostgresJsAdapter(sql_postgres, {
-	user: "remfo.auth_user",
-	session: "remfo.user_session"
+const adapter = new LibSQLAdapter(turso_client, {
+	user: "auth_user",
+	session: "user_session"
 });
 
 export const lucia = new Lucia(adapter, {
