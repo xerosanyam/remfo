@@ -21,7 +21,7 @@
 		"@typescript-eslint/eslint-plugin": "7.10.0",
 		"@typescript-eslint/parser": "7.10.0",
 		"arctic": "1.9.0",
-		"drizzle-kit": "0.21.3",
+		"drizzle-kit": "0.21.4",
 		"eslint": "8.57.0",
 		"eslint-config-prettier": "9.1.0",
 		"eslint-plugin-svelte": "2.39.0",
@@ -29,7 +29,7 @@
 		"postgres": "3.4.4",
 		"prettier": "3.2.5",
 		"prettier-plugin-svelte": "3.2.3",
-		"svelte": "5.0.0-next.138",
+		"svelte": "5.0.0-next.141",
 		"svelte-check": "3.7.1",
 		"sveltekit-superforms": "2.13.1",
 		"tslib": "2.6.2",
@@ -40,7 +40,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@libsql/client": "0.3.6",
+		"@libsql/client": "0.6.0",
 		"@lucia-auth/adapter-sqlite": "3.0.1",
 		"dotenv": "16.4.5",
 		"drizzle-orm": "0.30.10"
