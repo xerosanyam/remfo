@@ -44,7 +44,7 @@ async function add(event: RequestEvent) {
 			id: crypto.randomUUID(),
 			front: form.data.front,
 			back: form.data.back,
-			user_id: event.locals.user.id
+			userId: event.locals.user.id
 		});
 
 		redirect(302, ROUTES.HOME);

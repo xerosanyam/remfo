@@ -3,23 +3,25 @@ import { integer, real, sqliteTable, text, } from 'drizzle-orm/sqlite-core';
 
 export const userTable = sqliteTable('auth_user', {
 	id: text('id').primaryKey(),
-	email: text('email').unique().notNull(),
 	name: text('name'),
+	given_name: text('given_name'),
+	family_name: text('family_name'),
 	picture: text('picture'),
-	givenName: text('given_name'),
-	familyName: text('family_name'),
-	emailVerified: text('email_verified'),
-	locale: text('locale')
+	email: text('email').unique().notNull(),
+	email_verified: integer('email_verified', { mode: 'boolean' }),
+	locale: text('locale'),
+	createdAt: integer('created_at', { mode: 'timestamp' }).default(sql`(unixepoch())`).notNull(),
+	updatedAt: integer('updated_at', { mode: 'timestamp' }).default(sql`(unixepoch())`).$onUpdate(() => new Date()).notNull(),
 });
 
 export const userSessionTable = sqliteTable('user_session', {
 	id: text('id').primaryKey(),
-	expiresAt: text("expires_at").default(sql`(CURRENT_TIMESTAMP)`).notNull(),
-	changedAt: integer('changed_at', { mode: 'timestamp' }).default(sql`(CURRENT_TIMESTAMP)`).notNull(),
+	expiresAt: integer('expires_at', { mode: 'timestamp' }).default(sql`(unixepoch())`).notNull(),
 	userId: text('user_id')
 		.notNull()
 		.references(() => userTable.id, { onDelete: 'cascade' }),
-	updatedAt: integer('updated_at', { mode: 'timestamp' }).$onUpdate(() => new Date()),
+	createdAt: integer('created_at', { mode: 'timestamp' }).default(sql`(unixepoch())`).notNull(),
+	updatedAt: integer('updated_at', { mode: 'timestamp' }).default(sql`(unixepoch())`).$onUpdate(() => new Date()).notNull(),
 });
 
 export const cardTable = sqliteTable('card', {
@@ -30,9 +32,9 @@ export const cardTable = sqliteTable('card', {
 	easiness: real('easiness').notNull().default(2.5),
 	interval: integer('interval').notNull().default(0),
 	repetitions: integer('repetitions').notNull().default(0),
-	nextPractice: integer('next_practice', { mode: 'timestamp' }).notNull().default(sql`(CURRENT_TIMESTAMP)`),
-	createdAt: integer('created_at', { mode: 'timestamp' }).notNull().default(sql`(CURRENT_TIMESTAMP)`),
-	updatedAt: integer('updated_at', { mode: 'timestamp' }).notNull().default(sql`(CURRENT_TIMESTAMP)`),
+	nextPractice: integer('next_practice', { mode: 'timestamp' }).default(sql`(unixepoch())`).notNull(),
+	createdAt: integer('created_at', { mode: 'timestamp' }).default(sql`(unixepoch())`).notNull(),
+	updatedAt: integer('updated_at', { mode: 'timestamp' }).default(sql`(unixepoch())`).$onUpdate(() => new Date()).notNull(),
 })
 
 export type InsertUser = typeof userTable.$inferInsert;

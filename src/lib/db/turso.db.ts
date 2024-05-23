@@ -26,5 +26,5 @@ export const insertOrUpdateGoogleUser = async (values: {
 	email_verified: boolean,
 	locale: string
 }) => {
-	await db.insert(userTable).values(values)
+	await db.insert(userTable).values(values).onConflictDoUpdate({ target: userTable.id, set: { ...values } });
 }

@@ -1,33 +1,26 @@
-import { authTxn, sql_postgres } from '$lib/db/db.util';
-import type postgres from 'postgres';
+import { db } from '$lib/db/turso.db';
+import { cardTable } from '$lib/db/turso.schema';
+import { eq } from 'drizzle-orm';
 
-export const insertCard = async ({
-	id,
-	front,
-	back,
-	user_id
-}: {
+export const insertCard = async (values: {
 	id: string;
 	front: string;
 	back: string;
-	user_id: string;
+	userId: string;
 }) => {
 	try {
 		console.time('insertCard')
-		const query = sql_postgres`INSERT INTO remfo.card(id, front, back, user_id)
-  				VALUES (${id}, ${front}, ${back}, ${user_id})`;
-		await query
+		await db.insert(cardTable).values(values)
 		console.timeEnd('insertCard')
 	} catch (err) {
 		console.error('insertCard ~ err:', err)
 	}
 };
 
-export const getCards = async (user_id: string) => {
+export const getCards = async (userId: string) => {
 	try {
 		console.time('getCards')
-		const query =  sql_postgres`select * from remfo.card where user_id=${user_id}`
-		const data = await query
+		const data = await db.select().from(cardTable).where(eq(cardTable.userId, userId))
 		console.timeEnd('getCards')
 		return data
 	} catch (err) {
