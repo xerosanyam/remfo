@@ -5,7 +5,7 @@ import { zod } from "sveltekit-superforms/adapters";
 import { ROUTES } from "$lib/routes.util.js";
 
 import type { RequestEvent } from "./$types.js";
-import { getCards, insertCard } from "$lib/db/card.util.js";
+import { getCards, insertCard } from "$lib/db/tables/card.table.js";
 import { cardAddSchema, cardReviewSchema } from "$lib/schemas.js";
 
 

@@ -2,7 +2,7 @@ import { OAuth2RequestError } from "arctic";
 import { google, lucia } from "$lib/server/auth";
 
 import type { RequestEvent } from "@sveltejs/kit";
-import { getGoogleUserWhereEmail, insertOrUpdateGoogleUser } from "$lib/db/google.db";
+import { getGoogleUserWhereEmail, insertOrUpdateGoogleUser } from "$lib/db/tables/user.table";
 
 export async function GET(event: RequestEvent): Promise<Response> {
 	const code = event.url.searchParams.get("code");
