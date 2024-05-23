@@ -1,6 +1,6 @@
 import { db } from '$lib/db/turso.db';
 import { cardTable } from '$lib/db/turso.schema';
-import { eq } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 
 export const insertCard = async (values: {
 	id: string;
@@ -25,5 +25,16 @@ export const getCards = async (userId: string) => {
 		return data
 	} catch (err) {
 		console.error('getCards ~ err:', err)
+		return []
+	}
+}
+
+export const deleteCard = async ({ cardId, userId }: { cardId: string, userId: string }) => {
+	try {
+		console.time('deleteCard')
+		await db.delete(cardTable).where(and(eq(cardTable.id, cardId), eq(cardTable.userId, userId)))
+		console.timeEnd('deleteCard')
+	} catch (err) {
+		console.error('deleteCard ~ err:', err)
 	}
 }

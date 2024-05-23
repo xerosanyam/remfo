@@ -4,28 +4,30 @@
 
 	export let data: SuperValidated<Infer<CardReviewSchema>>;
 	const { errors } = superForm(data);
+
+	export let card;
 </script>
 
 <h2>Try to recall the answer</h2>
-<form method="post" action="?/review">
-	<table>
-		<tbody>
-			<tr>
-				<th>Question: </th>
-				<td> What is wealth? </td>
-			</tr>
-			<tr>
-				<th>Answer:</th>
-				<td>
-					<details>
-						<summary>Show Answer</summary>
-						<p>Assets that earn while you sleep</p>
-					</details>
-				</td>
-			</tr>
-			<tr>
-				<th>Action(s):</th>
-				<td>
+<table>
+	<tbody>
+		<tr>
+			<th>Question: </th>
+			<td>{card.front}</td>
+		</tr>
+		<tr>
+			<th>Answer:</th>
+			<td>
+				<details>
+					<summary>Show Answer</summary>
+					<p>{card.back}</p>
+				</details>
+			</td>
+		</tr>
+		<tr>
+			<th>Action(s):</th>
+			<td>
+				<form method="post" action="?/review">
 					<fieldset>
 						<legend>How difficult was it to remember ?</legend>
 						<ol>
@@ -36,9 +38,9 @@
 							{/each}
 						</ol>
 					</fieldset>
-				</td>
-				{#if $errors.difficulty}<td>{$errors.difficulty}</td>{/if}
-			</tr>
-		</tbody>
-	</table>
-</form>
+				</form>
+			</td>
+			{#if $errors.difficulty}<td>{$errors.difficulty}</td>{/if}
+		</tr>
+	</tbody>
+</table>

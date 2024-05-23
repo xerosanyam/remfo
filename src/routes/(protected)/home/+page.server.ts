@@ -7,10 +7,11 @@ import { ROUTES } from "$lib/routes.util.js";
 import type { RequestEvent } from "./$types.js";
 import { getCards, insertCard } from "$lib/db/tables/card.table.js";
 import { cardAddSchema, cardReviewSchema } from "$lib/schemas.js";
+import { sessionExists } from "$lib/common.util.js";
 
 
 export async function load({ locals }) {
-	if (!locals?.user?.id) {
+	if (!sessionExists(locals)) {
 		redirect(302, ROUTES.LOGIN)
 	}
 
@@ -30,8 +31,9 @@ export const actions = {
 }
 
 async function add(event: RequestEvent) {
+	const { locals } = event
 	try {
-		if (!event.locals.user) {
+		if (!sessionExists(locals)) {
 			redirect(302, ROUTES.LOGIN);
 		}
 
@@ -44,7 +46,7 @@ async function add(event: RequestEvent) {
 			id: crypto.randomUUID(),
 			front: form.data.front,
 			back: form.data.back,
-			userId: event.locals.user.id
+			userId: locals.user.id
 		});
 
 		redirect(302, ROUTES.HOME);
@@ -54,8 +56,9 @@ async function add(event: RequestEvent) {
 }
 
 async function review(event: RequestEvent) {
+	const { locals } = event
 	try {
-		if (!event.locals.user) {
+		if (!sessionExists(locals)) {
 			redirect(302, ROUTES.LOGIN);
 		}
 
