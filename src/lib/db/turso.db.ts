@@ -7,4 +7,5 @@ export const turso_client = createClient({
 	authToken: TURSO_AUTH_TOKEN,
 });
 
+export const db = drizzle(turso_client);
 
