@@ -17,7 +17,7 @@
 			placeholder="Capital of Paris?"
 			rows="4"
 			{...$constraints.front}
-		/>
+		></textarea>
 		{#if $errors.front}<span>{$errors.front}</span>{/if}
 	</div>
 	<div>
@@ -29,7 +29,7 @@
 			placeholder="France"
 			rows="4"
 			{...$constraints.back}
-		/>
+		></textarea>
 		{#if $errors.back}<span>{$errors.back}</span>{/if}
 	</div>
 	<button type="reset">Clear</button>

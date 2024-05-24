@@ -20,7 +20,7 @@
 						placeholder="Capital of Paris?"
 						rows="4"
 						{...$constraints.front}
-					/>
+					></textarea>
 				</td>
 				{#if $errors.front}<td>{$errors.front}</td>{/if}
 			</tr>
@@ -36,7 +36,7 @@
 						placeholder="France"
 						rows="4"
 						{...$constraints.back}
-					/>
+					></textarea>
 				</td>
 				{#if $errors.back}<td>{$errors.back}</td>{/if}
 			</tr>
