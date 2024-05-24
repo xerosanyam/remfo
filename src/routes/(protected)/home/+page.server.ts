@@ -5,7 +5,7 @@ import { zod } from "sveltekit-superforms/adapters";
 import { ROUTES } from "$lib/routes.util.js";
 
 import type { RequestEvent } from "./$types.js";
-import { getCards, insertCard } from "$lib/db/tables/card.table.js";
+import { getCards, insertCard, reviewCard } from "$lib/db/tables/card.table.js";
 import { cardAddSchema, cardReviewSchema } from "$lib/schemas.js";
 import { sessionExists } from "$lib/common.util.js";
 
@@ -51,7 +51,7 @@ async function add(event: RequestEvent) {
 
 		redirect(302, ROUTES.HOME);
 	} catch (err) {
-		console.log('add ~ err:', err);
+		console.error('add ~ err:', err);
 	}
 }
 
@@ -66,9 +66,10 @@ async function review(event: RequestEvent) {
 		if (!form.valid) {
 			return fail(400, { form });
 		}
+		await reviewCard({ cardId: form.data.cardId, userId: locals.user.id, difficulty: form.data.difficulty })
 
 		redirect(302, ROUTES.HOME);
 	} catch (err) {
-		console.log('add ~ err:', err);
+		console.error('add ~ err:', err);
 	}
 }

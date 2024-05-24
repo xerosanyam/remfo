@@ -30,7 +30,7 @@ export const cardTable = sqliteTable('card', {
 	back: text('back').notNull(),
 	userId: text('user_id').notNull().references(() => userTable.id),
 	easiness: real('easiness').notNull().default(2.5),
-	interval: integer('interval').notNull().default(0),
+	interval: integer('interval').notNull().default(1),
 	repetitions: integer('repetitions').notNull().default(0),
 	nextPractice: integer('next_practice', { mode: 'timestamp' }).default(sql`(unixepoch())`).notNull(),
 	createdAt: integer('created_at', { mode: 'timestamp' }).default(sql`(unixepoch())`).notNull(),

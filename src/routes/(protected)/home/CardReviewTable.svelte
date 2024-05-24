@@ -28,6 +28,7 @@
 			<th>Action(s):</th>
 			<td>
 				<form method="post" action="?/review">
+					<input type="hidden" name="cardId" value={card.id} />
 					<fieldset>
 						<legend>How difficult was it to remember ?</legend>
 						<ol>

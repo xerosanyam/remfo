@@ -9,10 +9,10 @@ export const handle: Handle = async ({ event, resolve }) => {
 	if (!sessionId) {
 		event.locals.user = null;
 		event.locals.session = null;
-		console.log('no session id')
+		console.debug('no session id')
 		return resolve(event);
 	}
-	console.log('session id exists')
+	console.debug('session id exists')
 
 	console.time('validate')
 	let { session, user } = sessionAndUserInfo[sessionId] || {}
