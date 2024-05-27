@@ -7,7 +7,7 @@
 </script>
 
 <form method="post" action="?/add">
-	<div class="mx-auto max-w-md rounded-lg border bg-card text-card-foreground shadow-sm">
+	<div class="mx-auto max-w-md rounded-lg border shadow-sm">
 		<div class="flex flex-col space-y-1.5 p-6">
 			<p class="text-sm text-muted-foreground">Add something you'd like to remember.</p>
 		</div>
