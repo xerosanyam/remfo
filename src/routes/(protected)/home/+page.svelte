@@ -1,36 +1,20 @@
 <script lang="ts">
-	import Logout from '$lib/components/Logout.svelte';
-	import CardAddTable from './CardAddTable.svelte';
-	import CardReviewTable from './CardReviewTable.svelte';
+	import AddNewCard from './AddNewCard.svelte';
+	import ReviewCard from './ReviewCard.svelte';
 	export let data;
 </script>
 
-<img src={data.user?.picture} alt="User's display" />
-<h1>Hey {data.user?.name},</h1>
-
-<ol type="A">
-	<li>
-		<CardAddTable data={data.addForm} />
-		<hr />
-	</li>
-	<li>
-		{#if data.cards.length > 0}
-			<CardReviewTable data={data.reviewForm} card={data.cards[0]} />
-		{/if}
-		Total cards: {data.cards?.length}
-		<hr />
-	</li>
-	<li>
-		<h2>Others</h2>
-		<nav>
-			<ol>
-				<li>
-					<a href="/all">All Cards</a>
-				</li>
-				<li>
-					<Logout />
-				</li>
-			</ol>
-		</nav>
-	</li>
-</ol>
+<section class="body-font text-gray-600">
+	<div class="container mx-auto flex max-w-screen-md flex-wrap px-5 py-10">
+		<div class="-m-4 flex w-full flex-wrap">
+			<div class="p-4 md:w-full lg:w-1/2">
+				<AddNewCard data={data.addForm} />
+			</div>
+			<div class="p-4 md:w-full lg:w-1/2">
+				{#if data.card}
+					<ReviewCard data={data.reviewForm} card={data.card} />
+				{/if}
+			</div>
+		</div>
+	</div>
+</section>

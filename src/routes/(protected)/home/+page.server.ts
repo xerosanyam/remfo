@@ -5,7 +5,7 @@ import { zod } from "sveltekit-superforms/adapters";
 import { ROUTES } from "$lib/routes.util.js";
 
 import type { RequestEvent } from "./$types.js";
-import { getCards, insertCard, reviewCard } from "$lib/db/tables/card.table.js";
+import { getCard, getTotalCards, insertCard, reviewCard } from "$lib/db/tables/card.table.js";
 import { cardAddSchema, cardReviewSchema } from "$lib/schemas.js";
 import { sessionExists } from "$lib/common.util.js";
 
@@ -21,7 +21,8 @@ export async function load({ locals }) {
 	return {
 		addForm,
 		reviewForm,
-		cards: await getCards(locals.user.id)
+		card: await getCard(locals.user.id),
+		totalCards: await getTotalCards(locals.user.id)
 	};
 }
 

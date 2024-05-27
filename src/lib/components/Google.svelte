@@ -3,5 +3,5 @@
 </script>
 
 <form action="/login/google">
-	<button>{text} with Google</button>
+	<button type="submit">{text} with Google</button>
 </form>

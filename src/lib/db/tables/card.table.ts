@@ -1,7 +1,7 @@
 import { db } from '$lib/db/turso.db';
 import { cardTable, type SelectCard } from '$lib/db/turso.schema';
 import type { Difficulty } from '$lib/schemas';
-import { and, eq } from 'drizzle-orm';
+import { and, count, eq } from 'drizzle-orm';
 
 const initialCard = {
 	repetitions: 0,
@@ -34,6 +34,30 @@ export const getCards = async (userId: string) => {
 	} catch (err) {
 		console.error('getCards ~ err:', err)
 		return []
+	}
+}
+
+export const getCard = async (userId: string) => {
+	try {
+		console.time('getCard')
+		const data = await db.select().from(cardTable).where(eq(cardTable.userId, userId)).orderBy(cardTable.nextPractice).limit(1)
+		console.timeEnd('getCard')
+		return data[0] || {}
+	} catch (err) {
+		console.error('getCards ~ err:', err)
+		return {}
+	}
+}
+export const getTotalCards = async (userId: string) => {
+	try {
+		console.time('getTotalCard')
+		const data = await db.select({ count: count() }).from(cardTable).where(eq(cardTable.userId, userId))
+		console.log('getTotalCards ~ data:', data)
+		console.timeEnd('getTotalCard')
+		return data[0]?.count || 0
+	} catch (err) {
+		console.error('getCards ~ err:', err)
+		return 0
 	}
 }
 
