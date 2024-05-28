@@ -7,7 +7,7 @@
 	const { form, errors, constraints } = superForm(data);
 	export let showHeading = false;
 	let loading = false;
-	export let onSubmit: (question: string) => void;
+	export let onSubmit: (question: string) => void = () => {};
 </script>
 
 <form
