@@ -1,7 +1,7 @@
 import { sessionExists } from '$lib/common.util.js';
 import { ROUTES } from '$lib/routes.util.js';
 import { cardAddSchema, cardLearnSchema } from '$lib/schemas.js';
-import { generateCardUsingOpenAI } from '$lib/services.ts/openai.service.js';
+import { generateCardUsingOpenAI } from '$lib/services/openai.service.js';
 import { fail, redirect } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';

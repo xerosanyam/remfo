@@ -1,8 +1,22 @@
-<script>
+<script lang="ts">
 	import AddNewCard from '../home/AddNewCard.svelte';
 	import GenerateFlashCard from './GenerateFlashCard.svelte';
 	export let data;
 	export let form;
+
+	let added: string[] = [];
+	let cards: any = [];
+	$: {
+		cards =
+			form?.data?.filter((card: { question: string }) => {
+				return !added.includes(card.question);
+			}) || [];
+	}
+
+	const addToList = (question: string) => {
+		console.log('addToList ~ question:', question);
+		added = [...added, question];
+	};
 </script>
 
 <section class="body-font text-gray-600">
@@ -18,11 +32,12 @@
 			</div>
 		</div>
 		<div class="container mx-auto flex flex-wrap justify-center text-center">
-		{#if form?.data}
-				{#each form.data as card}
+			{#if cards?.length > 0}
+				{#each cards as card}
 					<div class="w-full p-4 sm:w-1/2 md:w-1/4">
 						<AddNewCard
 							data={{ ...data.addForm, data: { front: card.question, back: card.answer } }}
+							onSubmit={(question:string ) => addToList(question)}
 						/>
 					</div>
 				{/each}
@@ -30,6 +45,6 @@
 			{#if form?.error}
 				<span class=" text-red-800">{form?.error}</span>
 			{/if}
-			</div>
+		</div>
 	</div>
 </section>

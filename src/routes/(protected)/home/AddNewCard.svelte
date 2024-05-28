@@ -6,9 +6,21 @@
 	export let data: SuperValidated<Infer<CardAddSchema>>;
 	const { form, errors, constraints } = superForm(data);
 	export let showHeading = false;
+	let loading = false;
+	export let onSubmit: (question: string) => void;
 </script>
 
-<form method="post" action="?/add" use:enhance>
+<form
+	method="post"
+	action="/home?/add"
+	use:enhance={({ formElement, formData, action, cancel, submitter }) => {
+		loading = true;
+		return () => {
+			onSubmit(formData.get('front') as string);
+			loading = false;
+		};
+	}}
+>
 	<div class="mx-auto max-w-md rounded-lg border shadow-sm">
 		{#if showHeading}
 			<div class="flex flex-col space-y-1.5 p-6">
@@ -49,12 +61,14 @@
 				</div>
 				<div class="flex space-x-2">
 					<button
+						disabled={loading}
 						class="inline-flex h-10 w-full items-center justify-center whitespace-nowrap rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
 						type="submit"
 					>
 						Save Card
 					</button>
 					<button
+						disabled={loading}
 						class="inline-flex h-10 w-full items-center justify-center whitespace-nowrap rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
 						type="reset"
 					>
