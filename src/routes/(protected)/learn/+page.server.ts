@@ -6,6 +6,7 @@ import { fail, redirect } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import type { RequestEvent } from './$types.js';
+import { add } from '$lib/actions/card.action.js';
 
 export async function load({ locals }) {
 	if (!sessionExists(locals)) {
@@ -40,12 +41,13 @@ const generateCard = async (event: RequestEvent) => {
 			userInput: form.data.userInput
 		});
 
-		return { data: cards, error: error }
+		return { data: cards, error: error, userInput: form.data.userInput }
 	} catch (err) {
 		console.error('add ~ err:', err);
 	}
 }
 
 export const actions = {
-	generateCard
+	generateCard,
+	add
 }

@@ -1,17 +1,21 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import type { CardAddSchema } from '$lib/schemas';
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
 
 	export let data: SuperValidated<Infer<CardAddSchema>>;
 	const { form, errors, constraints } = superForm(data);
+	export let showHeading = false;
 </script>
 
-<form method="post" action="?/add">
+<form method="post" action="?/add" use:enhance>
 	<div class="mx-auto max-w-md rounded-lg border shadow-sm">
-		<div class="flex flex-col space-y-1.5 p-6">
-			<p class="text-sm text-muted-foreground">Add something you'd like to remember.</p>
-		</div>
-		<div class="p-6 pt-0">
+		{#if showHeading}
+			<div class="flex flex-col space-y-1.5 p-6">
+				<p class="text-sm text-muted-foreground">Add something you'd like to remember.</p>
+			</div>
+		{/if}
+		<div class="px-6 py-4">
 			<div class="space-y-4">
 				<div class="space-y-2">
 					<label
