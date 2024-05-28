@@ -1,10 +1,11 @@
+import { OPENAI_API_KEY } from "$env/static/private";
 import OpenAI from "openai";
 
 const openai = new OpenAI({
-	apiKey: process.env.OPENAI_API_KEY,
+	apiKey: OPENAI_API_KEY,
 });
 
-export async function generateCard({ userInput }: { userInput: string }) {
+export async function generateCardUsingOpenAI({ userInput }: { userInput: string }) {
 	const completion = await openai.chat.completions.create({
 		messages: [
 			{
@@ -30,6 +31,9 @@ number
 output:
 provide valid JSON output. JSON should have an array. Each element of the array should be an object.
 Each object should have only these keys 'question', 'answer'. All keys should have string values.
+schema of sample output:
+1. {cards: [{question: '', answer: ''}],error: null}
+2. {cards: [],error: ''}
 `
 			},
 			{
@@ -42,5 +46,14 @@ Each object should have only these keys 'question', 'answer'. All keys should ha
 	});
 
 	console.log(completion.choices[0].message.content);
-	return completion.choices[0].message.content
+	try {
+		if (!completion.choices[0].message.content) {
+			throw new Error("no content");
+		}
+		const { cards, error } = JSON.parse(completion.choices[0].message.content)
+		return { cards, error }
+	}
+	catch (error) {
+		return { cards: [], error: "Error in generating cards" }
+	}
 }

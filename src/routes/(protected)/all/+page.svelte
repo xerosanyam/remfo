@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { humanReadableDate } from '$lib/common.util';
+
 	export let data;
 </script>
 
@@ -12,7 +14,7 @@
 				<div
 					class="title-font relative z-0 -mx-10 mt-10 inline-flex flex-shrink-0 items-center justify-center rounded-full bg-gray-800 p-2 text-sm font-medium text-white sm:mt-0"
 				>
-					{`${new Date(card.nextPractice).getDate()} - ${new Date(card.nextPractice).getMonth()} - ${new Date(card.nextPractice).getFullYear()}`}
+					{humanReadableDate(card.nextPractice)}
 				</div>
 				<div class="flex flex-grow flex-col items-start pl-6 sm:flex-row sm:items-center md:pl-8">
 					<div class="mt-6 flex-grow sm:mt-0 sm:pl-10">
