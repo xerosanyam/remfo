@@ -14,8 +14,8 @@
 	}
 
 	const addToList = (question: string) => {
-		console.log('addToList ~ question:', question);
 		added = [...added, question];
+		return true;
 	};
 </script>
 

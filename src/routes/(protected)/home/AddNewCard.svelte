@@ -15,10 +15,13 @@
 	action="/home?/add"
 	use:enhance={({ formElement, formData, action, cancel, submitter }) => {
 		loading = true;
-		return () => {
-			onSubmit(formData.get('front') as string);
+		return ({update}) => {
 			loading = false;
-		};
+			const result = onSubmit(formData.get('front') as string);
+			if(result === undefined){
+				update();
+			}
+		}
 	}}
 >
 	<div class="mx-auto max-w-md rounded-lg border shadow-sm">
@@ -69,7 +72,7 @@
 					</button>
 					<button
 						disabled={loading}
-						class="inline-flex h-10 w-full items-center justify-center whitespace-nowrap rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+						class="inline-flex h-10 w-full items-center justify-center whitespace-nowrap rounded-md border border-input bg-background px-3 text-xs ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
 						type="reset"
 					>
 						Clear
