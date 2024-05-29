@@ -95,7 +95,7 @@ export const reviewCard = async ({ cardId, userId, difficulty }: { cardId: strin
 }
 
 
-export function calculateSuperMemo2Algorithm(card: SelectCard, difficulty: Difficulty) {
+function calculateSuperMemo2Algorithm(card: SelectCard, difficulty: Difficulty) {
 	const difficultyMap: { [key in Difficulty]: number } = { 'Easy': 4, 'Good': 3, 'Hard': 2, 'Challenging': 1 }
 	let quality = difficultyMap[difficulty]
 
