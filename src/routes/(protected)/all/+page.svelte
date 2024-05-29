@@ -40,4 +40,9 @@
 			</div>
 		{/each}
 	</div>
+	{#if Object.keys(data.cards).length === 0}
+		<div class="mt-10 text-center">
+			No cards at the moment. Go to <a href="/" class="underline">home</a> to create a card.
+		</div>
+	{/if}
 </section>

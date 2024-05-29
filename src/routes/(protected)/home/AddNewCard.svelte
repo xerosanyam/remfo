@@ -27,7 +27,7 @@
 				<p class="text-sm text-muted-foreground">Add something you'd like to remember</p>
 			</div>
 		{/if}
-		<div class="px-6 py-4">
+		<div class="p-6 pt-0">
 			<div class="space-y-4">
 				<div class="space-y-2">
 					<label
