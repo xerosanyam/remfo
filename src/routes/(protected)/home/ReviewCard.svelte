@@ -64,3 +64,6 @@
 	</div>
 	{#if $errors.difficulty}<div class=" text-gray-500">{$errors.difficulty}</div>{/if}
 </div>
+<a href={`all#${shortCardId}`} class="text-xs text-gray-200">
+	{shortCardId}
+</a>

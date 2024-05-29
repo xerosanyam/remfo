@@ -54,7 +54,7 @@ Next practice: ${humanReadableDate(card.nextPractice)}`}
 									type="submit">Reset</button
 								>
 							</form>
-							<span class="text-xs text-gray-200">
+							<span id={`${card.id.slice(-6)}`} class="text-xs text-gray-200">
 								{card.id.slice(-6)}<br />
 							</span>
 						</div>
