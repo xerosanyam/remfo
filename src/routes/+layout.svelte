@@ -6,3 +6,8 @@
 
 <Header user={data?.user} />
 <slot></slot>
+
+<svelte:head>
+	<title>Remember Forever</title>
+	<meta name="description" content="A tool that helps you remember" />
+</svelte:head>
