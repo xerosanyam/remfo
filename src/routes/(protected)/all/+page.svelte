@@ -18,7 +18,11 @@
 <section class="body-font text-gray-600">
 	<div class="container mx-auto flex max-w-screen-md flex-wrap px-5">
 		{#each data.cards as card (card.id)}
-			<div class="relative mx-auto flex pt-10 sm:items-center md:w-2/3">
+			<div
+				title={`Created: ${humanReadableDate(card.createdAt)}
+Next practice: ${humanReadableDate(card.nextPractice)}`}
+				class="relative mx-auto flex pt-10 sm:items-center md:w-2/3"
+			>
 				<div class="absolute inset-0 flex h-full w-6 items-center justify-center">
 					<div class="pointer-events-none h-full w-1 bg-gray-200"></div>
 				</div>
@@ -50,7 +54,9 @@
 									type="submit">Reset</button
 								>
 							</form>
-							<span class="text-xs text-gray-200">{card.id.slice(-6)}</span>
+							<span class="text-xs text-gray-200">
+								{card.id.slice(-6)}<br />
+							</span>
 						</div>
 					</div>
 				</div>
