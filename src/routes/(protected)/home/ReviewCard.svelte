@@ -25,22 +25,16 @@
 	</div>
 	<div class="p-6 pt-0">
 		<div class="space-y-6">
-			<textarea
-				class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 font-medium ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-				id="question"
-				name="front"
-				value={card.front}
-				placeholder="Capital of Paris?"
-				rows="4"
-				disabled
-			></textarea>
-			<textarea
-				class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 font-medium ring-offset-background blur-sm placeholder:text-muted-foreground hover:filter-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-				id="answer"
-				name="back"
-				value={card.back}
-				placeholder="France"
-			></textarea>
+			<div
+				class="flex max-h-96 w-full overflow-y-auto rounded-md border bg-background px-3 py-2 text-sm font-medium ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+			>
+				{card.front}
+			</div>
+			<div
+				class="flex max-h-96 w-full overflow-y-auto rounded-md border bg-background px-3 py-2 text-sm font-medium ring-offset-background blur-sm placeholder:text-muted-foreground hover:filter-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+			>
+				{card.back}
+			</div>
 			<form method="post" action="?/review" class="w-full">
 				<input type="hidden" name="cardId" value={card.id} />
 				<div class="w-full">
