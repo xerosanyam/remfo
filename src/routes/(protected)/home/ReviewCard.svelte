@@ -39,7 +39,7 @@
 							<fieldset>
 								<legend class="text-xs">How difficult was it to remember ?</legend>
 								<div class="flex flex-wrap space-x-1">
-									{#each difficulty as option}
+									{#each difficulty as option (option)}
 										<button
 											class="inline-flex h-9 items-center justify-center whitespace-nowrap rounded-md border border-input bg-background px-3 text-xs ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
 											name="difficulty"

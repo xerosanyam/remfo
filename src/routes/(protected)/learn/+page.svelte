@@ -8,9 +8,7 @@
 	let cards: any = [];
 	$: {
 		cards =
-			form?.data?.filter((card: { question: string }) => {
-				return !added.includes(card.question);
-			}) || [];
+			form?.data?.filter((card: { question: string }) => !added.includes(card.question)) || [];
 	}
 
 	const addToList = (question: string) => {
@@ -33,8 +31,8 @@
 		</div>
 		<div class="container mx-auto flex flex-wrap justify-center text-center">
 			{#if cards?.length > 0}
-				{#each cards as card}
-					<div class="w-full p-4 sm:w-1/2 md:w-1/4">
+				{#each cards as card (card.question)}
+					<div class="w-full p-4 sm:w-1/2 md:w-1/3">
 						<AddNewCard
 							data={{ ...data.addForm, data: { front: card.question, back: card.answer } }}
 							onSubmit={(question:string ) => addToList(question)}
