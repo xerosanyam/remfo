@@ -28,7 +28,9 @@
 			{/if}
 		</nav>
 		{#if user}
-			<Logout />
+			<div title={`Logout of ${user.email}`}>
+				<Logout />
+			</div>
 		{:else}
 			<Login />
 		{/if}
