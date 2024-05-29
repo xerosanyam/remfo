@@ -24,9 +24,7 @@
 				<h1 class="title-font mb-4 text-2xl font-medium text-gray-900 sm:text-xl">
 					What do you want to learn about?
 				</h1>
-				<GenerateFlashCard
-					data={{ ...data.learnForm, data: { userInput: form?.userInput || '' } }}
-				/>
+				<GenerateFlashCard data={data.learnForm} />
 			</div>
 		</div>
 		<div class="container mx-auto flex flex-wrap justify-center text-center">

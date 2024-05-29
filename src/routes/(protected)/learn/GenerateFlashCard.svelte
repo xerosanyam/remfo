@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
+	import { applyAction, enhance } from '$app/forms';
 	import type { CardLearnSchema } from '$lib/schemas';
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
 
@@ -13,9 +13,9 @@
 	action="?/generateCard"
 	use:enhance={() => {
 		loading = true;
-		return ({ update }) => {
+		return async ({ result }) => {
 			loading = false;
-			update();
+			await applyAction(result);
 		};
 	}}
 >
