@@ -1,5 +1,5 @@
 <script>
-	import Google from '$lib/components/Google.svelte';
+	import Login from '$lib/components/Buttons/Login.svelte';
 	import Logout from '$lib/components/Logout.svelte';
 	const signedInLinks = [
 		{ href: '/', text: 'Home', icon: '/home.svg' },
@@ -30,7 +30,7 @@
 		{#if user}
 			<Logout />
 		{:else}
-			<Google />
+			<Login />
 		{/if}
 	</div>
 </header>
