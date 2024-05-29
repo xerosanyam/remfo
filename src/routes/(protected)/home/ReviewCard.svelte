@@ -9,7 +9,7 @@
 </script>
 
 <div class="mx-auto max-w-xl rounded-lg border shadow-sm">
-	<div class="flex flex-col space-y-1.5 p-6">
+	<div class="flex flex-col space-y-1.5 p-6 pb-4">
 		<p class="text-sm text-muted-foreground">Try to recall the answer</p>
 	</div>
 	<div class="p-6 pt-0">

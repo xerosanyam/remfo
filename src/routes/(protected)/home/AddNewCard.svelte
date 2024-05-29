@@ -23,8 +23,8 @@
 >
 	<div class="mx-auto max-w-md rounded-lg border shadow-sm">
 		{#if showHeading}
-			<div class="flex flex-col space-y-1.5 p-6">
-				<p class="text-sm text-muted-foreground">Add something you'd like to remember.</p>
+			<div class="flex flex-col space-y-1.5 p-6 pb-4">
+				<p class="text-sm text-muted-foreground">Add something you'd like to remember</p>
 			</div>
 		{/if}
 		<div class="px-6 py-4">

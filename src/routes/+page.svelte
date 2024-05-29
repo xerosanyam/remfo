@@ -23,7 +23,7 @@
 				<div class="grid gap-1">
 					<h3 class="font-medium">Revise</h3>
 					<p class="text-gray-500 dark:text-gray-400">
-						Just before you forget, the app will nudge you to revise
+						Just before you forget, app nudges you to revise
 					</p>
 				</div>
 			</li>
@@ -31,22 +31,20 @@
 				<BodyMeasures style="font-size:2rem;" />
 				<div class="grid gap-1">
 					<h3 class="font-medium">Measure</h3>
-					<p class="text-gray-500 dark:text-gray-400">
-						Visualize your progress to achieve your goals
-					</p>
+					<p class="text-gray-500 dark:text-gray-400">Visualize your progress</p>
 				</div>
 			</li>
 			<li class="flex items-start gap-4">
 				<MyBrain style="font-size:2rem;" />
 				<div class="grid gap-1">
 					<h3 class="font-medium">Powered by AI</h3>
-					<p class="text-gray-500 dark:text-gray-400">.. ofcourse its powered by AI</p>
+					<p class="text-gray-500 dark:text-gray-400">... of course its powered by AI</p>
 				</div>
 			</li>
 		</ul>
 	</div>
 	<div class="mt-8 flex justify-center">
-		<Google text="Sign Up with Google" />
+		<Google text="Sign up with Google" />
 	</div>
 </div>
 

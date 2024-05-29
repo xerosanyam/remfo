@@ -19,7 +19,7 @@
 				>
 			</div>
 			<p class="text-center text-sm text-gray-500 sm:text-left">
-				Built by
+				Any comment?
 				<a
 					href="https://twitter.com/xerosanyam"
 					class="text-gray-600"
