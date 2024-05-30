@@ -27,6 +27,7 @@
 		rows="4"
 		bind:value={$form.userInput}
 		{...$constraints.userInput}
+		data-gramm="false"
 	></textarea>
 	<div>
 		<button

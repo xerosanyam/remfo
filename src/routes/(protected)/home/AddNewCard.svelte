@@ -2,6 +2,7 @@
 	import { enhance } from '$app/forms';
 	import type { CardAddSchema } from '$lib/schemas';
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
+	import EmojiLockOpen from '~icons/arcticons/emoji-lock-open';
 
 	export let data: SuperValidated<Infer<CardAddSchema>>;
 	export let showHeading = false;
@@ -46,6 +47,7 @@
 						placeholder="Capital of Paris?"
 						rows="4"
 						{...$constraints.front}
+						data-gramm="false"
 					></textarea>
 					{#if $errors.front}<div class="text-gray-600">{$errors.front}</div>{/if}
 				</div>
@@ -60,26 +62,21 @@
 						bind:value={$form.back}
 						placeholder="France"
 						{...$constraints.back}
+						data-gramm="false"
 					></textarea>
 					{#if $errors.back}<div class="text-gray-600">{$errors.back}</div>{/if}
 				</div>
-				<div class="flex space-x-2">
+				<div class="flex items-center justify-between">
+					<button class="flex items-center space-x-1"
+						><EmojiLockOpen style="stroke-width:2px;" /><span>Public</span></button
+					>
 					<button
 						disabled={loading}
-						class="inline-flex h-10 w-2/3 items-center justify-center whitespace-nowrap rounded-md bg-primary px-4 py-2 font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+						class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-primary px-4 py-2 text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
 						type="submit"
 					>
 						Save Card
 					</button>
-					{#if showHeading}
-						<button
-							disabled={loading}
-							class="inline-flex h-10 w-1/3 items-center justify-center whitespace-nowrap rounded-md border border-input bg-background px-3 ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
-							type="reset"
-						>
-							Clear
-						</button>
-					{/if}
 				</div>
 			</div>
 		</div>
