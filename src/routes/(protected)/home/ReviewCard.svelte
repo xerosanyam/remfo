@@ -1,25 +1,44 @@
 <script lang="ts">
 	import { type CardReviewSchema } from '$lib/schemas';
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
-	import CheckIcon from '~icons/mdi/check-outline';
-	import CloseIcon from '~icons/mdi/close-outline';
+
+	// import CheckCircleOutline from '~icons/mdi/check-circle-outline';
+	// import CheckOutline from '~icons/mdi/check-outline';
+	// import AlertCircleOutline from '~icons/mdi/alert-circle-outline';
+	// import Exclamation from '~icons/mdi/exclamation-thick';
 
 	export let data: SuperValidated<Infer<CardReviewSchema>>;
 	const { errors } = superForm(data);
 
 	export let card;
 
-	const options = {
-		Easy: 'Super easy',
-		Good: 'Easy',
-		Hard: 'Difficult',
-		Challenging: 'Super difficult'
-	};
+	const options = [
+		{
+			value: 'Easy',
+			text: 'Super easy'
+			// icon: CheckCircleOutline
+		},
+		{
+			value: 'Good',
+			text: 'Easy'
+			// icon: CheckOutline
+		},
+		{
+			value: 'Hard',
+			text: 'Difficult'
+			// icon: Exclamation
+		},
+		{
+			value: 'Challenging',
+			text: 'Super difficult'
+			// icon: AlertCircleOutline
+		}
+	];
 
 	const shortCardId = card.id.slice(-6);
 </script>
 
-<div class="mx-auto max-w-md rounded-lg border shadow-sm">
+<div class="mx-auto max-w-md rounded-lg border shadow-md">
 	<div class="flex flex-col space-y-1.5 p-6 pb-4">
 		<p class="text-sm text-muted-foreground">2. Now, recall the answer</p>
 	</div>
@@ -38,37 +57,21 @@
 			<form method="post" action="?/review" class="w-full">
 				<input type="hidden" name="cardId" value={card.id} />
 				<div class="w-full">
-					<div class="text-sm">3. Were you able to recall it easily ?</div>
+					<div class="text-sm">3. How easy was it to recall ?</div>
 					<div class="mt-3 flex justify-center">
-						<div class="flex w-1/2 flex-col items-center space-y-2 border-r p-2">
-							<div class="flex items-center">
-								<CheckIcon class="mr-0.5" />
-							</div>
-							<button
-								class="inline-flex w-11/12 items-center justify-center space-x-1 whitespace-nowrap rounded-md border border-dashed border-input bg-background px-4 py-3 text-sm ring-offset-background transition-colors hover:border-solid hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
-								name="difficulty"
-								value={'Good'}>{options['Good']}</button
-							>
-							<button
-								class="inline-flex w-11/12 items-center justify-center space-x-1 whitespace-nowrap rounded-md border border-dashed border-input bg-background px-4 py-1 text-sm ring-offset-background transition-colors hover:border-solid hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
-								name="difficulty"
-								value={'Easy'}>{options['Easy']}</button
-							>
-						</div>
-						<div class="flex w-1/2 flex-col items-center space-y-2 p-2">
-							<div class="flex"><CloseIcon class="mr-1" /></div>
-							<button
-								class="inline-flex w-11/12 items-center justify-center space-x-1 whitespace-nowrap rounded-md border border-dashed border-input bg-background px-4 py-3 text-sm ring-offset-background transition-colors hover:border-solid hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
-								name="difficulty"
-								value={'Hard'}>{options['Hard']}</button
-							>
-							<button
-								class="inline-flex w-11/12 items-center justify-center space-x-1 whitespace-nowrap rounded-md border border-dashed border-input bg-background px-4 py-1 text-sm ring-offset-background transition-colors hover:border-solid hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
-								name="difficulty"
-								value={'Challenging'}
-							>
-								{options['Challenging']}
-							</button>
+						<div class="flex w-full flex-col space-y-2">
+							{#each options as { value, text } (value)}
+								<button
+									class="w-full whitespace-nowrap rounded-md border border-dashed border-input bg-background px-4 py-1 text-left text-sm ring-offset-background transition-colors hover:border-solid hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+									name="difficulty"
+									{value}
+								>
+									<span class="flex space-x-2">
+										<!-- <svelte:component this={icon} /> -->
+										<span>{text}</span>
+									</span>
+								</button>
+							{/each}
 						</div>
 					</div>
 				</div>

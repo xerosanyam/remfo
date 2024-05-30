@@ -25,7 +25,7 @@
 		}
 	}}
 >
-	<div class="mx-auto max-w-md rounded-lg border shadow-sm">
+	<div class="mx-auto max-w-md rounded-lg border border-dashed shadow-sm">
 		{#if showHeading}
 			<div class="flex flex-col space-y-1.5 p-6 pb-4">
 				<p class="text-sm text-muted-foreground">1. Write what you want to remember</p>
