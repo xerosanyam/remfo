@@ -7,11 +7,11 @@ import { cardAddSchema, cardReviewSchema } from "$lib/schemas";
 import { deleteCard, insertCard, reviewCard } from "$lib/db/tables/card.table";
 import type { RequestEvent } from "../../routes/(protected)/home/$types";
 import type { RequestEvent as R2 } from "../../routes/(protected)/learn/$types";
-import type { RequestEvent as R3 } from "../../routes/(protected)/record/$types";
+import type { RequestEvent as RecordType } from "../../routes/(protected)/record/$types";
 import type { RequestEvent as R4 } from "../../routes/(protected)/all/$types";
 
 export function addAction(location: string) {
-	return async (event: RequestEvent | R2 | R3) => {
+	return async (event: RequestEvent | R2 | RecordType) => {
 		const { locals } = event
 		try {
 			if (!sessionExists(locals)) {
@@ -59,7 +59,7 @@ export function reviewAction(location: string) {
 }
 
 export function deleteAction(location: string) {
-	return async ({ locals, request }: R4) => {
+	return async ({ locals, request }: R4 | RecordType) => {
 		const data = await request.formData();
 		const id = data.get('id') as string
 

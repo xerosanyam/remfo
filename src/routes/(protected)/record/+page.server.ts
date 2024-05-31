@@ -6,7 +6,7 @@ import { ROUTES } from "$lib/routes.util.js";
 
 import { cardAddSchema } from "$lib/schemas.js";
 import { sessionExists } from "$lib/common.util.js";
-import { addAction } from "$lib/actions/card.action.js";
+import { addAction, deleteAction } from "$lib/actions/card.action.js";
 import { getCardsOrderByCreated } from "$lib/db/tables/card.table.js";
 
 
@@ -26,6 +26,7 @@ export async function load({ locals }) {
 
 export const actions = {
 	add: addAction(ROUTES.RECORD),
+	delete: deleteAction(ROUTES.RECORD)
 }
 
 
