@@ -34,7 +34,7 @@
 						id="question"
 						name="userInput"
 						placeholder="I want to learn about..."
-						rows="4"
+						rows="3"
 						bind:value={$form.userInput}
 						{...$constraints.userInput}
 						data-gramm="false"
@@ -44,7 +44,7 @@
 							callback: () => formRef.dispatchEvent(new Event('submit', { bubbles: true }))
 						}}
 					></textarea>
-					{#if $errors.userInput}<div class="text-gray-600">{$errors.userInput}</div>{/if}
+					{#if $errors.userInput}<div class="text-red-800">{$errors.userInput}</div>{/if}
 				</div>
 				<div class="flex flex-row-reverse items-center justify-between">
 					<button

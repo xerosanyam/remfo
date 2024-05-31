@@ -35,7 +35,7 @@
 		}
 	];
 
-	const shortCardId = card.id.slice(-6);
+	const shortCardId = card?.id?.slice(-6);
 </script>
 
 <div class="mx-auto max-w-md rounded-lg border shadow-md">
@@ -78,7 +78,7 @@
 			</form>
 		</div>
 	</div>
-	{#if $errors.difficulty}<div class=" text-gray-500">{$errors.difficulty}</div>{/if}
+	{#if $errors.difficulty}<div class=" text-red-800">{$errors.difficulty}</div>{/if}
 </div>
 <a href={`all#${shortCardId}`} class="text-xs text-gray-200">
 	{shortCardId}

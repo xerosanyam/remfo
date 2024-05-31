@@ -50,7 +50,7 @@
 						{...$constraints.front}
 						data-gramm="false"
 					></textarea>
-					{#if $errors.front}<div class="text-gray-600">{$errors.front}</div>{/if}
+					{#if $errors.front}<div class="text-red-800">{$errors.front}</div>{/if}
 				</div>
 				<div class="space-y-2">
 					<label
@@ -65,7 +65,7 @@
 						{...$constraints.back}
 						data-gramm="false"
 					></textarea>
-					{#if $errors.back}<div class="text-gray-600">{$errors.back}</div>{/if}
+					{#if $errors.back}<div class="text-red-800">{$errors.back}</div>{/if}
 				</div>
 				<div class="flex items-center justify-between">
 					<button class="flex items-center space-x-1"
