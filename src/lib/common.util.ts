@@ -10,5 +10,5 @@ export function sessionExists(locals: App.Locals): locals is App.Locals & { sess
 }
 
 export function humanReadableDate(date: Date) {
-	return new Date(date).toLocaleString('en-us', { day: 'numeric', month: 'short', year: 'numeric' })
+	return new Date(date).toLocaleString('en-gb', { day: 'numeric', month: 'short' })
 }
