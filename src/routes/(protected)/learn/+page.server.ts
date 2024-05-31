@@ -6,7 +6,7 @@ import { fail, redirect } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import type { RequestEvent } from './$types.js';
-import { add } from '$lib/actions/card.action.js';
+import { addAction } from '$lib/actions/card.action.js';
 
 export async function load({ locals }) {
 	if (!sessionExists(locals)) {
@@ -49,5 +49,5 @@ const generateCard = async (event: RequestEvent) => {
 
 export const actions = {
 	generateCard,
-	add
+	add: addAction(ROUTES.LEARN),
 }

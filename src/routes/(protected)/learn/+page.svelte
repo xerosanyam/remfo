@@ -25,6 +25,7 @@
 				{#each cards as card (card.question)}
 					<div class="w-full p-4 sm:w-1/2 md:w-1/3">
 						<AddNewCard
+							action="/learn?/add"
 							data={{ ...data.addForm, data: { front: card.question, back: card.answer } }}
 							onSubmit={(question:string ) => addToList(question)}
 						/>

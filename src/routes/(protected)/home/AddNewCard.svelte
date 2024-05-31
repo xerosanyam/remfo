@@ -10,11 +10,12 @@
 
 	const { form, errors, constraints } = superForm(data);
 	let loading = false;
+	export let action = '/home?/add';
 </script>
 
 <form
 	method="post"
-	action="/home?/add"
+	{action}
 	use:enhance={({ formElement, formData, action, cancel, submitter }) => {
 		loading = true;
 		return ({update}) => {
@@ -26,7 +27,7 @@
 		}
 	}}
 >
-	<div class="mx-auto max-w-md rounded-lg border border-dashed shadow-sm">
+	<div class="mx-auto max-w-xl rounded-lg border border-dashed shadow-sm">
 		{#if showHeading}
 			<div class="flex flex-col space-y-1.5 p-6 pb-4">
 				<p class="text-sm text-muted-foreground">1. Write what you want to remember</p>

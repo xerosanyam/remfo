@@ -4,10 +4,10 @@ import { zod } from "sveltekit-superforms/adapters";
 
 import { ROUTES } from "$lib/routes.util.js";
 
-import { getCard, getTotalCards } from "$lib/db/tables/card.table.js";
-import { cardAddSchema, cardReviewSchema } from "$lib/schemas.js";
+import { cardAddSchema } from "$lib/schemas.js";
 import { sessionExists } from "$lib/common.util.js";
-import { addAction, reviewAction } from "$lib/actions/card.action.js";
+import { addAction } from "$lib/actions/card.action.js";
+import { getCardsOrderByCreated } from "$lib/db/tables/card.table.js";
 
 
 export async function load({ locals }) {
@@ -16,18 +16,16 @@ export async function load({ locals }) {
 	}
 
 	const addForm = await superValidate(zod(cardAddSchema));
-	const reviewForm = await superValidate(zod(cardReviewSchema))
+	const cards = await getCardsOrderByCreated(locals.user.id)
 
 	return {
 		addForm,
-		reviewForm,
-		card: await getCard(locals.user.id),
-		totalCards: await getTotalCards(locals.user.id)
+		cards
 	};
 }
 
 export const actions = {
-	add: addAction(ROUTES.HOME),
-	review: reviewAction(ROUTES.HOME)
+	add: addAction(ROUTES.RECORD),
 }
+
 
