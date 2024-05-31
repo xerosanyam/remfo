@@ -22,27 +22,40 @@
 	}}
 	bind:this={formRef}
 >
-	<textarea
-		class="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-		id="question"
-		name="userInput"
-		placeholder="Capital of Paris?"
-		rows="4"
-		bind:value={$form.userInput}
-		{...$constraints.userInput}
-		data-gramm="false"
-		use:shortcut={{
-			control: true,
-			code: 'Enter',
-			callback: () => formRef.dispatchEvent(new Event('submit', { bubbles: true }))
-		}}
-	></textarea>
-	<div>
-		<button
-			class="mt-4 w-auto rounded-sm bg-gray-900 px-2 py-1 text-white disabled:opacity-50"
-			disabled={loading}
-			type="submit">Generate flashcards</button
-		>
+	<div class="mx-auto mt-4 max-w-xl rounded-lg border border-dashed text-sm shadow-sm">
+		<div class="flex flex-col p-6 pb-4">
+			<p class="text-base text-muted-foreground">What do you want to learn about?</p>
+		</div>
+		<div class="px-4 py-2">
+			<div class="space-y-2">
+				<div class="flex w-full flex-col space-x-2">
+					<textarea
+						class="flex min-h-[60px] w-full rounded-md border border-input bg-background px-3 py-2 ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+						id="question"
+						name="userInput"
+						placeholder="I want to learn about..."
+						rows="4"
+						bind:value={$form.userInput}
+						{...$constraints.userInput}
+						data-gramm="false"
+						use:shortcut={{
+							control: true,
+							code: 'Enter',
+							callback: () => formRef.dispatchEvent(new Event('submit', { bubbles: true }))
+						}}
+					></textarea>
+					{#if $errors.userInput}<div class="text-gray-600">{$errors.userInput}</div>{/if}
+				</div>
+				<div class="flex flex-row-reverse items-center justify-between">
+					<button
+						disabled={loading}
+						class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-primary px-4 py-2 text-sm text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+						type="submit"
+					>
+						Generate flashcards
+					</button>
+				</div>
+			</div>
+		</div>
 	</div>
-	<span class="text-red-600">{$errors.userInput}</span>
 </form>
