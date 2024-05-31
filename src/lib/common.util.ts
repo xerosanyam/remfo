@@ -9,6 +9,6 @@ export function sessionExists(locals: App.Locals): locals is App.Locals & { sess
 	return !!locals?.session?.id && !!locals?.user?.id
 }
 
-export function humanReadableDate(date: Date) {
+export function humanReadableDate(date: Date | string) {
 	return new Date(date).toLocaleString('en-gb', { day: 'numeric', month: 'short' })
 }
