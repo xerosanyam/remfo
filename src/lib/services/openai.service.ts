@@ -15,7 +15,7 @@ User will give you a text.
 You have extract out the essence of the paragraph.
 You have to identify what is worth remembering.
 user wants to become a great thinker.
-user's age is 25. user is from india. user wants to be global citizen. user wants to be a polymath.
+user is a mature person. user wants to be global citizen. user wants to be a polymath.
 Generate exact 3 question-answer pairs.
 1. related to actual content
 2. historical/recent/future/global/local/emotional importance

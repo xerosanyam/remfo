@@ -1,19 +1,21 @@
 <script>
 	import Login from '$lib/components/Buttons/Login.svelte';
 	import Logout from '$lib/components/Logout.svelte';
-	import Notebook from '~icons/arcticons/notebook';
 	import BrainF from '~icons/arcticons/brainf';
-	import OurHome from '~icons/arcticons/ourhome';
+	import JotTextEditor from '~icons/arcticons/jotatexteditor';
+	import SoloLearn from '~icons/arcticons/sololearn';
+	import { page } from '$app/stores';
 
 	const signedInLinks = [
-		{ href: '/', text: 'Home', icon: OurHome },
-		{ href: '/all', text: 'All Cards', icon: Notebook },
-		{ href: '/learn', text: 'Research', icon: BrainF }
+		{ href: '/record', text: 'Record', icon: JotTextEditor },
+		{ href: '/revise', text: 'Revise', icon: SoloLearn },
+		{ href: '/learn', text: 'Play with AI', icon: BrainF }
 	];
+
 	export let user;
 </script>
 
-<header class="body-font sticky top-0 z-10 border-b bg-white text-gray-600">
+<header class="body-font sticky top-0 z-20 border-b bg-white text-gray-600">
 	<div class="container mx-auto flex flex-col flex-wrap items-center p-2 md:flex-row">
 		<a class="title-font mb-4 flex items-center font-medium text-gray-900 md:mb-0" href="/">
 			<img src="/logo-black.png" class="h-10 w-10 rounded-full" alt="logo" />
@@ -22,10 +24,13 @@
 			{#if user}
 				{#each signedInLinks as link (link.href)}
 					<a
-						class="mr-5 flex h-10 items-center justify-center gap-2 whitespace-nowrap rounded-md px-4 py-2 text-sm ring-offset-background transition-colors hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+						class={`${$page.url.pathname === link.href ? 'font-medium' : ''} mr-5 flex h-10 items-center justify-center gap-2 whitespace-nowrap rounded-md px-4 py-2 text-sm ring-offset-background transition-colors hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50`}
 						href={link.href}
 					>
-						<svelte:component this={link.icon} style="font-size:1.5rem;stroke-width:2px;" />
+						<svelte:component
+							this={link.icon}
+							style={`font-size:1.5rem;stroke-width:${$page.url.pathname === link.href ? '2px;' : '1.5px'}`}
+						/>
 						{link.text}
 					</a>
 				{/each}
