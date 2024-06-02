@@ -17,13 +17,13 @@
 	};
 </script>
 
-<section class="body-font mt-4 text-gray-600">
+<section class="body-font mx-auto mt-10 max-w-lg text-gray-600">
 	<div class="container mx-auto">
 		<GenerateFlashCard data={data.learnForm} />
-		<div class="container mx-auto flex flex-wrap justify-center text-center">
+		<div class="container mx-auto mt-10 flex flex-wrap justify-center text-center">
 			{#if cards?.length > 0}
 				{#each cards as card (card.question)}
-					<div class="w-full p-4 sm:w-1/2 md:w-1/3">
+					<div class="w-full p-4">
 						<AddNewCard
 							action="/learn?/add"
 							data={{ ...data.addForm, data: { front: card.question, back: card.answer } }}
