@@ -2,6 +2,7 @@
 	import { enhance } from '$app/forms';
 	import { humanReadableDate } from '$lib/common.util';
 	import type { Card, CardEssentials } from '$lib/types/Card';
+	import { format } from 'date-fns';
 	import MyStar from '~icons/arcticons/mykyivstar';
 	import Trash from '~icons/arcticons/trashcan';
 
@@ -12,7 +13,7 @@
 	$: {
 		groupedCards = cards.reduce((groups: { [key: string]: Card[] }, card) => {
 			// Convert `createdAt` to a date string without the time
-			const date = new Date(card.createdAt).toISOString().split('T')[0];
+			const date = format(card.createdAt, 'P');
 
 			// If this date isn't in the groups yet, add it
 			if (!groups[date]) {
@@ -49,20 +50,23 @@
 {#if cards.length > 0}
 	{#each dates as date (date)}
 		<div class="relative mx-auto mt-8 max-w-lg space-y-4 rounded-lg text-sm">
-			<div class="absolute -left-16 z-10 bg-white py-2">{humanReadableDate(date)}</div>
+			<div class="absolute -left-14 z-10 w-12 bg-white py-2 text-center" title={date}>
+				{humanReadableDate(groupedCards[date][0].createdAt)}
+			</div>
 			<div class="absolute -left-8 h-full border-r"></div>
 			{#each groupedCards[date] as card (card.id)}
 				<div
-					class="group relative min-h-16 rounded-sm rounded-r-none border border-dashed border-white px-4 py-2 hover:border-gray-200"
+					class="group relative min-h-16 rounded-sm border-white px-4 py-2 hover:bg-gray-100"
+					title={String(card.createdAt)}
 				>
 					<div class={`space-y-2 ${modifyingCardId === card.id ? 'blur-sm' : ''}`}>
 						<div class="flex space-x-2">
 							<div class="text-base">
 								<MyStar style="" />
 							</div>
-							<div class="flex w-full flex-col">
+							<div class="flex w-full flex-col space-y-2">
 								<div
-									class="flex w-full rounded-md border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+									class="flex w-full whitespace-pre-line ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
 									id="question"
 									placeholder="Capital of Paris?"
 									data-gramm="false"
@@ -70,7 +74,7 @@
 									{card.front}
 								</div>
 								<div
-									class="mt-1.5 flex w-full rounded-md border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+									class="flex w-full whitespace-pre-line border-gray-300 ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
 									id="answer"
 									placeholder="France"
 									data-gramm="false"
