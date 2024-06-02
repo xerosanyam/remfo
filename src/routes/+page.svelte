@@ -10,7 +10,7 @@
 <div class="container mx-auto h-screen max-w-lg items-center py-8">
 	<div class="mx-auto font-sans">
 		<h1 class="mb-2 text-3xl font-medium">A tool that helps you remember.</h1>
-		<ul class="mt-8 grid gap-8">
+		<ul class="mt-10 grid gap-8">
 			<li class="flex items-start gap-4">
 				<JotTextEditor style="font-size:2rem;" />
 				<div class="grid gap-1">
@@ -43,9 +43,7 @@
 			</li>
 		</ul>
 	</div>
-	<div class="mt-8 flex justify-center">
-		<Google text="Sign up with Google" />
+	<div class="mt-10 flex justify-center">
+		<Google text="Sign up" />
 	</div>
 </div>
-
-<Footer />
