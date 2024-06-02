@@ -1,5 +1,7 @@
 import type { Session, User } from "lucia";
 
+import { format } from "date-fns";
+
 // for debugging & simulating real-world delays
 export function sleep(ms: number) {
 	return new Promise(resolve => setTimeout(resolve, ms));
@@ -10,5 +12,5 @@ export function sessionExists(locals: App.Locals): locals is App.Locals & { sess
 }
 
 export function humanReadableDate(date: Date | string) {
-	return new Date(date).toLocaleString('en-gb', { day: 'numeric', month: 'short' })
+	return format(date, 'd MMM')
 }
