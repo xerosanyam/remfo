@@ -3,4 +3,4 @@
 	export let data;
 </script>
 
-<ReviseCards cards={data.cards} />
+<ReviseCards cards={data.cards} data={data.reviewForm} />

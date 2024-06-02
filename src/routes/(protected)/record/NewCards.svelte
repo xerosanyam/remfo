@@ -26,6 +26,7 @@
 			return groups;
 		}, {});
 		dates = Object.keys(groupedCards);
+		dates = dates.sort((b, a) => new Date(a).getTime() - new Date(b).getTime());
 	}
 
 	let modifyingCardId = '';
