@@ -36,10 +36,23 @@ export const getCards = async (userId: string) => {
 		return []
 	}
 }
+
 export const getCardsOrderByCreated = async (userId: string) => {
 	try {
 		console.time('getCards')
 		const data = await db.select().from(cardTable).where(eq(cardTable.userId, userId)).orderBy(desc(cardTable.createdAt))
+		console.timeEnd('getCards')
+		return data
+	} catch (err) {
+		console.error('getCards ~ err:', err)
+		return []
+	}
+}
+
+export const getCardsOrderByNextPractice = async (userId: string) => {
+	try {
+		console.time('getCards')
+		const data = await db.select().from(cardTable).where(eq(cardTable.userId, userId)).orderBy(cardTable.nextPractice)
 		console.timeEnd('getCards')
 		return data
 	} catch (err) {

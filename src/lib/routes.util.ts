@@ -6,4 +6,5 @@ export const ROUTES = {
 	'RECORD': '/record',
 	'ALL': '/all',
 	'LEARN': '/learn',
+	'REVISE': '/revise',
 }

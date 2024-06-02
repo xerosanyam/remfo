@@ -9,6 +9,9 @@ import type { RequestEvent } from "../../routes/(protected)/home/$types";
 import type { RequestEvent as R2 } from "../../routes/(protected)/learn/$types";
 import type { RequestEvent as RecordType } from "../../routes/(protected)/record/$types";
 import type { RequestEvent as R4 } from "../../routes/(protected)/all/$types";
+import type { RequestEvent as R5 } from "../../routes/(protected)/revise/$types";
+
+
 
 export function addAction(location: string) {
 	return async (event: RequestEvent | R2 | RecordType) => {
@@ -38,7 +41,7 @@ export function addAction(location: string) {
 }
 
 export function reviewAction(location: string) {
-	return async (event: RequestEvent) => {
+	return async (event: RequestEvent | R5) => {
 		const { locals } = event
 		try {
 			if (!sessionExists(locals)) {
@@ -59,7 +62,7 @@ export function reviewAction(location: string) {
 }
 
 export function deleteAction(location: string) {
-	return async ({ locals, request }: R4 | RecordType) => {
+	return async ({ locals, request }: R4 | RecordType | R5) => {
 		const data = await request.formData();
 		const id = data.get('id') as string
 
