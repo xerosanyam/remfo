@@ -3,7 +3,7 @@
 	import { humanReadableDate } from '$lib/common.util';
 	import type { CardReviewSchema } from '$lib/schemas';
 	import type { Card, CardEssentials } from '$lib/types/Card';
-	import { format } from 'date-fns';
+	import { format, formatDistanceToNow } from 'date-fns';
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
 	import MyStar from '~icons/arcticons/mykyivstar';
 	import Trash from '~icons/arcticons/trashcan';
@@ -86,7 +86,7 @@
 				<div class="absolute -left-8 h-full border-r"></div>
 				<div>
 					{#each groupedCards[date] as card (card.id)}
-						<div class="mb-4 first:h-screen" title={String(card.nextPractice)}>
+						<div class="mb-8 first:h-screen">
 							<div
 								class="group relative min-h-16 rounded-sm border border-dashed px-8 py-6 hover:border-gray-200"
 							>
@@ -105,7 +105,7 @@
 												{card.front}
 											</div>
 											<div
-												class="flex w-full whitespace-pre-line rounded-md border-input pb-10 pt-8 ring-offset-background blur-sm placeholder:text-muted-foreground hover:filter-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+												class="flex w-full whitespace-pre-line rounded-md border-input pb-10 pt-8 ring-offset-background blur-sm placeholder:text-muted-foreground hover:filter-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 group-hover:filter-none"
 												id="answer"
 												placeholder="France"
 												data-gramm="false"
@@ -141,6 +141,9 @@
 										>
 									</form>
 								</div>
+							</div>
+							<div class=" text-right text-xs text-gray-200" title={String(card.createdAt)}>
+								Added {formatDistanceToNow(card.createdAt)}
 							</div>
 						</div>
 					{/each}
