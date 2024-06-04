@@ -1,4 +1,5 @@
 <script>
+	import Logo from '$lib/assets/logo-black.png?enhanced';
 	import Login from '$lib/components/Buttons/Login.svelte';
 	import Logout from '$lib/components/Logout.svelte';
 	import BrainF from '~icons/arcticons/brainf';
@@ -29,7 +30,7 @@
 
 <header class="fixed top-0 flex h-screen w-44 flex-col border-r">
 	<a class="flex items-center p-2 text-gray-900 md:mb-0" href="/">
-		<img src="/logo-black.png" class="h-10 w-10 rounded-full" alt="logo" />
+		<enhanced:img src={Logo} class="h-10 w-10 rounded-full" alt="logo"></enhanced:img>
 	</a>
 	<nav class="mt-8 flex-1 space-y-2">
 		{#if user}
