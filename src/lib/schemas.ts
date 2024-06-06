@@ -1,8 +1,8 @@
 import { z } from "zod";
 
 export const cardAddSchema = z.object({
-	front: z.string().trim().min(1).max(140),
-	back: z.string().trim().min(1).max(140)
+	front: z.string().trim().min(1).max(2000),
+	back: z.string().trim().min(1).max(2000)
 });
 export type CardAddSchema = typeof cardAddSchema;
 
