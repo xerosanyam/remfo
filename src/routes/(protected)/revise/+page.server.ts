@@ -15,8 +15,8 @@ export async function load({ locals }) {
 		redirect(302, ROUTES.LOGIN)
 	}
 
-	const reviewForm = await superValidate(zod(cardReviewSchema));
-	const cards = await getCardsOrderByNextPractice(locals.user.id)
+	const reviewForm = superValidate(zod(cardReviewSchema));
+	const cards = getCardsOrderByNextPractice(locals.user.id)
 
 	return {
 		reviewForm,

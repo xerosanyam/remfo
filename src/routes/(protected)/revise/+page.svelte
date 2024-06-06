@@ -3,4 +3,8 @@
 	export let data;
 </script>
 
-<ReviseCards cards={data.cards} data={data.reviewForm} />
+{#await data.cards then cards}
+	{#await data.reviewForm then reviewForm}
+		<ReviseCards {cards} data={reviewForm} />
+	{/await}
+{/await}
