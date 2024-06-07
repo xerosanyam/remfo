@@ -82,7 +82,7 @@
 						class="absolute -right-28 bottom-0 flex h-full flex-col-reverse px-2 opacity-0 group-hover:opacity-100"
 					>
 						<form method="post" action="?/delete" use:enhance={customEnhance}>
-							<input type="hidden" name="id" value={card.id} />
+							<input type="hidden" name="cardId" value={card.id} />
 							<button
 								class="flex items-center space-x-1 rounded-md border bg-gray-800 px-4 py-2 text-white disabled:pointer-events-none disabled:opacity-50"
 								disabled={modifyingCardId === card.id}
