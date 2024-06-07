@@ -3,13 +3,8 @@ export type CardEssentials = {
 	front: string;
 	back: string;
 	createdAt: Date;
-	updatedAt: Date;
 }
 
-export type Card = CardEssentials & {
-	userId: string;
-	easiness: number;
-	interval: number;
-	repetitions: number;
+export type CardRevisePage = CardEssentials & {
 	nextPractice: Date;
 }

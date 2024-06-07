@@ -2,7 +2,7 @@
 	import { enhance } from '$app/forms';
 	import { humanReadableDate } from '$lib/common.util';
 	import type { CardReviewSchema } from '$lib/schemas';
-	import type { Card, CardEssentials } from '$lib/types/Card';
+	import type { CardRevisePage } from '$lib/types/Card';
 	import { format, formatDistanceToNow } from 'date-fns';
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
 	import MyStar from '~icons/arcticons/mykyivstar';
@@ -11,12 +11,12 @@
 	export let data: SuperValidated<Infer<CardReviewSchema>>;
 	const { errors } = superForm(data);
 
-	export let cards: Card[];
-	let groupedCards: { [key: string]: Card[] } = {};
+	export let cards: CardRevisePage[];
+	let groupedCards: { [key: string]: CardRevisePage[] } = {};
 	let dates: string[] = [];
 
 	$: {
-		groupedCards = cards.reduce((groups: { [key: string]: Card[] }, card) => {
+		groupedCards = cards.reduce((groups: { [key: string]: CardRevisePage[] }, card) => {
 			const date = format(card.nextPractice, 'P');
 
 			// If this date isn't in the groups yet, add it
@@ -42,13 +42,6 @@
 			modifyingCardId = '';
 			update();
 		};
-	};
-	let card: CardEssentials = {
-		id: '1',
-		front: '',
-		back: '',
-		createdAt: new Date(),
-		updatedAt: new Date()
 	};
 
 	const options = [
@@ -76,7 +69,7 @@
 </script>
 
 <div class="relative mx-auto mt-10 max-w-lg space-y-4 rounded-lg text-sm">
-	Cards due for revision today: {groupedCards[format(new Date(), 'P')]?.length || 0}
+	Cards due for revision today: {cards.length || 0}
 	<div class="mt-10">
 		{#if cards.length > 0}
 			{#each dates as date (date)}
@@ -104,22 +97,29 @@
 											>
 												{card.front}
 											</div>
-											<div
-												class="flex w-full whitespace-pre-line rounded-md border-input pb-10 pt-8 ring-offset-background blur-sm placeholder:text-muted-foreground hover:filter-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 group-hover:filter-none"
-												id="answer"
-												placeholder="France"
-												data-gramm="false"
-											>
-												{card.back}
+											<div class="border border-dashed p-2">
+												<div
+													class="flex w-full whitespace-pre-line rounded-md pb-10 pt-8 ring-offset-background blur-sm placeholder:text-muted-foreground hover:filter-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+													id="answer"
+													placeholder="France"
+													data-gramm="false"
+												>
+													{card.back}
+												</div>
 											</div>
 										</div>
 									</div>
-									<form method="post" action="?/review" class="flex w-full space-x-2" use:enhance>
+									<form
+										method="post"
+										action="?/review"
+										class="mt-2 flex w-full space-x-2"
+										use:enhance
+									>
 										<input type="hidden" name="cardId" value={card.id} />
 
 										{#each options as { value, text } (value)}
 											<button
-												class="w-full whitespace-nowrap rounded-md border border-dashed border-input bg-background px-4 py-4 text-center text-sm ring-offset-background transition-colors hover:border-solid hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+												class="w-full whitespace-nowrap rounded-md border border-input bg-background px-4 py-4 text-center text-sm ring-offset-background transition-colors hover:border-solid hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
 												name="difficulty"
 												{value}
 											>

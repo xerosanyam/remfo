@@ -1,7 +1,7 @@
 import { db } from '$lib/db/turso.db';
 import { cardTable, type SelectCard } from '$lib/db/turso.schema';
 import type { Difficulty } from '$lib/schemas';
-import { and, count, desc, eq, } from 'drizzle-orm';
+import { and, count, desc, eq, lt, } from 'drizzle-orm';
 
 const initialCard = {
 	repetitions: 0,
@@ -40,7 +40,7 @@ export const getCards = async (userId: string) => {
 export const getCardsOrderByCreated = async (userId: string) => {
 	try {
 		console.time('getCards')
-		const data = await db.select().from(cardTable).where(eq(cardTable.userId, userId)).orderBy(desc(cardTable.createdAt))
+		const data = await db.select({ id: cardTable.id, front: cardTable.front, back: cardTable.back, createdAt: cardTable.createdAt }).from(cardTable).where(eq(cardTable.userId, userId)).orderBy(desc(cardTable.createdAt))
 		console.timeEnd('getCards')
 		return data
 	} catch (err) {
@@ -52,7 +52,7 @@ export const getCardsOrderByCreated = async (userId: string) => {
 export const getCardsOrderByNextPractice = async (userId: string) => {
 	try {
 		console.time('getCards')
-		const data = await db.select().from(cardTable).where(eq(cardTable.userId, userId)).orderBy(cardTable.nextPractice)
+		const data = await db.select({ id: cardTable.id, front: cardTable.front, back: cardTable.back, createdAt: cardTable.createdAt, nextPractice: cardTable.nextPractice }).from(cardTable).where(and(eq(cardTable.userId, userId), lt(cardTable.nextPractice, new Date()))).orderBy(cardTable.nextPractice)
 		console.timeEnd('getCards')
 		return data
 	} catch (err) {

@@ -1,17 +1,17 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { humanReadableDate } from '$lib/common.util';
-	import type { Card, CardEssentials } from '$lib/types/Card';
+	import type { CardEssentials } from '$lib/types/Card';
 	import { format } from 'date-fns';
 	import MyStar from '~icons/arcticons/mykyivstar';
 	import Trash from '~icons/arcticons/trashcan';
 
-	export let cards: Card[];
-	let groupedCards: { [key: string]: Card[] } = {};
+	export let cards: CardEssentials[];
+	let groupedCards: { [key: string]: CardEssentials[] } = {};
 	let dates: string[] = [];
 
 	$: {
-		groupedCards = cards.reduce((groups: { [key: string]: Card[] }, card) => {
+		groupedCards = cards.reduce((groups: { [key: string]: CardEssentials[] }, card) => {
 			// Convert `createdAt` to a date string without the time
 			const date = format(card.createdAt, 'P');
 
@@ -38,13 +38,6 @@
 			modifyingCardId = '';
 			update();
 		};
-	};
-	let card: CardEssentials = {
-		id: '1',
-		front: '',
-		back: '',
-		createdAt: new Date(),
-		updatedAt: new Date()
 	};
 </script>
 
