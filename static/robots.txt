@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /record/
+Disallow: /revise/
+Disallow: /learn/
+Allow: /
