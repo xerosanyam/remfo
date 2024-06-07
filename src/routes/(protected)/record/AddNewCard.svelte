@@ -5,7 +5,6 @@
 	import Save from '~icons/arcticons/saveto';
 
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
-	import type { CardEssentials } from '$lib/types/Card';
 	import type { ActionResult } from '@sveltejs/kit';
 
 	export let formData: SuperValidated<Infer<CardAddSchema>>;
@@ -28,7 +27,7 @@
 	const customEnhance = ({ formElement }: { formElement: HTMLFormElement }) => {
 		HTMLFormElement.prototype.reset.call(formElement);
 		return ({ result, update }: { result: ActionResult; update: () => void }) => {
-			if (result.type === 'error') {
+			if (result.type === 'error' || result.type === 'failure') {
 				alert('unable to save.');
 			}
 			update();

@@ -2,6 +2,7 @@
 	import { enhance } from '$app/forms';
 	import { humanReadableDate } from '$lib/common.util';
 	import type { CardEssentials } from '$lib/types/Card';
+	import type { ActionResult } from '@sveltejs/kit';
 	import { format } from 'date-fns';
 	import MyStar from '~icons/arcticons/mykyivstar';
 	import Trash from '~icons/arcticons/trashcan';
@@ -34,7 +35,10 @@
 	const customEnhance = ({ formData }: { formData: FormData }) => {
 		const tCardId = formData.get('id') as string;
 		modifyingCardId = tCardId;
-		return ({ update }: { update: () => void }) => {
+		return ({ result, update }: { result: ActionResult; update: () => void }) => {
+			if (result.type === 'error' || result.type === 'failure') {
+				alert('unable to delete.');
+			}
 			modifyingCardId = '';
 			update();
 		};
