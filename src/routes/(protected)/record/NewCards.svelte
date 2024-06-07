@@ -33,7 +33,7 @@
 	let modifyingCardId = '';
 
 	const customEnhance = ({ formData }: { formData: FormData }) => {
-		const tCardId = formData.get('id') as string;
+		const tCardId = formData.get('cardId') as string;
 		modifyingCardId = tCardId;
 		return ({ result, update }: { result: ActionResult; update: () => void }) => {
 			if (result.type === 'error' || result.type === 'failure') {
