@@ -39,21 +39,17 @@ export function addAction(location: string) {
 export function reviewAction(location: string) {
 	return async (event: RequestEvent | R5) => {
 		const { locals } = event
-		try {
-			if (!sessionExists(locals)) {
-				redirect(302, ROUTES.LOGIN);
-			}
-
-			const form = await superValidate(event, zod(cardReviewSchema));
-			if (!form.valid) {
-				return fail(400, { form });
-			}
-			await reviewCard({ cardId: form.data.cardId, userId: locals.user.id, difficulty: form.data.difficulty })
-
-			redirect(302, location);
-		} catch (err) {
-			console.error('add ~ err:', err);
+		if (!sessionExists(locals)) {
+			redirect(302, ROUTES.LOGIN);
 		}
+
+		const form = await superValidate(event, zod(cardReviewSchema));
+		if (!form.valid) {
+			return fail(400, { form });
+		}
+		await reviewCard({ cardId: form.data.cardId, userId: locals.user.id, difficulty: form.data.difficulty })
+
+		redirect(302, location);
 	}
 }
 
@@ -62,20 +58,16 @@ export function deleteAction(location: string) {
 		const data = await request.formData();
 		const id = data.get('id') as string
 
-		try {
-			if (!sessionExists(locals)) {
-				redirect(302, ROUTES.LOGIN);
-			}
-			if (!id) {
-				return { status: 400, body: { message: 'No id provided' } };
-			}
-			await deleteCard({
-				cardId: id,
-				userId: locals.user.id,
-			});
-			redirect(302, location);
-		} catch (err) {
-			console.error('delete ~ err:', err);
+		if (!sessionExists(locals)) {
+			redirect(302, ROUTES.LOGIN);
 		}
+		if (!id) {
+			return { status: 400, body: { message: 'No id provided' } };
+		}
+		await deleteCard({
+			cardId: id,
+			userId: locals.user.id,
+		});
+		redirect(302, location);
 	}
 }

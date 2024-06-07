@@ -25,7 +25,7 @@
 	];
 	const randomPlaceholder = Math.floor(Math.random() * placeholders.length);
 
-	const customEnhance = ({ formElement }: { formElement: HTMLFormElement; formData: FormData }) => {
+	const customEnhance = ({ formElement }: { formElement: HTMLFormElement }) => {
 		HTMLFormElement.prototype.reset.call(formElement);
 		return ({ result, update }: { result: ActionResult; update: () => void }) => {
 			if (result.type === 'error') {

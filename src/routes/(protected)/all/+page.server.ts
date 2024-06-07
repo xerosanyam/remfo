@@ -18,20 +18,16 @@ export const actions = {
 		const data = await request.formData();
 		const id = data.get('id') as string
 
-		try {
-			if (!sessionExists(locals)) {
-				redirect(302, ROUTES.LOGIN);
-			}
-			if (!id) {
-				return { status: 400, body: { message: 'No id provided' } };
-			}
-			await resetCard({
-				cardId: id,
-				userId: locals.user.id,
-			});
-			redirect(302, ROUTES.HOME);
-		} catch (err) {
-			console.error('reset ~ err:', err);
+		if (!sessionExists(locals)) {
+			redirect(302, ROUTES.LOGIN);
 		}
+		if (!id) {
+			return { status: 400, body: { message: 'No id provided' } };
+		}
+		await resetCard({
+			cardId: id,
+			userId: locals.user.id,
+		});
+		redirect(302, ROUTES.HOME);
 	}
 }

@@ -25,26 +25,22 @@ export async function load({ locals }) {
 
 const generateCard = async (event: RequestEvent) => {
 	const { locals } = event
-	try {
-		if (!sessionExists(locals)) {
-			redirect(302, ROUTES.LOGIN);
-		}
-
-		const form = await superValidate(event, zod(cardLearnSchema));
-		if (!form.valid) {
-			return fail(400, { form });
-		}
-
-		console.log('generateCard ~ form:', form)
-
-		const { cards, error } = await generateCardUsingOpenAI({
-			userInput: form.data.userInput
-		});
-
-		return { data: cards, error: error, userInput: form.data.userInput }
-	} catch (err) {
-		console.error('add ~ err:', err);
+	if (!sessionExists(locals)) {
+		redirect(302, ROUTES.LOGIN);
 	}
+
+	const form = await superValidate(event, zod(cardLearnSchema));
+	if (!form.valid) {
+		return fail(400, { form });
+	}
+
+	console.log('generateCard ~ form:', form)
+
+	const { cards, error } = await generateCardUsingOpenAI({
+		userInput: form.data.userInput
+	});
+
+	return { data: cards, error: error, userInput: form.data.userInput }
 }
 
 export const actions = {

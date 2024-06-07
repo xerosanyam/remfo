@@ -16,91 +16,55 @@ export const insertCard = async (values: {
 	back: string;
 	userId: string;
 }) => {
-	try {
-		console.time('insertCard')
-		await db.insert(cardTable).values(values)
-		console.timeEnd('insertCard')
-	} catch (err) {
-		console.error('insertCard ~ err:', err)
-	}
+	console.time('insertCard')
+	await db.insert(cardTable).values(values)
+	console.timeEnd('insertCard')
 };
 
 export const getCards = async (userId: string) => {
-	try {
-		console.time('getCards')
-		const data = await db.select().from(cardTable).where(eq(cardTable.userId, userId)).orderBy(cardTable.nextPractice)
-		console.timeEnd('getCards')
-		return data
-	} catch (err) {
-		console.error('getCards ~ err:', err)
-		return []
-	}
+	console.time('getCards')
+	const data = await db.select().from(cardTable).where(eq(cardTable.userId, userId)).orderBy(cardTable.nextPractice)
+	console.timeEnd('getCards')
+	return data
 }
 
 export const getCardsOrderByCreated = async (userId: string) => {
-	try {
-		console.time('getCards')
-		const data = await db.select({ id: cardTable.id, front: cardTable.front, back: cardTable.back, createdAt: cardTable.createdAt }).from(cardTable).where(eq(cardTable.userId, userId)).orderBy(desc(cardTable.createdAt))
-		console.timeEnd('getCards')
-		return data
-	} catch (err) {
-		console.error('getCards ~ err:', err)
-		return []
-	}
+	console.time('getCards')
+	const data = await db.select({ id: cardTable.id, front: cardTable.front, back: cardTable.back, createdAt: cardTable.createdAt }).from(cardTable).where(eq(cardTable.userId, userId)).orderBy(desc(cardTable.createdAt))
+	console.timeEnd('getCards')
+	return data
 }
 
 export const getCardsOrderByNextPractice = async (userId: string) => {
-	try {
-		console.time('getCards')
-		const data = await db.select({ id: cardTable.id, front: cardTable.front, back: cardTable.back, createdAt: cardTable.createdAt, nextPractice: cardTable.nextPractice }).from(cardTable).where(and(eq(cardTable.userId, userId), lt(cardTable.nextPractice, new Date()))).orderBy(cardTable.nextPractice)
-		console.timeEnd('getCards')
-		return data
-	} catch (err) {
-		console.error('getCards ~ err:', err)
-		return []
-	}
+	console.time('getCards')
+	const data = await db.select({ id: cardTable.id, front: cardTable.front, back: cardTable.back, createdAt: cardTable.createdAt, nextPractice: cardTable.nextPractice }).from(cardTable).where(and(eq(cardTable.userId, userId), lt(cardTable.nextPractice, new Date()))).orderBy(cardTable.nextPractice)
+	console.timeEnd('getCards')
+	return data
 }
 
 export const getCard = async (userId: string) => {
-	try {
-		console.time('getCard')
-		const data = await db.select().from(cardTable).where(eq(cardTable.userId, userId)).orderBy(cardTable.nextPractice).limit(1)
-		console.timeEnd('getCard')
-		return data[0] || {}
-	} catch (err) {
-		console.error('getCards ~ err:', err)
-		return {}
-	}
+	console.time('getCard')
+	const data = await db.select().from(cardTable).where(eq(cardTable.userId, userId)).orderBy(cardTable.nextPractice).limit(1)
+	console.timeEnd('getCard')
+	return data[0] || {}
+
 }
 export const getTotalCards = async (userId: string) => {
-	try {
-		console.time('getTotalCard')
-		const data = await db.select({ count: count() }).from(cardTable).where(eq(cardTable.userId, userId))
-		console.log('getTotalCards ~ data:', data)
-		console.timeEnd('getTotalCard')
-		return data[0]?.count || 0
-	} catch (err) {
-		console.error('getCards ~ err:', err)
-		return 0
-	}
+	console.time('getTotalCard')
+	const data = await db.select({ count: count() }).from(cardTable).where(eq(cardTable.userId, userId))
+	console.log('getTotalCards ~ data:', data)
+	console.timeEnd('getTotalCard')
+	return data[0]?.count || 0
 }
 
 export const deleteCard = async ({ cardId, userId }: { cardId: string, userId: string }) => {
-	try {
-		console.time('deleteCard')
-		await db.delete(cardTable).where(and(eq(cardTable.id, cardId), eq(cardTable.userId, userId)))
-		console.timeEnd('deleteCard')
-	} catch (err) {
-		console.error('deleteCard ~ err:', err)
-	}
+	console.time('deleteCard')
+	await db.delete(cardTable).where(and(eq(cardTable.id, cardId), eq(cardTable.userId, userId)))
+	console.timeEnd('deleteCard')
 }
 
 export const resetCard = async ({ cardId, userId }: { cardId: string, userId: string }) => {
-	try {
-		await db.update(cardTable).set(initialCard).where(and(eq(cardTable.id, cardId), eq(cardTable.userId, userId)))
-	} catch (err) {
-		console.error('resetCard ~ err:', err)
-	}
+	await db.update(cardTable).set(initialCard).where(and(eq(cardTable.id, cardId), eq(cardTable.userId, userId)))
 }
 
 export const reviewCard = async ({ cardId, userId, difficulty }: { cardId: string, userId: string, difficulty: Difficulty }) => {
@@ -108,14 +72,9 @@ export const reviewCard = async ({ cardId, userId, difficulty }: { cardId: strin
 	let card = cards[0]
 
 	card = calculateSuperMemo2Algorithm(card, difficulty)
-	try {
-		console.time('reviewCard')
-		await db.update(cardTable).set(card).where(and(eq(cardTable.id, cardId), eq(cardTable.userId, userId)))
-
-		console.timeEnd('reviewCard')
-	} catch (err) {
-		console.error('reviewCard ~ err:', err)
-	}
+	console.time('reviewCard')
+	await db.update(cardTable).set(card).where(and(eq(cardTable.id, cardId), eq(cardTable.userId, userId)))
+	console.timeEnd('reviewCard')
 }
 
 
