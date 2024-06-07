@@ -58,7 +58,7 @@ export function deleteAction(location: string) {
 			redirect(302, ROUTES.LOGIN);
 		}
 		if (!id) {
-			return { status: 400, body: { message: 'No id provided' } };
+			return fail(400, { message: 'No cardId provided' })
 		}
 		await deleteCard({
 			cardId: id,
