@@ -5,21 +5,33 @@
 	import Save from '~icons/arcticons/saveto';
 
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
+	import type { CardEssentials } from '$lib/types/Card';
+	import type { ActionResult } from '@sveltejs/kit';
 
 	export let formData: SuperValidated<Infer<CardAddSchema>>;
-	export let onSubmit: (question: string) => void = () => {};
 
 	const { form, errors, constraints } = superForm(formData);
 	let loading = false;
 
-	const customEnhance = ({ formData }: { formData: FormData }) => {
-		loading = true;
-		return ({ update }: { update: () => void }) => {
-			loading = false;
-			const result = onSubmit(formData.get('front') as string);
-			if (result === undefined) {
-				update();
+	let placeholders = [
+		{
+			front: `I'm grateful for`,
+			back: 'the beautiful weather today, which brightened my mood and filled me with energy.'
+		},
+		{
+			front: `capital of Ukraine is`,
+			back: 'Kyiv'
+		}
+	];
+	const randomPlaceholder = Math.floor(Math.random() * placeholders.length);
+
+	const customEnhance = ({ formElement }: { formElement: HTMLFormElement; formData: FormData }) => {
+		HTMLFormElement.prototype.reset.call(formElement);
+		return ({ result, update }: { result: ActionResult; update: () => void }) => {
+			if (result.type === 'error') {
+				alert('unable to save.');
 			}
+			update();
 		};
 	};
 </script>
@@ -44,13 +56,12 @@
 								id="question"
 								name="front"
 								bind:value={$form.front}
-								placeholder="Capital of Paris?"
+								placeholder={placeholders[randomPlaceholder].front}
 								rows="2"
 								data-gramm="false"
 								disabled={loading}
 								{...$constraints.front}
-							>
-							</textarea>
+							></textarea>
 							{#if $errors.front}<div class="text-red-800">{$errors.front}</div>{/if}
 
 							<textarea
@@ -58,13 +69,12 @@
 								id="answer"
 								name="back"
 								bind:value={$form.back}
-								placeholder="France"
+								placeholder={placeholders[randomPlaceholder].back}
 								data-gramm="false"
 								rows="2"
 								disabled={loading}
 								{...$constraints.back}
-							>
-							</textarea>
+							></textarea>
 							{#if $errors.back}<div class="text-red-800">{$errors.back}</div>{/if}
 						</div>
 					</div>

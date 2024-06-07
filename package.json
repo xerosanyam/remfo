@@ -11,6 +11,7 @@
     "test": "vitest",
     "lint": "prettier --check . && eslint .",
     "format": "prettier --write .",
+    "generate": "npx drizzle-kit generate",
     "migrate": "npx drizzle-kit migrate"
   },
   "devDependencies": {

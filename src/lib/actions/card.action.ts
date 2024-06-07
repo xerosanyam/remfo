@@ -16,27 +16,23 @@ import type { RequestEvent as R5 } from "../../routes/(protected)/revise/$types"
 export function addAction(location: string) {
 	return async (event: RequestEvent | R2 | RecordType) => {
 		const { locals } = event
-		try {
-			if (!sessionExists(locals)) {
-				redirect(302, ROUTES.LOGIN);
-			}
-
-			const form = await superValidate(event, zod(cardAddSchema));
-			if (!form.valid) {
-				return fail(400, { form });
-			}
-
-			await insertCard({
-				id: crypto.randomUUID(),
-				front: form.data.front,
-				back: form.data.back,
-				userId: locals.user.id
-			});
-
-			redirect(302, location);
-		} catch (err) {
-			console.error('add ~ err:', err);
+		if (!sessionExists(locals)) {
+			redirect(302, ROUTES.LOGIN);
 		}
+
+		const form = await superValidate(event, zod(cardAddSchema));
+		if (!form.valid) {
+			return fail(400, { form });
+		}
+
+		await insertCard({
+			id: crypto.randomUUID(),
+			front: form.data.front,
+			back: form.data.back,
+			userId: locals.user.id
+		});
+
+		redirect(302, location);
 	}
 }
 

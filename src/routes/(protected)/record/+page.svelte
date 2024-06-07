@@ -4,10 +4,6 @@
 	export let data;
 </script>
 
-{#await data.addForm then value}
-	<AddNewCard formData={value} />
-{/await}
+<AddNewCard formData={data.addForm} />
 
-{#await data.cards then value}
-	<NewCards cards={value} />
-{/await}
+<NewCards cards={data.cards} />

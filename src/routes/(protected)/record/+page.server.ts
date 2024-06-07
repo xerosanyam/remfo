@@ -15,8 +15,8 @@ export async function load({ locals }) {
 		redirect(302, ROUTES.LOGIN)
 	}
 
-	const addForm = superValidate(zod(cardAddSchema));
-	const cards = getCardsOrderByCreated(locals.user.id)
+	const addForm = await superValidate(zod(cardAddSchema));
+	const cards = await getCardsOrderByCreated(locals.user.id)
 
 	return {
 		addForm,
