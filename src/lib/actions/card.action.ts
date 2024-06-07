@@ -52,7 +52,7 @@ export function reviewAction(location: string) {
 export function deleteAction(location: string) {
 	return async ({ locals, request }: RecordType | R5) => {
 		const data = await request.formData();
-		const id = data.get('id') as string
+		const id = data.get('cardId') as string
 
 		if (!sessionExists(locals)) {
 			redirect(302, ROUTES.LOGIN);
