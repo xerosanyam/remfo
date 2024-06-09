@@ -50,6 +50,7 @@
 							<MyStar style="" />
 						</div>
 						<div class="flex w-full flex-col space-y-2">
+							<!-- svelte-ignore a11y_autofocus -->
 							<textarea
 								class="flex min-h-[60px] w-full rounded-md border border-input bg-background px-3 py-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
 								id="question"
@@ -60,6 +61,7 @@
 								data-gramm="false"
 								disabled={loading}
 								{...$constraints.front}
+								autofocus
 							></textarea>
 							{#if $errors.front}<div class="text-red-800">{$errors.front}</div>{/if}
 
