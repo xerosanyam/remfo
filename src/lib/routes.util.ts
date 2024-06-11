@@ -1,6 +1,10 @@
 export const ROUTES = {
 	'LOGIN': '/',
 	'LOGOUT': '/logout',
-	'HOME': '/home',
-	'PRICING': '/pricing'
+	'HOME': '/record',
+	'PRICING': '/pricing',
+	'RECORD': '/record',
+	'ALL': '/all',
+	'LEARN': '/learn',
+	'REVISE': '/revise',
 }

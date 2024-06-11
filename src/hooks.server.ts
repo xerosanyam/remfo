@@ -1,7 +1,7 @@
 import { lucia } from "$lib/server/auth";
 import type { Handle } from "@sveltejs/kit";
 
-let sessionAndUserInfo:any = {}
+const sessionAndUserInfo: { [key: string]: App.Locals } = {};
 
 export const handle: Handle = async ({ event, resolve }) => {
 	console.time('hook.server')
@@ -9,22 +9,22 @@ export const handle: Handle = async ({ event, resolve }) => {
 	if (!sessionId) {
 		event.locals.user = null;
 		event.locals.session = null;
-		console.log('no session id')
+		console.debug('no session id')
 		return resolve(event);
 	}
-	console.log('session id exists')
+	console.debug('session id exists')
 
 	console.time('validate')
-	let {session, user} = sessionAndUserInfo[sessionId]|| {}
-	if(!session || !user){
-		 ({ session, user } = await lucia.validateSession(sessionId))
-		sessionAndUserInfo[sessionId] = {session,user}
+	let { session, user } = sessionAndUserInfo[sessionId] || {}
+	if (!session || !user) {
+		({ session, user } = await lucia.validateSession(sessionId))
+		sessionAndUserInfo[sessionId] = { session, user }
 
 	}
 	console.timeEnd('validate')
 
 	//session exists in db & has not expired
-	if (session && session.fresh) {
+	if (session?.fresh) {
 		const sessionCookie = lucia.createSessionCookie(session.id);
 		event.cookies.set(sessionCookie.name, sessionCookie.value, {
 			path: ".",

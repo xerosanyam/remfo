@@ -15,9 +15,6 @@ CREATE TABLE remfo.user_session(
     user_id uuid NOT NULL REFERENCES remfo.auth_user(id)
 );
 
-ALTER TABLE remfo.auth_user
-    ADD COLUMN picture text;
-
 SELECT
     *
 FROM
@@ -35,9 +32,6 @@ WHERE
 
 INSERT INTO remfo.auth_user(id, github_id, username)
     VALUES ("12_id", "12_github_id", "12_username");
-
-ALTER TABLE remfo.auth_user
-    ADD COLUMN picture text;
 
 SELECT
     *
