@@ -93,7 +93,7 @@
 				<div class="absolute -left-8 h-full border-r"></div>
 				<div>
 					{#each groupedCards[date] as card (card.id)}
-						<div class="mb-8 first:h-screen">
+						<div class="mb-8 first:min-h-screen">
 							<div
 								class="group relative min-h-16 rounded-sm border border-dashed px-8 py-6 hover:border-gray-200"
 							>
@@ -104,16 +104,16 @@
 										</div>
 										<div class="flex w-full flex-col">
 											<div
-												class="flex w-full whitespace-pre-line rounded-md border-input ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+												class="mb-2 flex w-full whitespace-break-spaces rounded-md border-input ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
 												id="question"
 												placeholder="Capital of Paris?"
 												data-gramm="false"
 											>
 												{card.front}
 											</div>
-											<div class="border border-dashed p-2">
+											<div class="border border-dashed">
 												<div
-													class="flex w-full whitespace-pre-line rounded-md pb-10 pt-8 ring-offset-background blur-sm placeholder:text-muted-foreground hover:filter-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+													class="flex w-full whitespace-break-spaces rounded-md p-2 pb-10 pt-8 ring-offset-background blur-sm placeholder:text-muted-foreground hover:filter-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
 													id="answer"
 													placeholder="France"
 													data-gramm="false"
