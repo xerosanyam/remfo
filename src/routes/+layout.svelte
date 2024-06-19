@@ -8,6 +8,6 @@
 <slot></slot>
 
 <svelte:head>
-	<title>Remember Forever</title>
-	<meta name="description" content="A tool that helps you remember" />
+	<title>remember forever</title>
+	<meta name="description" content="a tool that helps you remember" />
 </svelte:head>

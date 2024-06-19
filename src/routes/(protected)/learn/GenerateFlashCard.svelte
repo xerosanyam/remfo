@@ -24,7 +24,7 @@
 >
 	<div class="mx-auto mt-4 max-w-xl rounded-lg border border-dashed text-sm shadow-sm">
 		<div class="flex flex-col p-6 pb-4">
-			<p class="text-base text-muted-foreground">What do you want to learn about?</p>
+			<p class="text-base text-muted-foreground">what do you want to learn about?</p>
 		</div>
 		<div class="px-4 py-2">
 			<div class="space-y-2">
@@ -33,7 +33,7 @@
 						class="flex min-h-[60px] w-full rounded-md border border-input bg-background px-3 py-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
 						id="question"
 						name="userInput"
-						placeholder="I want to learn about..."
+						placeholder="i want to learn about..."
 						rows="3"
 						bind:value={$form.userInput}
 						{...$constraints.userInput}
@@ -52,7 +52,7 @@
 						class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-primary px-4 py-6 text-sm text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
 						type="submit"
 					>
-						Generate flashcards
+						generate flashcards
 					</button>
 				</div>
 			</div>

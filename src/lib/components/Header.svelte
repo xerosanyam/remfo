@@ -11,18 +11,18 @@
 	import { page } from '$app/stores';
 
 	const signedInLinks = [
-		{ href: '/record', text: 'Record', icon: JotTextEditor },
-		{ href: '/revise', text: 'Revise', icon: SoloLearn },
-		{ href: '/learn', text: 'Play with AI', icon: BrainF }
+		{ href: '/record', text: 'record', icon: JotTextEditor },
+		{ href: '/revise', text: 'revise', icon: SoloLearn },
+		{ href: '/learn', text: 'generate with ai', icon: BrainF }
 	];
 	const signedOuLinks = [
-		{ href: 'https://github.com/xerosanyam/remfo', text: 'Star on Github', icon: GithubStar },
+		{ href: 'https://github.com/xerosanyam/remfo', text: 'star on github', icon: GithubStar },
 		{
 			href: 'https://github.com/xerosanyam/remfo/tree/main/essays',
-			text: 'Essays',
+			text: 'essays',
 			icon: MeditationAssistant
 		},
-		{ href: 'https://twitter.com/xerosanyam', text: 'Share Feedback', icon: SendIt }
+		{ href: 'https://twitter.com/xerosanyam', text: 'share feedback', icon: SendIt }
 	];
 
 	export let user;
@@ -30,7 +30,12 @@
 
 <header class="fixed top-0 flex h-screen w-44 flex-col border-r">
 	<a class="flex items-center p-2 text-gray-900 md:mb-0" href="/">
-		<enhanced:img src={Logo} class="h-10 w-10 rounded-full" alt="logo"></enhanced:img>
+		<enhanced:img
+			src={Logo}
+			class="h-10 w-10 rounded-full"
+			title="logo of remember forever"
+			alt="logo of remember forever"
+		></enhanced:img>
 	</a>
 	<nav class="mt-8 flex-1 space-y-2">
 		{#if user}
