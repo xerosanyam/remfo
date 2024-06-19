@@ -1,5 +1,7 @@
 # Remfo
 
+short for - Remember Forever
+
 ## why
 
 Human brain forgets. For good reasons. But we want to remember important bits. That's where

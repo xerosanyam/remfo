@@ -15,7 +15,9 @@
 				<JotTextEditor style="font-size:2rem;" />
 				<div class="grid gap-1">
 					<h3 class="font-medium">record</h3>
-					<p class="text-gray-500 dark:text-gray-400">record new learnings, words, anything</p>
+					<p class="text-gray-500 dark:text-gray-400">
+						record new words, learnings, affirmations, anything
+					</p>
 				</div>
 			</li>
 			<li class="flex items-start gap-4">
@@ -23,7 +25,7 @@
 				<div class="grid gap-1">
 					<h3 class="font-medium">revise</h3>
 					<p class="text-gray-500 dark:text-gray-400">
-						just before you forget, app nudges you to revise
+						app will intelligently schedule things for revision
 					</p>
 				</div>
 			</li>

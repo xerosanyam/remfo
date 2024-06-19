@@ -8,6 +8,7 @@
 	import GithubStar from '~icons/material-symbols-light/kid-star-outline';
 	import SendIt from '~icons/arcticons/sendit';
 	import MeditationAssistant from '~icons/arcticons/atom-meditation';
+	import XIcon from '~icons/arcticons/twitter-alt-2';
 	import { page } from '$app/stores';
 
 	const signedInLinks = [
@@ -23,6 +24,7 @@
 			icon: MeditationAssistant
 		},
 		{ href: 'https://twitter.com/xerosanyam', text: 'share feedback', icon: SendIt }
+		// { href: 'https://x.com/remfoapp', text: 'follow on x', icon: XIcon }
 	];
 
 	export let user;
