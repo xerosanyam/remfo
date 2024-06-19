@@ -12,5 +12,5 @@ export function sessionExists(locals: App.Locals): locals is App.Locals & { sess
 }
 
 export function humanReadableDate(date: Date | string) {
-	return format(date, 'd MMM')
+	return format(date, 'd MMM').toLowerCase()
 }

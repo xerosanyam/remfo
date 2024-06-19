@@ -14,12 +14,12 @@
 
 	let placeholders = [
 		{
-			front: `I'm grateful for`,
-			back: 'the beautiful weather today, which brightened my mood and filled me with energy.'
+			front: `i'm grateful for`,
+			back: 'the beautiful weather today, which brightened my mood and filled me with energy'
 		},
 		{
-			front: `capital of Ukraine is`,
-			back: 'Kyiv'
+			front: `capital of ukraine is`,
+			back: 'kyiv'
 		}
 	];
 	const randomPlaceholder = Math.floor(Math.random() * placeholders.length);
@@ -39,7 +39,7 @@
 	<div class="relative mx-auto mt-8 flex max-w-lg space-x-1 text-sm">
 		<div class="w-full rounded-sm border border-dashed">
 			<div class="mb-0 flex flex-col px-6 py-2">
-				<p class="ml-6 text-base text-muted-foreground">Write something you'd like to remember.</p>
+				<p class="ml-6 text-base text-muted-foreground">write something you'd like to remember</p>
 			</div>
 			<div
 				class="group relative min-h-16 rounded-sm rounded-r-none border border-dashed border-white px-4 py-2"
@@ -86,7 +86,7 @@
 			<button
 				class="flex items-center space-x-1 rounded-md border bg-gray-800 px-4 py-2 text-white disabled:pointer-events-none disabled:opacity-50"
 				disabled={loading}
-				type="submit"><Save style="stroke-width:2px;" /><span>Save</span></button
+				type="submit"><Save style="stroke-width:2px;" /><span>save</span></button
 			>
 		</div>
 	</div>

@@ -90,7 +90,7 @@
 							<button
 								class="flex items-center space-x-1 rounded-md border bg-gray-800 px-4 py-2 text-white disabled:pointer-events-none disabled:opacity-50"
 								disabled={modifyingCardId === card.id}
-								type="submit"><Trash style="stroke-width:2px;" /><span>Delete</span></button
+								type="submit"><Trash style="stroke-width:2px;" /><span>delete</span></button
 							>
 						</form>
 					</div>
@@ -98,5 +98,5 @@
 			{/each}
 		</div>
 	{/each}
-	<div class="pb-10 pt-24 text-center text-xs text-gray-400">Total card(s): {cards.length}</div>
+	<div class="pb-10 pt-24 text-center text-xs text-gray-400">total cards: {cards.length}</div>
 {/if}

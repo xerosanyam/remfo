@@ -49,22 +49,22 @@
 	const options = [
 		{
 			value: 'Easy',
-			text: 'Super easy'
+			text: 'super easy'
 			// icon: CheckCircleOutline
 		},
 		{
 			value: 'Good',
-			text: 'Easy'
+			text: 'easy'
 			// icon: CheckOutline
 		},
 		{
 			value: 'Hard',
-			text: 'Difficult'
+			text: 'difficult'
 			// icon: Exclamation
 		},
 		{
 			value: 'Challenging',
-			text: 'Super difficult'
+			text: 'super difficult'
 			// icon: AlertCircleOutline
 		}
 	];
@@ -81,7 +81,7 @@
 		</div>
 	{:else}
 		<div class="text-center text-lg text-gray-400">
-			Cards revised: {revisedCards.length}/{cards.length}
+			cards revised: {revisedCards.length}/{cards.length}
 		</div>
 	{/if}
 	<div class="mt-10">
@@ -151,13 +151,13 @@
 										<button
 											class="flex items-center space-x-1 rounded-md border bg-gray-800 px-4 py-2 text-white disabled:pointer-events-none disabled:opacity-50"
 											disabled={modifyingCardId === card.id}
-											type="submit"><Trash style="stroke-width:2px;" /><span>Delete</span></button
+											type="submit"><Trash style="stroke-width:2px;" /><span>delete</span></button
 										>
 									</form>
 								</div>
 							</div>
 							<div class=" text-right text-xs text-gray-200" title={String(card.createdAt)}>
-								Added {formatDistanceToNow(card.createdAt)}
+								added {formatDistanceToNow(card.createdAt)} ago
 							</div>
 						</div>
 					{/each}
