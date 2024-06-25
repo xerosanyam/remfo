@@ -62,9 +62,9 @@
 							<div>
 								<MyStar style="" />
 							</div>
-							<div class="flex w-full flex-col space-y-2">
+							<div class="flex w-full flex-col">
 								<div
-									class="flex w-full whitespace-break-spaces ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+									class="flex w-full whitespace-break-spaces italic text-gray-600 ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
 									id="question"
 									placeholder="Capital of Paris?"
 									data-gramm="false"
@@ -72,7 +72,7 @@
 									{card.front}
 								</div>
 								<div
-									class="flex w-full whitespace-break-spaces border-gray-300 ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+									class="flex w-full whitespace-break-spaces border-gray-300 text-gray-500 ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
 									id="answer"
 									placeholder="France"
 									data-gramm="false"
