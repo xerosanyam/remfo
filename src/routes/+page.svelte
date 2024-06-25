@@ -44,7 +44,7 @@
 			</li>
 		</ul>
 	</div>
-	<div class="mt-10 flex justify-center">
-		<Google text="sign up" />
+	<div class="mt-10 hidden justify-center space-x-1 sm:flex">
+		<Google text="sign up / login" />
 	</div>
 </div>

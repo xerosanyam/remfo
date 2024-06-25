@@ -6,8 +6,11 @@ declare global {
 		interface Locals {
 			user: import("lucia").User | null;
 			session: import("lucia").Session | null;
+			deviceType: DevicePayload;
 		}
-		// interface PageData {}
+		interface PageData {
+			deviceType: DevicePayload;
+		}
 		// interface PageState {}
 		// interface Platform {}
 	}

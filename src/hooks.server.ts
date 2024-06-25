@@ -1,9 +1,10 @@
 import { lucia } from "$lib/server/auth";
 import type { Handle } from "@sveltejs/kit";
+import { handleDeviecDetector } from 'sveltekit-device-detector';
 
 const sessionAndUserInfo: { [key: string]: App.Locals } = {};
 
-export const handle: Handle = async ({ event, resolve }) => {
+const handle: Handle = async ({ event, resolve }) => {
 	console.time('hook.server')
 	const sessionId = event.cookies.get(lucia.sessionCookieName);
 	if (!sessionId) {
@@ -46,3 +47,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	console.timeEnd('hook.server')
 	return resolve(event);
 };
+
+const handleWithDeviceDetector = handleDeviecDetector({}, handle)
+
+export { handleWithDeviceDetector as handle }

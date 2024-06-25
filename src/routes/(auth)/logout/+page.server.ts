@@ -17,6 +17,8 @@ const logout = async (event: RequestEvent) => {
 	redirect(302, ROUTES.LOGIN);
 }
 
+export const load = logout
+
 export const actions = {
 	default: logout
 }
