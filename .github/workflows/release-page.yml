@@ -2,10 +2,10 @@ name: Update Release Page
 
 on:
   deployment_status:
-    types: [success]
 
 jobs:
   update-release:
+    if: github.event.deployment_status.state == 'success'
     runs-on: ubuntu-latest
 
     steps:
