@@ -1,0 +1,35 @@
+name: Update Release Page
+
+on:
+  deployment_status:
+    types: [success]
+
+jobs:
+  update-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Get latest release version
+        id: get_version
+        run: |
+          version=$(git describe --tags `git rev-list --tags --max-count=1`)
+          echo "::set-output name=version::$version"
+
+      - name: Update release page
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl -X POST \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/xerosanyam/remfo/releases \
+            -d '{
+              "tag_name": "${{ steps.get_version.outputs.version }}",
+              "name": "Release ${{ steps.get_version.outputs.version }}",
+              "body": "New release deployed by Vercel.",
+              "draft": false,
+              "prerelease": false
+            }'
