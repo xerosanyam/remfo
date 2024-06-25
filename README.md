@@ -1,9 +1,15 @@
 # remfo (Remember Forever)
 
+## intro
+
 hi there
 
 this is that space of the internet where we welcome learners
 
 more talk soon
 
-@xerosanyam
+## running the project
+
+1. `mv .env.example .env`
+2. fill in the values
+3. `npm run dev`
