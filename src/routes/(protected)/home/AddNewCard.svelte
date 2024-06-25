@@ -30,14 +30,14 @@
 	<div class="mx-auto max-w-xl rounded-lg border border-dashed shadow-sm">
 		{#if showHeading}
 			<div class="flex flex-col space-y-1.5 p-6 pb-4">
-				<p class="text-sm text-muted-foreground">1. Write what you want to remember</p>
+				<p class="text-muted-foreground">1. Write what you want to remember</p>
 			</div>
 		{/if}
 		<div class="p-6 pt-0">
 			<div class="space-y-4">
 				<div class="space-y-2">
 					<label
-						class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+						class="font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
 						for="question">question</label
 					>
 					<textarea
@@ -54,7 +54,7 @@
 				</div>
 				<div class="space-y-2">
 					<label
-						class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+						class="font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
 						for="answer">answer</label
 					><textarea
 						class="flex min-h-[80px] w-full rounded-md border border-input px-3 py-2 ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"

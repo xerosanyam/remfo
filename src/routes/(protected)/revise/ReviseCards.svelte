@@ -72,7 +72,7 @@
 	let reviseCards = 5;
 </script>
 
-<div class="relative mx-auto mt-10 max-w-lg space-y-4 rounded-lg text-sm">
+<div class="relative mx-auto mt-10 max-w-lg space-y-4 rounded-lg">
 	{#if remainingCards.length === 0}
 		You have revised all the cards. Go to <a href="/record" class="underline">Record</a> to create more
 	{:else if revisedCards.length > 0 && revisedCards.length % reviseCards === 0}
@@ -99,7 +99,7 @@
 							>
 								<div class={` ${modifyingCardId === card.id ? 'blur-sm' : ''}`}>
 									<div class="flex space-x-2">
-										<div class="text-base">
+										<div>
 											<MyStar style="" />
 										</div>
 										<div class="flex w-full flex-col">
@@ -133,7 +133,7 @@
 
 										{#each options as { value, text } (value)}
 											<button
-												class="w-full whitespace-nowrap rounded-md border border-input bg-background px-4 py-4 text-center text-sm ring-offset-background transition-colors hover:border-solid hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+												class="w-full whitespace-nowrap rounded-md border border-input bg-background px-4 py-4 text-center ring-offset-background transition-colors hover:border-solid hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
 												name="difficulty"
 												{value}
 											>
@@ -156,7 +156,7 @@
 									</form>
 								</div>
 							</div>
-							<div class=" text-right text-xs text-gray-200" title={String(card.createdAt)}>
+							<div class=" text-right text-sm text-gray-200" title={String(card.createdAt)}>
 								added {formatDistanceToNow(card.createdAt)} ago
 							</div>
 						</div>

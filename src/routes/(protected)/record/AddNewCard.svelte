@@ -36,17 +36,17 @@
 </script>
 
 <form method="post" action="/record?/add" use:enhance={customEnhance}>
-	<div class="relative mx-auto mt-8 flex max-w-lg space-x-1 text-sm">
+	<div class="relative mx-auto mt-8 flex max-w-lg space-x-1">
 		<div class="w-full rounded-sm border border-dashed">
 			<div class="mb-0 flex flex-col px-6 py-2">
-				<p class="ml-6 text-base text-muted-foreground">write something you'd like to remember</p>
+				<p class="ml-6 text-muted-foreground">write something you'd like to remember</p>
 			</div>
 			<div
 				class="group relative min-h-16 rounded-sm rounded-r-none border border-dashed border-white px-4 py-2"
 			>
 				<div class={`space-y-2`}>
 					<div class="flex space-x-2">
-						<div class="text-base">
+						<div>
 							<MyStar style="" />
 						</div>
 						<div class="flex w-full flex-col space-y-2">

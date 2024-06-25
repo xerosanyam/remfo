@@ -47,7 +47,7 @@
 
 {#if cards.length > 0}
 	{#each dates as date (date)}
-		<div class="relative mx-auto mt-8 max-w-lg space-y-4 rounded-lg text-sm">
+		<div class="relative mx-auto mt-8 max-w-lg space-y-4 rounded-lg">
 			<div class="absolute -left-14 z-10 w-12 bg-white py-2 text-center" title={date}>
 				{humanReadableDate(groupedCards[date][0].createdAt)}
 			</div>
@@ -59,7 +59,7 @@
 				>
 					<div class={`space-y-2 ${modifyingCardId === card.id ? 'blur-sm' : ''}`}>
 						<div class="flex space-x-2">
-							<div class="text-base">
+							<div>
 								<MyStar style="" />
 							</div>
 							<div class="flex w-full flex-col space-y-2">
@@ -98,5 +98,5 @@
 			{/each}
 		</div>
 	{/each}
-	<div class="pb-10 pt-24 text-center text-xs text-gray-400">total cards: {cards.length}</div>
+	<div class="pb-10 pt-24 text-center text-sm text-gray-400">total cards: {cards.length}</div>
 {/if}

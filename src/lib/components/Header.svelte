@@ -43,7 +43,7 @@
 		{#if user}
 			{#each signedInLinks as link (link.href)}
 				<a
-					class={`${$page.url.pathname === link.href ? 'bg-gray-100' : ''} flex h-10 items-center gap-2  whitespace-nowrap  px-4 py-6 text-sm ring-offset-background transition-colors hover:bg-gray-200 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50`}
+					class={`${$page.url.pathname === link.href ? 'bg-gray-100' : ''} flex h-10 items-center gap-2  whitespace-nowrap  px-4 py-6 ring-offset-background transition-colors hover:bg-gray-200 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50`}
 					href={link.href}
 				>
 					<svelte:component
@@ -57,7 +57,7 @@
 			{#each signedOuLinks as link (link.href)}
 				<a
 					target="_blank"
-					class={`${$page.url.pathname === link.href ? 'bg-gray-100' : ''} flex h-10 items-center gap-2  whitespace-nowrap  px-4 py-6 text-sm text-gray-500 ring-offset-background transition-colors hover:bg-gray-200 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50`}
+					class={`${$page.url.pathname === link.href ? 'bg-gray-100' : ''} flex h-10 items-center gap-2  whitespace-nowrap  px-4 py-6 text-gray-500 ring-offset-background transition-colors hover:bg-gray-200 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50`}
 					href={link.href}
 				>
 					<svelte:component
