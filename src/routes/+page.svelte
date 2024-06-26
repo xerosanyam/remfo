@@ -13,7 +13,7 @@
 			<li class="flex items-start gap-4">
 				<JotTextEditor style="font-size:2rem;" />
 				<div class="grid gap-1">
-					<h3 class="font-medium">record</h3>
+					<h2 class="font-medium">record</h2>
 					<p class="text-gray-500 dark:text-gray-400">
 						record new words, learnings, affirmations, anything
 					</p>
@@ -22,7 +22,7 @@
 			<li class="flex items-start gap-4">
 				<SoloLearn style="font-size:2.2rem;" />
 				<div class="grid gap-1">
-					<h3 class="font-medium">revise</h3>
+					<h2 class="font-medium">revise</h2>
 					<p class="text-gray-500 dark:text-gray-400">
 						app will intelligently schedule things for revision
 					</p>
@@ -31,14 +31,14 @@
 			<li class="flex items-start gap-4">
 				<BodyMeasures style="font-size:2rem;" />
 				<div class="grid gap-1">
-					<h3 class="font-medium">measure</h3>
+					<h2 class="font-medium">measure</h2>
 					<p class="text-gray-500 dark:text-gray-400">visualize your progress</p>
 				</div>
 			</li>
 			<li class="flex items-start gap-4">
 				<MyBrain style="font-size:2rem;" />
 				<div class="grid gap-1">
-					<h3 class="font-medium">powered by ai</h3>
+					<h2 class="font-medium">powered by ai</h2>
 					<p class="text-gray-500 dark:text-gray-400">... of course its powered by ai</p>
 				</div>
 			</li>
