@@ -37,7 +37,7 @@
 	}
 
 	const pinMenu = $page.url.pathname !== ROUTES.LOGIN;
-	const open = !$page.data.deviceType.isMobile;
+	const open = pinMenu || !$page.data.deviceType.isMobile;
 </script>
 
 <header

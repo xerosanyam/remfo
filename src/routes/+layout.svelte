@@ -5,7 +5,9 @@
 </script>
 
 <PrimaryNav user={data?.user} />
-<slot></slot>
+<div class="sm:ml-44">
+	<slot></slot>
+</div>
 
 <svelte:head>
 	<title>remember forever</title>
