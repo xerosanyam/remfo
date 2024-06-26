@@ -43,6 +43,7 @@
     "openai": "4.47.1",
     "postcss": "8.4.38",
     "postgres": "3.4.4",
+    "posthog-js": "^1.141.4",
     "prettier": "3.2.5",
     "prettier-plugin-svelte": "3.2.3",
     "prettier-plugin-tailwindcss": "0.5.14",
