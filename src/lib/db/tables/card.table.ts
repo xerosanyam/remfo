@@ -42,6 +42,13 @@ export const getCardsGroupedByCreated = async (userId: string) => {
 	return data
 }
 
+export const getCardsGroupedByUpdated = async (userId: string) => {
+	console.time('getCardsGroupedByCreated')
+	const data = await db.select({ date: sql`DATE(${cardTable.updatedAt}, 'unixepoch')`, count: count() }).from(cardTable).where(eq(cardTable.userId, userId)).groupBy(sql`DATE(${cardTable.updatedAt}, 'unixepoch')`)
+	console.timeEnd('getCardsGroupedByCreated')
+	return data
+}
+
 
 export const getCardsOrderByNextPractice = async (userId: string) => {
 	console.time('getCards')
