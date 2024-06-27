@@ -6,6 +6,7 @@
 
 	export let data;
 	let cal;
+	let divElement: HTMLDivElement;
 
 	const currentDate = new Date();
 	currentDate.setMonth(currentDate.getMonth() - 5);
@@ -13,7 +14,7 @@
 		cal = new CalHeatmap();
 		cal.paint(
 			{
-				itemSelector: '#heatmap',
+				itemSelector: divElement,
 				range: 6, // show 6 months
 				domain: {
 					type: 'month',
@@ -53,4 +54,4 @@
 	});
 </script>
 
-<div id="heatmap"></div>
+<div bind:this={divElement}></div>
