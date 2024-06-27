@@ -1,5 +1,5 @@
 import { db } from '$lib/db/turso.db';
-import { cardTable, type SelectCard } from '$lib/db/turso.schema';
+import { activityTable, cardTable, type SelectCard } from '$lib/db/turso.schema';
 import type { Difficulty } from '$lib/schemas';
 import { and, count, desc, eq, lt, sql, } from 'drizzle-orm';
 
@@ -37,14 +37,14 @@ export const getCardsOrderByCreated = async (userId: string) => {
 
 export const getCardsGroupedByCreated = async (userId: string) => {
 	console.time('getCardsGroupedByCreated')
-	const data = await db.select({ date: sql`DATE(${cardTable.createdAt}, 'unixepoch')`, count: count() }).from(cardTable).where(eq(cardTable.userId, userId)).groupBy(sql`DATE(${cardTable.createdAt}, 'unixepoch')`)
+	const data = await db.select({ date: sql`DATE(${activityTable.createdAt}, 'unixepoch')`, count: count() }).from(activityTable).where(and(eq(activityTable.userId, userId), eq(activityTable.action, 'INSERT'))).groupBy(sql`DATE(${activityTable.createdAt}, 'unixepoch')`)
 	console.timeEnd('getCardsGroupedByCreated')
 	return data
 }
 
 export const getCardsGroupedByUpdated = async (userId: string) => {
 	console.time('getCardsGroupedByCreated')
-	const data = await db.select({ date: sql`DATE(${cardTable.updatedAt}, 'unixepoch')`, count: count() }).from(cardTable).where(eq(cardTable.userId, userId)).groupBy(sql`DATE(${cardTable.updatedAt}, 'unixepoch')`)
+	const data = await db.select({ date: sql`DATE(${activityTable.createdAt}, 'unixepoch')`, count: count() }).from(activityTable).where(and(eq(activityTable.userId, userId), eq(activityTable.action, 'UPDATE'))).groupBy(sql`DATE(${activityTable.createdAt}, 'unixepoch')`)
 	console.timeEnd('getCardsGroupedByCreated')
 	return data
 }
