@@ -15,6 +15,9 @@
 		});
 	}
 	export let data;
+	import { pwaInfo } from 'virtual:pwa-info';
+
+	$: webManifestLink = pwaInfo ? pwaInfo.webManifest.linkTag : '';
 </script>
 
 <PrimaryNav user={data?.user} />
@@ -27,6 +30,7 @@
 	<meta name="description" content="a tool that helps you remember" />
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	{@html webManifestLink}
 	<script type="application/ld+json">
 		{
 			"@context": "https://schema.org/",
