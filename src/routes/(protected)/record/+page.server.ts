@@ -7,7 +7,7 @@ import { ROUTES } from "$lib/routes.util.js";
 import { cardAddSchema } from "$lib/schemas.js";
 import { sessionExists } from "$lib/common.util.js";
 import { addAction, deleteAction } from "$lib/actions/card.action.js";
-import { getCardsOrderByCreated } from "$lib/db/tables/card.table.js";
+import { getCardsGroupedByCreated, getCardsOrderByCreated } from "$lib/db/tables/card.table.js";
 
 
 export async function load({ locals }) {
@@ -17,10 +17,12 @@ export async function load({ locals }) {
 
 	const addForm = await superValidate(zod(cardAddSchema));
 	const cards = await getCardsOrderByCreated(locals.user.id)
+	const groupedInfo = await getCardsGroupedByCreated(locals.user.id)
 
 	return {
 		addForm,
-		cards
+		cards,
+		groupedInfo
 	};
 }
 

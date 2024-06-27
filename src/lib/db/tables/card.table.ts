@@ -1,7 +1,7 @@
 import { db } from '$lib/db/turso.db';
 import { cardTable, type SelectCard } from '$lib/db/turso.schema';
 import type { Difficulty } from '$lib/schemas';
-import { and, count, desc, eq, lt, } from 'drizzle-orm';
+import { and, count, desc, eq, lt, sql, } from 'drizzle-orm';
 
 const initialCard = {
 	repetitions: 0,
@@ -34,6 +34,14 @@ export const getCardsOrderByCreated = async (userId: string) => {
 	console.timeEnd('getCards')
 	return data
 }
+
+export const getCardsGroupedByCreated = async (userId: string) => {
+	console.time('getCardsGroupedByCreated')
+	const data = await db.select({ date: sql`DATE(${cardTable.createdAt}, 'unixepoch')`, count: count() }).from(cardTable).where(eq(cardTable.userId, userId)).groupBy(sql`DATE(${cardTable.createdAt}, 'unixepoch')`)
+	console.timeEnd('getCardsGroupedByCreated')
+	return data
+}
+
 
 export const getCardsOrderByNextPractice = async (userId: string) => {
 	console.time('getCards')
