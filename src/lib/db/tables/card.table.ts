@@ -30,14 +30,14 @@ export const getCards = async (userId: string) => {
 
 export const getCardsOrderByCreated = async (userId: string) => {
 	console.time('getCards')
-	const data = await db.select({ id: cardTable.id, front: cardTable.front, back: cardTable.back, createdAt: cardTable.createdAt }).from(cardTable).where(eq(cardTable.userId, userId)).orderBy(desc(cardTable.createdAt))
+	const data = await db.select({ id: cardTable.id, front: cardTable.front, back: cardTable.back, createdAt: cardTable.createdAt }).from(cardTable).where(and(eq(cardTable.userId, userId), eq(cardTable.deleted, false))).orderBy(desc(cardTable.createdAt))
 	console.timeEnd('getCards')
 	return data
 }
 
 export const getCardsOrderByNextPractice = async (userId: string) => {
 	console.time('getCards')
-	const data = await db.select({ id: cardTable.id, front: cardTable.front, back: cardTable.back, createdAt: cardTable.createdAt, nextPractice: cardTable.nextPractice }).from(cardTable).where(and(eq(cardTable.userId, userId), lt(cardTable.nextPractice, new Date()))).orderBy(cardTable.nextPractice)
+	const data = await db.select({ id: cardTable.id, front: cardTable.front, back: cardTable.back, createdAt: cardTable.createdAt, nextPractice: cardTable.nextPractice }).from(cardTable).where(and(eq(cardTable.userId, userId), lt(cardTable.nextPractice, new Date()), eq(cardTable.deleted, false))).orderBy(cardTable.nextPractice)
 	console.timeEnd('getCards')
 	return data
 }
@@ -59,7 +59,7 @@ export const getTotalCards = async (userId: string) => {
 
 export const deleteCard = async ({ cardId, userId }: { cardId: string, userId: string }) => {
 	console.time('deleteCard')
-	await db.delete(cardTable).where(and(eq(cardTable.id, cardId), eq(cardTable.userId, userId)))
+	await db.update(cardTable).set({ deleted: true }).where(and(eq(cardTable.id, cardId), eq(cardTable.userId, userId)))
 	console.timeEnd('deleteCard')
 }
 
