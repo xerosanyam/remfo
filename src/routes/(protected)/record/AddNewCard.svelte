@@ -76,6 +76,13 @@
 								disabled={loading}
 								{...$constraints.back}
 							></textarea>
+							<div class="flex justify-end sm:hidden">
+								<button
+									class="flex items-center space-x-1 rounded-md border bg-gray-800 px-4 py-2 text-white disabled:pointer-events-none disabled:opacity-50"
+									disabled={loading}
+									type="submit"><Save style="stroke-width:2px;" /><span>save</span></button
+								>
+							</div>
 							{#if $errors.back}<div class="text-red-800">{$errors.back}</div>{/if}
 						</div>
 					</div>
