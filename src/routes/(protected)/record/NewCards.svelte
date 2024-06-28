@@ -85,7 +85,7 @@
 										<button
 											class="flex items-center space-x-1 rounded-md border px-4 py-2 text-gray-900 disabled:pointer-events-none disabled:opacity-50"
 											disabled={modifyingCardId === card.id}
-											type="submit"><Trash style="stroke-width:2px;" /><span>delete</span></button
+											type="submit"><Trash style="stroke-width:2px;" /></button
 										>
 									</form>
 								</div>
