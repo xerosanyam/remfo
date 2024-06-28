@@ -20,8 +20,8 @@
 	$: webManifestLink = pwaInfo ? pwaInfo.webManifest.linkTag : '';
 </script>
 
-<PrimaryNav user={data?.user} />
-<div class="sm:ml-44">
+<PrimaryNav user={data?.user} groupedInfo={data?.groupedInfo} />
+<div class="sm:ml-48">
 	<slot></slot>
 </div>
 

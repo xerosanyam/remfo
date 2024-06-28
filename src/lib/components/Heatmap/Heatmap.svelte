@@ -9,19 +9,19 @@
 	let divElement: HTMLDivElement;
 
 	const currentDate = new Date();
-	currentDate.setMonth(currentDate.getMonth() - 5);
+	currentDate.setMonth(currentDate.getMonth() - 3);
 	onMount(() => {
 		cal = new CalHeatmap();
 		cal.paint(
 			{
 				itemSelector: divElement,
-				range: 6, // show 6 months
+				range: 4, // show 6 months
 				domain: {
 					type: 'month',
 					gutter: 4,
 					label: { text: 'MMM', textAlign: 'start', position: 'top' }
 				},
-				subDomain: { type: 'ghDay', radius: 2, width: 11, height: 11, gutter: 4 },
+				subDomain: { type: 'ghDay', radius: 2, width: 8, height: 8, gutter: 2 },
 				date: {
 					start: currentDate
 					// min: new Date('2024-01-01'),
@@ -55,3 +55,9 @@
 </script>
 
 <div bind:this={divElement}></div>
+
+<style>
+	#ch-tooltip {
+		z-index: 100 !important;
+	}
+</style>

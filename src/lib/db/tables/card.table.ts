@@ -43,11 +43,19 @@ export const getCardsGroupedByCreated = async (userId: string) => {
 }
 
 export const getCardsGroupedByUpdated = async (userId: string) => {
-	console.time('getCardsGroupedByCreated')
+	console.time('getCardsGroupedByUpdated')
 	const data = await db.select({ date: sql`DATE(${activityTable.createdAt}, 'unixepoch')`, count: count() }).from(activityTable).where(and(eq(activityTable.userId, userId), eq(activityTable.action, 'UPDATE'))).groupBy(sql`DATE(${activityTable.createdAt}, 'unixepoch')`)
-	console.timeEnd('getCardsGroupedByCreated')
+	console.timeEnd('getCardsGroupedByUpdated')
 	return data
 }
+
+export const getCardsGroupedByActivityDate = async (userId: string) => {
+	console.time('getCardsGroupedByActivityDate')
+	const data = await db.select({ date: sql`DATE(${activityTable.createdAt}, 'unixepoch')`, count: count() }).from(activityTable).where(eq(activityTable.userId, userId)).groupBy(sql`DATE(${activityTable.createdAt}, 'unixepoch')`)
+	console.timeEnd('getCardsGroupedByActivityDate')
+	return data
+}
+
 
 
 export const getCardsOrderByNextPractice = async (userId: string) => {

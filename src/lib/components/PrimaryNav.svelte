@@ -11,6 +11,7 @@
 	import { page } from '$app/stores';
 	import Google from '$lib/components/Buttons/Google.svelte';
 	import { ROUTES } from '$lib/routes.util';
+	import Heatmap from '$lib/components/Heatmap/Heatmap.svelte';
 
 	const signedInLinks = [
 		{ href: '/record', text: 'record', icon: JotTextEditor },
@@ -29,6 +30,8 @@
 	];
 
 	export let user;
+	export let groupedInfo;
+
 	let links;
 	if (user) {
 		links = signedInLinks;
@@ -41,7 +44,7 @@
 </script>
 
 <header
-	class="fixed bottom-0 z-10 flex w-full flex-col border-r bg-white shadow-lg sm:top-0 sm:h-screen sm:w-44"
+	class="fixed bottom-0 z-10 flex w-full flex-col border-r bg-white shadow-lg sm:top-0 sm:h-screen sm:w-48"
 >
 	<a class="hidden items-center p-2 text-gray-900 sm:flex md:mb-0" href="/">
 		<enhanced:img
@@ -61,7 +64,7 @@
 				</span>
 			</div>
 		</summary>
-		<nav class="flex w-screen sm:mt-8 sm:w-44 sm:flex-col sm:space-y-2">
+		<nav class="flex w-screen sm:mt-8 sm:w-48 sm:flex-col sm:space-y-2">
 			{#each links as link (link.href)}
 				<a
 					target={link.href.includes('https://') ? '_blank' : ''}
@@ -81,5 +84,12 @@
 		{#if user}
 			<Logout />
 		{/if}
+	</div>
+	<div class="hidden sm:mx-auto sm:flex sm:h-full sm:items-end sm:pb-4">
+		<div class="flex justify-center">
+			{#await groupedInfo then data}
+				<Heatmap {data} />
+			{/await}
+		</div>
 	</div>
 </header>

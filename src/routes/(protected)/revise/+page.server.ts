@@ -7,7 +7,7 @@ import { ROUTES } from "$lib/routes.util.js";
 import { cardReviewSchema } from "$lib/schemas.js";
 import { sessionExists } from "$lib/common.util.js";
 import { deleteAction, reviewAction } from "$lib/actions/card.action.js";
-import { getCardsGroupedByUpdated, getCardsOrderByNextPractice } from "$lib/db/tables/card.table.js";
+import { getCardsOrderByNextPractice } from "$lib/db/tables/card.table.js";
 
 
 export async function load({ locals }) {
@@ -17,12 +17,12 @@ export async function load({ locals }) {
 
 	const reviewForm = superValidate(zod(cardReviewSchema));
 	const cards = getCardsOrderByNextPractice(locals.user.id)
-	const groupedInfo = getCardsGroupedByUpdated(locals.user.id)
+	// const groupedInfo = getCardsGroupedByUpdated(locals.user.id)
 
 	return {
 		reviewForm,
 		cards,
-		groupedInfo
+		// groupedInfo
 	};
 }
 
