@@ -1,0 +1,1 @@
+ALTER TABLE `card` ADD `deleted` integer DEFAULT false NOT NULL;
