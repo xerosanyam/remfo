@@ -15,6 +15,13 @@
       "when": 1719460026182,
       "tag": "0001_plain_stingray",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1719589235789,
+      "tag": "0002_dapper_inertia",
+      "breakpoints": true
     }
   ]
 }

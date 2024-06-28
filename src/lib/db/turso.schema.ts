@@ -39,6 +39,7 @@ export const cardTable = sqliteTable('card', {
 	interval: integer('interval').notNull().default(1),
 	repetitions: integer('repetitions').notNull().default(0),
 	nextPractice: integer('next_practice', { mode: 'timestamp' }).default(sql`(unixepoch())`).notNull(),
+	deleted: integer('deleted', { mode: 'boolean' }).default(false).notNull(),
 	createdAt: integer('created_at', { mode: 'timestamp' }).default(sql`(unixepoch())`).notNull(),
 	updatedAt: integer('updated_at', { mode: 'timestamp' }).default(sql`(unixepoch())`).$onUpdate(() => new Date()).notNull(),
 })
