@@ -144,7 +144,7 @@
 									</form>
 								</div>
 								<div
-									class="absolute -right-28 bottom-0 flex h-full flex-col-reverse px-2 opacity-0 group-hover:opacity-100"
+									class="absolute -right-28 bottom-0 hidden h-full flex-col-reverse px-2 opacity-0 group-hover:opacity-100 sm:flex"
 								>
 									<form method="post" action="?/delete" use:enhance={customEnhance}>
 										<input type="hidden" name="cardId" value={card.id} />

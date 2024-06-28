@@ -79,11 +79,21 @@
 								>
 									{card.back}
 								</div>
+								<div class="flex justify-end px-2 sm:hidden">
+									<form method="post" action="?/delete" use:enhance={customEnhance}>
+										<input type="hidden" name="cardId" value={card.id} />
+										<button
+											class="flex items-center space-x-1 rounded-md border px-4 py-2 text-gray-900 disabled:pointer-events-none disabled:opacity-50"
+											disabled={modifyingCardId === card.id}
+											type="submit"><Trash style="stroke-width:2px;" /><span>delete</span></button
+										>
+									</form>
+								</div>
 							</div>
 						</div>
 					</div>
 					<div
-						class="absolute -right-28 bottom-0 flex h-full flex-col-reverse px-2 opacity-0 group-hover:opacity-100"
+						class="absolute -right-28 bottom-0 hidden h-full flex-col-reverse px-2 opacity-0 group-hover:opacity-100 sm:flex"
 					>
 						<form method="post" action="?/delete" use:enhance={customEnhance}>
 							<input type="hidden" name="cardId" value={card.id} />
