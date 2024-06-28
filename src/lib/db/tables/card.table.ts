@@ -3,12 +3,12 @@ import { activityTable, cardTable, type SelectCard } from '$lib/db/turso.schema'
 import type { Difficulty } from '$lib/schemas';
 import { and, count, desc, eq, lt, sql, } from 'drizzle-orm';
 
-const initialCard = {
-	repetitions: 0,
-	interval: 1,
-	easiness: 2.5,
-	nextPractice: new Date()
-};
+// const initialCard = {
+// 	repetitions: 0,
+// 	interval: 1,
+// 	easiness: 2.5,
+// 	nextPractice: new Date()
+// };
 
 export const insertCard = async (values: {
 	id: string;
@@ -21,12 +21,12 @@ export const insertCard = async (values: {
 	console.timeEnd('insertCard')
 };
 
-export const getCards = async (userId: string) => {
-	console.time('getCards')
-	const data = await db.select().from(cardTable).where(eq(cardTable.userId, userId)).orderBy(cardTable.nextPractice)
-	console.timeEnd('getCards')
-	return data
-}
+// export const getCards = async (userId: string) => {
+// 	console.time('getCards')
+// 	const data = await db.select().from(cardTable).where(eq(cardTable.userId, userId)).orderBy(cardTable.nextPractice)
+// 	console.timeEnd('getCards')
+// 	return data
+// }
 
 export const getCardsOrderByCreated = async (userId: string) => {
 	console.time('getCards')
@@ -35,19 +35,19 @@ export const getCardsOrderByCreated = async (userId: string) => {
 	return data
 }
 
-export const getCardsGroupedByCreated = async (userId: string) => {
-	console.time('getCardsGroupedByCreated')
-	const data = await db.select({ date: sql`DATE(${activityTable.createdAt}, 'unixepoch')`, count: count() }).from(activityTable).where(and(eq(activityTable.userId, userId), eq(activityTable.action, 'INSERT'))).groupBy(sql`DATE(${activityTable.createdAt}, 'unixepoch')`)
-	console.timeEnd('getCardsGroupedByCreated')
-	return data
-}
+// export const getCardsGroupedByCreated = async (userId: string) => {
+// 	console.time('getCardsGroupedByCreated')
+// 	const data = await db.select({ date: sql`DATE(${activityTable.createdAt}, 'unixepoch')`, count: count() }).from(activityTable).where(and(eq(activityTable.userId, userId), eq(activityTable.action, 'INSERT'))).groupBy(sql`DATE(${activityTable.createdAt}, 'unixepoch')`)
+// 	console.timeEnd('getCardsGroupedByCreated')
+// 	return data
+// }
 
-export const getCardsGroupedByUpdated = async (userId: string) => {
-	console.time('getCardsGroupedByUpdated')
-	const data = await db.select({ date: sql`DATE(${activityTable.createdAt}, 'unixepoch')`, count: count() }).from(activityTable).where(and(eq(activityTable.userId, userId), eq(activityTable.action, 'UPDATE'))).groupBy(sql`DATE(${activityTable.createdAt}, 'unixepoch')`)
-	console.timeEnd('getCardsGroupedByUpdated')
-	return data
-}
+// export const getCardsGroupedByUpdated = async (userId: string) => {
+// 	console.time('getCardsGroupedByUpdated')
+// 	const data = await db.select({ date: sql`DATE(${activityTable.createdAt}, 'unixepoch')`, count: count() }).from(activityTable).where(and(eq(activityTable.userId, userId), eq(activityTable.action, 'UPDATE'))).groupBy(sql`DATE(${activityTable.createdAt}, 'unixepoch')`)
+// 	console.timeEnd('getCardsGroupedByUpdated')
+// 	return data
+// }
 
 export const getCardsGroupedByActivityDate = async (userId: string) => {
 	console.time('getCardsGroupedByActivityDate')
@@ -65,20 +65,20 @@ export const getCardsOrderByNextPractice = async (userId: string) => {
 	return data
 }
 
-export const getCard = async (userId: string) => {
-	console.time('getCard')
-	const data = await db.select().from(cardTable).where(eq(cardTable.userId, userId)).orderBy(cardTable.nextPractice).limit(1)
-	console.timeEnd('getCard')
-	return data[0] || {}
+// export const getCard = async (userId: string) => {
+// 	console.time('getCard')
+// 	const data = await db.select().from(cardTable).where(eq(cardTable.userId, userId)).orderBy(cardTable.nextPractice).limit(1)
+// 	console.timeEnd('getCard')
+// 	return data[0] || {}
+// }
 
-}
-export const getTotalCards = async (userId: string) => {
-	console.time('getTotalCard')
-	const data = await db.select({ count: count() }).from(cardTable).where(eq(cardTable.userId, userId))
-	console.log('getTotalCards ~ data:', data)
-	console.timeEnd('getTotalCard')
-	return data[0]?.count || 0
-}
+// export const getTotalCards = async (userId: string) => {
+// 	console.time('getTotalCard')
+// 	const data = await db.select({ count: count() }).from(cardTable).where(eq(cardTable.userId, userId))
+// 	console.log('getTotalCards ~ data:', data)
+// 	console.timeEnd('getTotalCard')
+// 	return data[0]?.count || 0
+// }
 
 export const deleteCard = async ({ cardId, userId }: { cardId: string, userId: string }) => {
 	console.time('deleteCard')
@@ -86,9 +86,9 @@ export const deleteCard = async ({ cardId, userId }: { cardId: string, userId: s
 	console.timeEnd('deleteCard')
 }
 
-export const resetCard = async ({ cardId, userId }: { cardId: string, userId: string }) => {
-	await db.update(cardTable).set(initialCard).where(and(eq(cardTable.id, cardId), eq(cardTable.userId, userId)))
-}
+// export const resetCard = async ({ cardId, userId }: { cardId: string, userId: string }) => {
+// 	await db.update(cardTable).set(initialCard).where(and(eq(cardTable.id, cardId), eq(cardTable.userId, userId)))
+// }
 
 export const reviewCard = async ({ cardId, userId, difficulty }: { cardId: string, userId: string, difficulty: Difficulty }) => {
 	const cards = await db.select().from(cardTable).where(and(eq(cardTable.id, cardId), eq(cardTable.userId, userId)))
