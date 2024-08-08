@@ -18,7 +18,7 @@
 	class="mt-2 flex w-full space-x-2"
 	use:enhance={customEnhance}
 >
-	<input type="hidden" name="cardId" value={cardId} />
+	<input type="hidden" hidden name="cardId" value={cardId} />
 	{#each options as { value, text } (value)}
 		<button
 			class="w-full whitespace-nowrap rounded-md border border-input bg-background px-4 py-4 text-center ring-offset-background transition-colors hover:border-solid hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"

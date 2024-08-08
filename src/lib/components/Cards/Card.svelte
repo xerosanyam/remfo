@@ -35,9 +35,9 @@
 							{card.back}
 						</div>
 					</div>
+					<ReviewOptions cardId={card.id} {customEnhance} />
 				</div>
 			</div>
-			<ReviewOptions cardId={card.id} {customEnhance} />
 		</div>
 		<div
 			class="absolute -right-28 bottom-0 hidden h-full flex-col-reverse px-2 opacity-0 group-hover:opacity-100 sm:flex"
