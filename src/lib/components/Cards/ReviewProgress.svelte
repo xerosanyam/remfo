@@ -1,10 +1,10 @@
 <script lang="ts">
 	import type { CardRevisePage } from '$lib/types/Card';
 
-	export let remainingCards: CardRevisePage[];
-	export let revisedCards: string[];
 	export let cards: CardRevisePage[];
-	export let reviseCards: number;
+	export let revisedCards: string[];
+	export let remainingCards: CardRevisePage[];
+	let reviseCards = 5;
 </script>
 
 {#if remainingCards.length === 0}

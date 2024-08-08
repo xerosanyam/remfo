@@ -48,12 +48,10 @@
 			return groups;
 		}, {});
 	}
-
-	let reviseCards = 5;
 </script>
 
 <div class="relative mx-auto mt-10 max-w-lg space-y-4 rounded-lg">
-	<ReviewProgress {remainingCards} {revisedCards} {cards} {reviseCards} />
+	<ReviewProgress {remainingCards} {revisedCards} {cards} />
 
 	<div class="mt-10">
 		{#if cards.length > 0}
