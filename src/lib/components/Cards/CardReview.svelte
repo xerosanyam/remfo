@@ -4,6 +4,7 @@
 	import { format } from 'date-fns';
 	import CardGroup from './CardGroup.svelte';
 	import ReviewProgress from './ReviewProgress.svelte';
+	import { toast } from '@zerodevx/svelte-toast';
 
 	export let cards: CardRevisePage[];
 	let groupedCards: { [key: string]: CardRevisePage[] } = {};
@@ -26,8 +27,13 @@
 		return ({ result }: { result: ActionResult }) => {
 			modifyingCardId = '';
 			if (result.type === 'error' || result.type === 'failure') {
-				// TODO
-				// alert('Unable to perform that action.');
+				toast.push('Failed to perform that action', {
+					theme: {
+						'--toastColor': 'white',
+						'--toastBackground': 'rgba(220,53,69,0.9)',
+						'--toastBarBackground': '#C53030'
+					}
+				});
 			}
 		};
 	};
