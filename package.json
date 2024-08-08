@@ -50,7 +50,7 @@
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-svelte": "2.43.0",
     "lucia": "3.2.0",
-    "msw": "^2.3.2",
+    "msw": "^2.3.5",
     "openai": "4.53.0",
     "postcss": "8.4.39",
     "postgres": "3.4.4",
@@ -71,5 +71,10 @@
     "vitest": "1.6.0",
     "zod": "3.23.8"
   },
-  "type": "module"
+  "type": "module",
+  "msw": {
+    "workerDirectory": [
+      "static"
+    ]
+  }
 }
