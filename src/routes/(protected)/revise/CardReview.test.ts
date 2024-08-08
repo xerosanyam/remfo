@@ -32,7 +32,7 @@ describe('CardReview', () => {
 		it('sends correct requestBody when a card is reviewed', async () => {
 			const requestPromise = new Promise((resolve) => {
 				server.use(
-					http.post('/review', async ({ request }) => {
+					http.post('?/review', async ({ request }) => {
 						const formData = await request.formData();
 						const requestBody = Object.fromEntries(formData)
 						resolve(requestBody);
@@ -101,7 +101,7 @@ describe('CardReview', () => {
 		it('sends correct delete request', async () => {
 			const requestPromise = new Promise((resolve) => {
 				server.use(
-					http.post('/delete', async ({ request }) => {
+					http.post('?/delete', async ({ request }) => {
 						const formData = await request.formData();
 						const requestBody = Object.fromEntries(formData);
 						resolve(requestBody);
