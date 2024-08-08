@@ -1,6 +1,6 @@
 import { render, fireEvent, screen } from '@testing-library/svelte';
 import { tick } from 'svelte';
-import CardReview from './ReviseCards.svelte';
+import CardReview from '$lib/components/Cards/CardReview.svelte';
 import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
 import { server } from '../../../mocks/node';
 import { http, HttpResponse } from 'msw';
