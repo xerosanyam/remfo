@@ -11,11 +11,13 @@
 	let dates: string[] = [];
 	let revisedCards: string[] = [];
 	let remainingCards: CardRevisePage[] = [];
+	let firstCardId = '';
 
 	$: {
 		remainingCards = cards.filter((card) => !revisedCards.includes(card.id));
 		groupedCards = groupCards(remainingCards);
 		dates = Object.keys(groupedCards).sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
+		firstCardId = groupCards(remainingCards)[dates[0]]?.[0]?.id;
 	}
 
 	let modifyingCardId = '';
@@ -56,7 +58,13 @@
 	<div class="mt-10">
 		{#if cards.length > 0}
 			{#each dates as date (date)}
-				<CardGroup {date} cards={groupedCards[date]} {customEnhance} {modifyingCardId} />
+				<CardGroup
+					{firstCardId}
+					{date}
+					cards={groupedCards[date]}
+					{customEnhance}
+					{modifyingCardId}
+				/>
 			{/each}
 		{/if}
 	</div>
