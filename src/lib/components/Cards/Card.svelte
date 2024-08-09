@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { CardRevisePage } from '$lib/types/Card';
 	import { formatDistanceToNow } from 'date-fns';
-	import MyStar from '~icons/arcticons/mykyivstar';
 	import Trash from '~icons/arcticons/trashcan';
 	import ReviewOptions from './ReviewOptions.svelte';
 	import { enhance } from '$app/forms';
@@ -11,48 +10,46 @@
 	export let modifyingCardId: string;
 </script>
 
-<div
-	class="group relative min-h-16 rounded-sm border border-dashed px-8 py-6 hover:border-gray-200"
->
-	<div class={modifyingCardId === card.id ? 'blur-sm' : ''}>
-		<div class="flex space-x-2">
-			<div>
-				<MyStar />
-			</div>
-			<div class="flex w-full flex-col">
-				<div
-					class="mb-2 flex w-full whitespace-break-spaces rounded-md border-input ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-					id="question"
-				>
-					{card.front}
-				</div>
-				<div class="border border-dashed">
-					<div
-						class="flex w-full whitespace-break-spaces rounded-md p-2 pb-10 pt-8 ring-offset-background blur-sm placeholder:text-muted-foreground hover:filter-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-						id="answer"
-					>
-						{card.back}
-					</div>
-				</div>
-				<ReviewOptions cardId={card.id} {customEnhance} />
+<div class="group relative rounded-md border border-gray-100 bg-white sm:h-96">
+	<div class={`flex h-full w-full flex-col ${modifyingCardId === card.id ? 'blur-sm' : ''}`}>
+		<div
+			class="flex h-fit max-h-48 w-full grow justify-center overflow-y-auto rounded-md border-input ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+			id="question"
+		>
+			<div class="w-full whitespace-break-spaces p-8">
+				{card.front}
 			</div>
 		</div>
-	</div>
-	<div
-		class="absolute -right-28 bottom-0 hidden h-full flex-col-reverse px-2 opacity-0 group-hover:opacity-100 sm:flex"
-	>
-		<form method="post" action="?/delete" use:enhance={customEnhance}>
-			<input type="hidden" hidden name="cardId" value={card.id} />
-			<button
-				class="flex items-center space-x-1 rounded-md border bg-gray-800 px-4 py-2 text-white disabled:pointer-events-none disabled:opacity-50"
-				disabled={modifyingCardId === card.id}
-				type="submit"
+
+		<div class="relative flex h-48 border-t border-dashed">
+			<form
+				class="absolute -top-5 right-0 z-10 bg-white"
+				method="post"
+				action="?/delete"
+				use:enhance={customEnhance}
 			>
-				<Trash style="stroke-width:2px;" /><span>delete</span>
-			</button>
-		</form>
+				<input type="hidden" hidden name="cardId" value={card.id} />
+				<button
+					class="flex items-center space-x-1 rounded-md border px-4 py-2 hover:bg-accent hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-50"
+					disabled={modifyingCardId === card.id}
+					type="submit"
+					title="move to trash"
+				>
+					<Trash style="stroke-width:2px;" /><span></span>
+				</button>
+			</form>
+			<div
+				class="h-48 w-full items-center overflow-y-auto whitespace-break-spaces p-8 ring-offset-background blur-md placeholder:text-muted-foreground hover:filter-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+				id="answer"
+			>
+				{card.back}
+			</div>
+		</div>
+		<div class="w-full">
+			<ReviewOptions cardId={card.id} {customEnhance} />
+		</div>
 	</div>
 </div>
-<div class="text-right text-sm text-gray-200" title={String(card.createdAt)}>
+<div class="p-2 text-right text-sm text-gray-200" title={String(card.createdAt)}>
 	added {formatDistanceToNow(card.createdAt)} ago
 </div>
