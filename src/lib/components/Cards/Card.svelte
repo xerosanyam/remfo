@@ -30,10 +30,11 @@
 			>
 				<input type="hidden" hidden name="cardId" value={card.id} />
 				<button
-					class="flex items-center space-x-1 rounded-md border px-4 py-2 hover:bg-accent hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-50"
+					class="flex items-center space-x-1 rounded-md border px-4 py-2 hover:bg-accent hover:text-accent-foreground hover:outline disabled:pointer-events-none disabled:opacity-50"
 					disabled={modifyingCardId === card.id}
 					type="submit"
 					title="move to trash"
+					data-testid="trash"
 				>
 					<Trash style="stroke-width:2px;" /><span></span>
 				</button>

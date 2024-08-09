@@ -89,7 +89,7 @@ describe('CardReview', () => {
 		it('deletes a card and updates UI correctly', async () => {
 			render(CardReview, { cards: mockCards });
 
-			const deleteButton = screen.getAllByText('delete')[0];
+			const deleteButton = screen.getAllByTestId('trash')[0];
 			await fireEvent.click(deleteButton);
 
 			// Assertions for UI updates after deletion
@@ -112,7 +112,7 @@ describe('CardReview', () => {
 
 			render(CardReview, { cards: mockCards });
 
-			const deleteButton = screen.getAllByText('delete')[0];
+			const deleteButton = screen.getAllByTestId('trash')[0];
 			await fireEvent.click(deleteButton);
 
 			const requestBody = await requestPromise;
