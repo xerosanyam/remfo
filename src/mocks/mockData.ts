@@ -31,7 +31,12 @@ arr.filter((word) => word.length>4) // o/p will be array with words of length gr
 	{
 		id: 'ac08fc73-dc65-4577-9eb5-680e9ab1c143',
 		front: 'as',
-		back: 'sa',
+		back: `1. arr.filter(callbackfn)
+2. callbackfn is basically a test (word.length>0)
+3. parameter for callbackfn => (element, index)
+4. truthy values are included
+
+arr.filter((word) => word.length>4) // o/p will be array with words of length greater than 4`,
 		createdAt: '2024-08-08T22:34:46.000Z',
 		nextPractice: '2024-08-08T22:34:46.000Z'
 	},

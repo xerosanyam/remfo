@@ -13,15 +13,15 @@
 <div class="group relative rounded-md border border-gray-100 bg-white sm:h-96">
 	<div class={`flex h-full w-full flex-col ${modifyingCardId === card.id ? 'blur-sm' : ''}`}>
 		<div
-			class="flex h-fit max-h-48 w-full grow justify-center overflow-y-auto rounded-md border-input ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+			class="flex h-fit max-h-48 w-full justify-center overflow-y-auto rounded-md border-input ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
 			id="question"
 		>
-			<div class="w-full whitespace-break-spaces p-8">
+			<div class="w-full whitespace-break-spaces p-6">
 				{card.front}
 			</div>
 		</div>
 
-		<div class="relative flex h-48 border-t border-dashed">
+		<div class="relative flex grow min-h-48 border-t border-dashed">
 			<form
 				class="absolute -top-5 right-0 z-10 bg-white"
 				method="post"
@@ -40,7 +40,7 @@
 				</button>
 			</form>
 			<div
-				class="h-48 w-full items-center overflow-y-auto whitespace-break-spaces p-8 ring-offset-background blur-md placeholder:text-muted-foreground hover:filter-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+				class="h-full w-full items-center overflow-y-auto whitespace-break-spaces p-6 ring-offset-background blur-md placeholder:text-muted-foreground hover:filter-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
 				id="answer"
 			>
 				{card.back}
