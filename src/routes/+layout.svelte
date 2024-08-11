@@ -1,4 +1,5 @@
 <script>
+	import { SvelteToast } from '@zerodevx/svelte-toast';
 	import PrimaryNav from '$lib/components/PrimaryNav.svelte';
 	import '../app.css';
 	import { dev, browser } from '$app/environment';
@@ -71,3 +72,4 @@
 		}
 	</script>
 </svelte:head>
+<SvelteToast />
