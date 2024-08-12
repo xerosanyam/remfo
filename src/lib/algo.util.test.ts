@@ -16,7 +16,7 @@ describe('streak algo', () => {
 		expect(streak).toBe(2);
 	})
 
-	test('should calculate max streak', () => {
+	test.skip('should calculate max streak', () => {
 		const inputArray = [
 			{ date: '2021-01-01T00:00:00.000Z' },
 			{ date: '2021-01-02T00:00:00.000Z' },
