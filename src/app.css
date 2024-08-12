@@ -76,7 +76,3 @@
 		@apply bg-background text-foreground;
 	}
 }
-
-#ch-tooltip {
-	z-index: 10;
-}

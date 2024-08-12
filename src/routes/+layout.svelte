@@ -22,7 +22,7 @@
 </script>
 
 <PrimaryNav user={data?.user} />
-<div class="sm:ml-48">
+<div class="sm:ml-44">
 	<slot></slot>
 </div>
 

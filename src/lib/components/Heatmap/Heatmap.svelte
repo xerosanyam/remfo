@@ -57,12 +57,3 @@
 </script>
 
 <div bind:this={divElement}></div>
-
-<style>
-	/* #ch-tooltip {
-		z-index: 100 !important;
-	} */
-	.cal-heatmap.future {
-		fill: red;
-	}
-</style>
