@@ -13,7 +13,7 @@
 <div class="group relative rounded-md border border-gray-100 bg-white sm:h-96">
 	<div class={`flex h-full w-full flex-col ${modifyingCardId === card.id ? 'blur-sm' : ''}`}>
 		<div
-			class="flex h-fit max-h-48 w-full justify-center overflow-y-auto rounded-md border-input ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+			class="flex h-fit min-h-16 max-h-48 w-full justify-center overflow-y-auto rounded-md border-input ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
 			id="question"
 		>
 			<div class="w-full whitespace-break-spaces p-6">
