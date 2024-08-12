@@ -4,11 +4,9 @@
 	export let data;
 </script>
 
-<div class="mx-auto mt-10 max-w-xl">
+<div class="container mt-10 flex flex-col items-center space-y-8">
 	{#await data.reviewedInfo then info}
-		<div class="mb-10">
-			<Streak data={info} />
-		</div>
+		<Streak data={info} />
 		<HeatmapCard title={`${info.length} cards reviewed in last one year`} data={info} />
 	{/await}
 	{#await data.recordedInfo then info}

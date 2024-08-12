@@ -1,5 +1,6 @@
 <script lang="ts">
-	export let data = [];
+	import type { info } from '$lib/algo.utils';
+	export let data: info = [];
 	export let title;
 	import Heatmap from '$lib/components/Heatmap/Heatmap.svelte';
 
@@ -25,9 +26,9 @@
 	}
 </script>
 
-<div>
+<div class="rounded-sm border p-2">
 	<h2>{title}</h2>
-	<div class="my-4">
+	<div>
 		<Heatmap data={convertDates(data)} />
 	</div>
 </div>

@@ -5,7 +5,7 @@
 	const maxStreakInfo = calculateMaxStreak(data);
 </script>
 
-<div class="text-center text-gray-500">
+<div class="rounded-sm border p-2 text-center text-gray-500">
 	<div class="text-lg">
 		Current Streak: <span class="text-gray-700">{calculateStreak(data, new Date())}</span>
 	</div>
