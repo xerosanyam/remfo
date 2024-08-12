@@ -9,13 +9,13 @@
 	let divElement: HTMLDivElement;
 
 	const currentDate = new Date();
-	currentDate.setMonth(currentDate.getMonth() - 3);
+	currentDate.setMonth(currentDate.getMonth() - 12);
 	onMount(() => {
 		cal = new CalHeatmap();
 		cal.paint(
 			{
 				itemSelector: divElement,
-				range: 4, // show 6 months
+				range: 13, // show 13 months (current month + 12 months back)
 				domain: {
 					type: 'month',
 					gutter: 4,
@@ -35,7 +35,7 @@
 				scale: {
 					color: {
 						type: 'threshold',
-						range: ['#14432a', '#166b34', '#37a446', '#4dd05a'],
+						range: ['#4dd05a', '#37a446', '#166b34', '#14432a'],
 						domain: [10, 20, 30]
 					}
 				}
@@ -57,7 +57,10 @@
 <div bind:this={divElement}></div>
 
 <style>
-	#ch-tooltip {
+	/* #ch-tooltip {
 		z-index: 100 !important;
+	} */
+	.cal-heatmap.future {
+		fill: red;
 	}
 </style>

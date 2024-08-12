@@ -11,11 +11,12 @@
 	import { page } from '$app/stores';
 	import Google from '$lib/components/Buttons/Google.svelte';
 	import { ROUTES } from '$lib/routes.util';
-	import Heatmap from '$lib/components/Heatmap/Heatmap.svelte';
+	import BodyMeasures from 'virtual:icons/arcticons/body-measures';
 
 	const signedInLinks = [
 		{ href: '/record', text: 'record', icon: JotTextEditor },
 		{ href: '/revise', text: 'revise', icon: SoloLearn },
+		{ href: '/measure', text: 'measure', icon: BodyMeasures },
 		{ href: '/learn', text: 'generate with ai', icon: BrainF }
 	];
 	const signedOuLinks = [
@@ -30,7 +31,6 @@
 	];
 
 	export let user;
-	export let groupedInfo;
 
 	let links;
 	if (user) {
@@ -84,12 +84,5 @@
 		{#if user}
 			<Logout />
 		{/if}
-	</div>
-	<div class="hidden sm:mx-auto sm:flex sm:h-full sm:items-end sm:pb-4">
-		<div class="flex justify-center">
-			{#await groupedInfo then data}
-				<Heatmap {data} />
-			{/await}
-		</div>
 	</div>
 </header>
