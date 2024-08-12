@@ -1,11 +1,11 @@
 <script lang="ts">
 	import Heatmap from '$lib/components/Heatmap/Heatmap.svelte';
-	import ReviseCards from './ReviseCards.svelte';
+	import CardReview from '$lib/components/Cards/CardReview.svelte';
 	export let data;
 </script>
 
 {#await data.cards then cards}
-	<ReviseCards {cards} />
+	<CardReview {cards} />
 {/await}
 
 {#await data.groupedInfo then groupedInfo}
