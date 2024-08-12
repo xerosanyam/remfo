@@ -4,13 +4,13 @@ import { describe, expect, test } from "vitest";
 describe('streak algo', () => {
 	test('should calculate current streak', () => {
 		const inputArray = [
-			{ date: '2021-01-01' },
-			{ date: '2021-01-02' },
-			{ date: '2021-01-03' },
-			{ date: '2021-01-04' },
+			{ date: '2021-01-01T00:00:00.000Z' },
+			{ date: '2021-01-02T00:00:00.000Z' },
+			{ date: '2021-01-03T00:00:00.000Z' },
+			{ date: '2021-01-04T00:00:00.000Z' },
 			//break
-			{ date: '2021-01-06' },
-			{ date: '2021-01-07' },
+			{ date: '2021-01-06T00:00:00.000Z' },
+			{ date: '2021-01-07T00:00:00.000Z' },
 		];
 		const streak = calculateStreak(inputArray, new Date('2021-01-07'));
 		expect(streak).toBe(2);
@@ -18,13 +18,13 @@ describe('streak algo', () => {
 
 	test('should calculate max streak', () => {
 		const inputArray = [
-			{ date: '2021-01-01' },
-			{ date: '2021-01-02' },
-			{ date: '2021-01-03' },
-			{ date: '2021-01-04' },
+			{ date: '2021-01-01T00:00:00.000Z' },
+			{ date: '2021-01-02T00:00:00.000Z' },
+			{ date: '2021-01-03T00:00:00.000Z' },
+			{ date: '2021-01-04T00:00:00.000Z' },
 			//break
-			{ date: '2021-01-06' },
-			{ date: '2021-01-07' },
+			{ date: '2021-01-06T00:00:00.000Z' },
+			{ date: '2021-01-07T00:00:00.000Z' },
 		];
 		const streak = calculateMaxStreak(inputArray)
 		expect(streak).toHaveProperty('maxStreak', 4)
