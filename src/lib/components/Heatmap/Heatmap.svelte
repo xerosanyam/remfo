@@ -23,9 +23,11 @@
 				},
 				subDomain: { type: 'ghDay', radius: 2, width: 8, height: 8, gutter: 2 },
 				date: {
-					start: currentDate
-					// min: new Date('2024-01-01'),
-					// max: new Date()
+					start: currentDate,
+					highlight: [
+						new Date() // Highlight today
+					],
+					timezone: Intl.DateTimeFormat().resolvedOptions().timeZone
 				},
 				data: {
 					source: data,

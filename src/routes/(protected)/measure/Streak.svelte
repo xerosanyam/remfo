@@ -1,25 +1,18 @@
 <script lang="ts">
-	export let data = [];
+	import { calculateMaxStreak, calculateStreak, type info } from '$lib/algo.utils';
 
-	function calculateStreak(inputArray) {
-		const dateSet = new Set(
-			inputArray.map((item) => new Date(item.date).toLocaleDateString('en-CA'))
-		);
-		console.log(dateSet);
-
-		const currentDate = new Date();
-
-		let streak = 0;
-
-		while (dateSet.has(currentDate.toLocaleDateString('en-CA'))) {
-			streak++;
-			currentDate.setDate(currentDate.getDate() - 1);
-		}
-
-		return streak;
-	}
+	export let data: info = [];
+	const maxStreakInfo = calculateMaxStreak(data);
 </script>
 
-<div>
-	<h2 class="text-center">Current Streak: <span class="text-xl">{calculateStreak(data)}</span></h2>
+<div class="text-center text-gray-500">
+	<div class="text-lg">
+		Current Streak: <span class="text-gray-700">{calculateStreak(data, new Date())}</span>
+	</div>
+	{#if maxStreakInfo.maxStreak > 0}
+		<div class="text-xs">
+			Max Streak: {maxStreakInfo.maxStreak}
+			({maxStreakInfo.startDate} - {maxStreakInfo.endDate})
+		</div>
+	{/if}
 </div>
