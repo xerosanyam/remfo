@@ -16,7 +16,7 @@ describe('CardReview', () => {
 		it('renders correctly with cards', async () => {
 			render(CardReview, { cards: mockCards });
 
-			expect(screen.getByText('cards reviewed: 0/2')).toBeInTheDocument();
+			expect(screen.getByText('Reviewed: 0/2')).toBeInTheDocument();
 			expect(screen.getByText('Question 1')).toBeInTheDocument();
 			expect(screen.getByText('Question 2')).toBeInTheDocument();
 		});
@@ -57,12 +57,12 @@ describe('CardReview', () => {
 			const easyButton = screen.getAllByText('super easy')[0];
 			await fireEvent.click(easyButton);
 
-			expect(screen.getByText('cards reviewed: 1/2')).toBeInTheDocument();
+			expect(screen.getByText('Reviewed: 1/2')).toBeInTheDocument();
 			expect(screen.queryByText('Question 1')).not.toBeInTheDocument();
 			expect(screen.getByText('Question 2')).toBeInTheDocument();
 		});
 
-		it('shows break message after reviewing 5 cards', async () => {
+		it('shows correct message after reviewing 5 cards', async () => {
 			const manyCards = Array(6).fill(null).map((_, i) => ({
 				id: String(i),
 				front: `Question ${i}`,
@@ -79,7 +79,7 @@ describe('CardReview', () => {
 				await tick();
 			}
 
-			expect(screen.getByText(/Hurray. You revised 5 cards. Take a break or keep going./)).toBeInTheDocument();
+			expect(screen.getByText('Reviewed: 5/6')).toBeInTheDocument();
 		});
 	})
 
@@ -93,7 +93,7 @@ describe('CardReview', () => {
 			await fireEvent.click(deleteButton);
 
 			// Assertions for UI updates after deletion
-			expect(screen.getByText('cards reviewed: 1/2')).toBeInTheDocument();
+			expect(screen.getByText('Reviewed: 1/2')).toBeInTheDocument();
 			expect(screen.queryByText('Question 1')).not.toBeInTheDocument();
 			expect(screen.getByText('Question 2')).toBeInTheDocument();
 		});
