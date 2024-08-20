@@ -4,6 +4,7 @@
 	import Trash from '~icons/arcticons/trashcan';
 	import ReviewOptions from './ReviewOptions.svelte';
 	import { enhance } from '$app/forms';
+	import ContentRenderer from '$lib/components/ContentRenderer.svelte';
 
 	export let card: CardRevisePage;
 	export let customEnhance;
@@ -13,15 +14,15 @@
 <div class="group relative rounded-md border border-gray-100 bg-white sm:h-96">
 	<div class={`flex h-full w-full flex-col ${modifyingCardId === card.id ? 'blur-sm' : ''}`}>
 		<div
-			class="flex h-fit max-h-48 w-full justify-center overflow-y-auto rounded-md border-input ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+			class="flex h-fit max-h-48 min-h-16 w-full justify-center overflow-y-auto rounded-md border-input ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
 			id="question"
 		>
 			<div class="w-full whitespace-break-spaces p-6">
-				{card.front}
+				<ContentRenderer text={card.front} />
 			</div>
 		</div>
 
-		<div class="relative flex grow min-h-48 border-t border-dashed">
+		<div class="relative flex min-h-48 grow border-t border-dashed">
 			<form
 				class="absolute -top-5 right-0 z-10 bg-white"
 				method="post"

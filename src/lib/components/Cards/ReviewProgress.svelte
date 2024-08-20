@@ -4,19 +4,28 @@
 	export let cards: CardRevisePage[];
 	export let revisedCards: string[];
 	export let remainingCards: CardRevisePage[];
-	let reviseCards = 5;
+	let progress = '0';
+	$: {
+		if (cards.length === 0) {
+			progress = '100%';
+		} else {
+			progress = `${((revisedCards.length * 100) / cards.length).toFixed(2)}%`;
+		}
+	}
 </script>
 
+<div>
+	<div class="h-2 w-full bg-gray-200">
+		<div style={`width:${progress}`} class={`h-full w-0 bg-gray-400`}></div>
+	</div>
+	<div class="flex justify-between text-gray-400">
+		<div>{progress}</div>
+		<div>Reviewed: {revisedCards.length}/{cards.length}</div>
+	</div>
+</div>
+
 {#if remainingCards.length === 0}
-	<div class="text-center">
+	<div class="mt-20 text-center">
 		You have revised all the cards. Go to <a href="/record" class="underline">Record</a> to create more
-	</div>
-{:else if revisedCards.length > 0 && revisedCards.length % reviseCards === 0}
-	<div class="text-center text-lg text-gray-500">
-		Hurray. You revised {revisedCards.length} cards. Take a break or keep going.
-	</div>
-{:else}
-	<div class="text-center text-lg text-gray-400">
-		cards reviewed: {revisedCards.length}/{cards.length}
 	</div>
 {/if}

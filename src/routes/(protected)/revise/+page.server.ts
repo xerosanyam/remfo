@@ -20,7 +20,7 @@ export async function load({ locals }) {
 
 	return {
 		reviewForm,
-		cards
+		cards,
 	};
 }
 

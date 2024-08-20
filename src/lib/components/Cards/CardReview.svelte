@@ -16,7 +16,7 @@
 	$: {
 		remainingCards = cards.filter((card) => !revisedCards.includes(card.id));
 		groupedCards = groupCards(remainingCards);
-		dates = Object.keys(groupedCards).sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
+		dates = Object.keys(groupedCards).sort((b, a) => new Date(a).getTime() - new Date(b).getTime());
 		firstCardId = groupCards(remainingCards)[dates[0]]?.[0]?.id;
 	}
 
@@ -52,7 +52,7 @@
 	}
 </script>
 
-<div class="relative mx-auto mt-10 max-w-lg space-y-4 rounded-lg">
+<div class="relative mx-auto max-w-lg rounded-lg">
 	<ReviewProgress {remainingCards} {revisedCards} {cards} />
 
 	<div class="mx-4 mt-10">
