@@ -6,7 +6,7 @@ import { ROUTES } from "$lib/routes.util.js";
 
 import { cardReviewSchema } from "$lib/schemas.js";
 import { sessionExists } from "$lib/common.util.js";
-import { deleteAction, reviewAction } from "$lib/actions/card.action.js";
+import { deleteAction, reviewAction } from "$project/actions/card.action.js";
 import { getCardsOrderByNextPractice } from "$lib/db/tables/card.table.js";
 
 

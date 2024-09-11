@@ -1,5 +1,5 @@
 <script>
-	import Google from '$lib/components/Buttons/Google.svelte';
+	import Google from '$project/components/Buttons/Google.svelte';
 	import JotTextEditor from '~icons/arcticons/jotatexteditor';
 	import BodyMeasures from 'virtual:icons/arcticons/body-measures';
 	import MyBrain from 'virtual:icons/arcticons/my-brain';

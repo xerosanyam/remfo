@@ -1,30 +1,41 @@
 export const mockCards = [
-	{ id: '1', front: 'Question 1', back: 'Answer 1', nextPractice: new Date(), createdAt: new Date() },
-	{ id: '2', front: 'Question 2', back: 'Answer 2', nextPractice: new Date(), createdAt: new Date() },
+	{
+		id: '1',
+		front: 'Question 1',
+		back: 'Answer 1',
+		nextPractice: new Date(),
+		createdAt: new Date()
+	},
+	{
+		id: '2',
+		front: 'Question 2',
+		back: 'Answer 2',
+		nextPractice: new Date(),
+		createdAt: new Date()
+	}
 ];
-
 
 export const reviseMockCards = [
 	{
 		id: '576f1074-747c-4c44-9932-0e63ee8919c5',
 		front: `1. arr.filter(callbackfn)
-2. callbackfn is basically a test (word.length>0)
-3. parameter for callbackfn => (element, index)
-4. truthy values are included
+				2. callbackfn is basically a test (word.length>0)
+				3. parameter for callbackfn => (element, index)
+				4. truthy values are included
 
-arr.filter((word) => word.length>4) // o/p will be array with words of length greater than 4`,
+				arr.filter((word) => word.length>4) // o/p will be array with words of length greater than 4`,
 		back: `1. arr.filter(callbackfn)
-2. callbackfn is basically a test (word.length>0)
-3. parameter for callbackfn => (element, index)
-4. truthy values are included
+				2. callbackfn is basically a test (word.length>0)
+				3. parameter for callbackfn => (element, index)
+				4. truthy values are included
 
-arr.filter((word) => word.length>4) // o/p will be array with words of length greater than 4
-1. arr.filter(callbackfn)
-2. callbackfn is basically a test (word.length>0)
-3. parameter for callbackfn => (element, index)
-4. truthy values are included
+				arr.filter((word) => word.length>4) // o/p will be array with words of length greater than 4
+				1. arr.filter(callbackfn)
+				2. callbackfn is basically a test (word.length>0)
+				3. parameter for callbackfn => (element, index)
+				4. truthy values are included
 
-arr.filter((word) => word.length>4) // o/p will be array with words of length greater than 4`,
+				arr.filter((word) => word.length>4) // o/p will be array with words of length greater than 4`,
 		createdAt: '2024-08-08T22:28:26.000Z',
 		nextPractice: '2024-08-08T22:28:26.000Z'
 	},
@@ -91,4 +102,4 @@ arr.filter((word) => word.length>4) // o/p will be array with words of length gr
 		createdAt: '2024-08-08T22:39:26.000Z',
 		nextPractice: '2024-08-08T22:39:26.000Z'
 	}
-]
+];

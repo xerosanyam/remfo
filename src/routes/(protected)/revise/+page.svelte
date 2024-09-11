@@ -1,5 +1,5 @@
 <script lang="ts">
-	import CardReview from '$lib/components/Cards/CardReview.svelte';
+	import CardReview from '$project/components/Cards/CardReview.svelte';
 	export let data;
 </script>
 

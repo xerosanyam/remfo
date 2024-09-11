@@ -1,6 +1,6 @@
 <script>
 	import { SvelteToast } from '@zerodevx/svelte-toast';
-	import PrimaryNav from '$lib/components/PrimaryNav.svelte';
+	import PrimaryNav from '$project/components/PrimaryNav.svelte';
 	import '../app.css';
 	import { dev, browser } from '$app/environment';
 	import { inject } from '@vercel/analytics';
