@@ -9,8 +9,8 @@ import { Lucia } from "lucia";
 import { LibSQLAdapter } from "@lucia-auth/adapter-sqlite";
 
 import { Google } from "arctic";
+import { turso_client } from "$lib/db/turso/turso.service";
 
-import { turso_client } from "$lib/db/turso.db";
 
 
 const adapter = new LibSQLAdapter(turso_client, {
@@ -46,6 +46,6 @@ interface DatabaseUserAttributes {
 	email: string;
 }
 
-export const google = new Google(
+export const GoogleClient = new Google(
 	GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, REDIRECT_URI
 )

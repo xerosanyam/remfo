@@ -1,13 +1,12 @@
-import { sessionExists } from "$lib/common.util";
 import { fail, redirect } from "@sveltejs/kit";
-import { ROUTES } from "$lib/routes.util";
 import { superValidate } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters";
 import { cardAddSchema, cardReviewSchema } from "$lib/schemas";
-import { deleteCard, insertCard, reviewCard } from "$lib/db/tables/card.table";
 import type { RequestEvent as R2 } from "../../routes/(protected)/learn/$types";
 import type { RequestEvent as RecordType } from "../../routes/(protected)/record/$types";
 import type { RequestEvent as R5 } from "../../routes/(protected)/revise/$types";
+import { ROUTES, sessionExists } from "$project/utils/project.util";
+import { deleteCard, insertCard, reviewCard } from "$lib/modules/card/card.table";
 
 export function addAction(location: string) {
 	return async (event: R2 | RecordType) => {

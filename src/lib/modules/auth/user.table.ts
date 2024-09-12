@@ -1,5 +1,5 @@
-import { db } from '$lib/db/turso.db';
-import { userTable } from '$lib/db/turso.schema';
+import { userTable } from '$lib/db/turso/remfo.turso.model';
+import { db } from '$lib/db/turso/turso.service';
 import { eq } from 'drizzle-orm';
 
 export const getGoogleUserWhereEmail = async (email: string) => {

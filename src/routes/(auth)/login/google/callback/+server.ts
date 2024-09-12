@@ -1,9 +1,9 @@
 import { OAuth2RequestError } from "arctic";
-import { google, lucia } from "$lib/server/auth";
 
 import type { RequestEvent } from "@sveltejs/kit";
-import { getGoogleUserWhereEmail, insertOrUpdateGoogleUser } from "$lib/db/tables/user.table";
-import { ROUTES } from "$lib/routes.util";
+import { GoogleClient, lucia } from "$lib/modules/auth/auth.service";
+import { getGoogleUserWhereEmail, insertOrUpdateGoogleUser } from "$lib/modules/auth/user.table";
+import { ROUTES } from "$project/utils/project.util";
 
 export async function GET(event: RequestEvent): Promise<Response> {
 	const code = event.url.searchParams.get("code");
@@ -19,7 +19,7 @@ export async function GET(event: RequestEvent): Promise<Response> {
 	}
 
 	try {
-		const tokens = await google.validateAuthorizationCode(code, storedCodeVerifier);
+		const tokens = await GoogleClient.validateAuthorizationCode(code, storedCodeVerifier);
 		const response = await fetch("https://openidconnect.googleapis.com/v1/userinfo", {
 			headers: {
 				Authorization: `Bearer ${tokens.accessToken}`

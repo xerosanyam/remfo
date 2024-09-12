@@ -1,8 +1,8 @@
 import { redirect } from "@sveltejs/kit";
-import { lucia } from "$lib/server/auth";
 
 import type { RequestEvent } from "./$types";
-import { ROUTES } from "$lib/routes.util";
+import { lucia } from "$lib/modules/auth/auth.service";
+import { ROUTES } from "$project/utils/project.util";
 
 const logout = async (event: RequestEvent) => {
 	if (!event.locals.session) {

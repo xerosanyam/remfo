@@ -10,7 +10,7 @@
 	import Hamburger from '~icons/arcticons/hamburger-menu';
 	import { page } from '$app/stores';
 	import Google from './Buttons/Google.svelte';
-	import { ROUTES } from '$lib/routes.util';
+	import { ROUTES } from '$project/utils/project.util';
 
 	const signedInLinks = [
 		{ href: '/record', text: 'record', icon: JotTextEditor },

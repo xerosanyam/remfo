@@ -1,5 +1,5 @@
 <script>
-	import { ROUTES } from '$lib/routes.util';
+	import { ROUTES } from '$project/utils/project.util';
 	import ExitIcon from '~icons/mdi/exit-run';
 </script>
 

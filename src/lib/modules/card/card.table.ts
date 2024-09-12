@@ -1,5 +1,5 @@
-import { db } from '$lib/db/turso.db';
-import { cardTable, type SelectCard } from '$lib/db/turso.schema';
+import { cardTable, type SelectCard } from '$lib/db/turso/remfo.turso.model';
+import { db } from '$lib/db/turso/turso.service';
 import type { Difficulty } from '$lib/schemas';
 import { and, count, desc, eq, lt, } from 'drizzle-orm';
 

@@ -1,4 +1,4 @@
-import { lucia } from "$lib/server/auth";
+import { lucia } from "$lib/modules/auth/auth.service";
 import type { Handle } from "@sveltejs/kit";
 import { handleDeviecDetector } from 'sveltekit-device-detector';
 
