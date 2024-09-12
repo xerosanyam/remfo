@@ -13,3 +13,8 @@ more talk soon
 1. `mv .env.example .env`
 2. fill in the values
 3. `npm run dev`
+
+## Folder strcuture:
+
+- lib: contains generic code
+- project: contains current project specific code

@@ -6,7 +6,7 @@ import type { RequestEvent as R2 } from "../../routes/(protected)/learn/$types";
 import type { RequestEvent as RecordType } from "../../routes/(protected)/record/$types";
 import type { RequestEvent as R5 } from "../../routes/(protected)/revise/$types";
 import { ROUTES, sessionExists } from "$project/utils/project.util";
-import { deleteCard, insertCard, reviewCard } from "$lib/modules/card/card.table";
+import { cardService } from "$lib/modules/card/card.service";
 
 export function addAction(location: string) {
 	return async (event: R2 | RecordType) => {
@@ -20,8 +20,7 @@ export function addAction(location: string) {
 			return fail(400, { form });
 		}
 
-		await insertCard({
-			id: crypto.randomUUID(),
+		await cardService.insertCard({
 			front: form.data.front,
 			back: form.data.back,
 			userId: locals.user.id
@@ -42,7 +41,7 @@ export function reviewAction(location: string) {
 		if (!form.valid) {
 			return fail(400, { form });
 		}
-		await reviewCard({ cardId: form.data.cardId, userId: locals.user.id, difficulty: form.data.difficulty })
+		await cardService.reviewCard({ cardId: form.data.cardId, userId: locals.user.id, difficulty: form.data.difficulty })
 
 		redirect(302, location);
 	}
@@ -59,7 +58,7 @@ export function deleteAction(location: string) {
 		if (!id) {
 			return fail(400, { message: 'No cardId provided' })
 		}
-		await deleteCard({
+		await cardService.deleteCard({
 			cardId: id,
 			userId: locals.user.id,
 		});

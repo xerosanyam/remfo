@@ -6,7 +6,7 @@ import { zod } from "sveltekit-superforms/adapters";
 import { cardAddSchema } from "$lib/schemas.js";
 import { addAction, deleteAction } from "$project/actions/card.action.js";
 import { ROUTES, sessionExists } from "$project/utils/project.util.js";
-import { getCardsOrderByCreated } from "$lib/modules/card/card.table.js";
+import { cardService } from "$lib/modules/card/card.service.js";
 
 
 export async function load({ locals }) {
@@ -15,7 +15,7 @@ export async function load({ locals }) {
 	}
 
 	const addForm = await superValidate(zod(cardAddSchema));
-	const cards = await getCardsOrderByCreated(locals.user.id)
+	const cards = await cardService.getCardsOrderByCreated(locals.user.id)
 
 	return {
 		addForm,

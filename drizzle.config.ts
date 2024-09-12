@@ -2,7 +2,7 @@ import 'dotenv/config';
 import { defineConfig } from 'drizzle-kit';
 
 export default defineConfig({
-	schema: './src/lib/db/turso.schema.ts',
+	schema: './src/lib/db/turso/remfo.turso.model.ts',
 	out: './migrations',
 	dialect: 'sqlite',
 	driver: 'turso',
