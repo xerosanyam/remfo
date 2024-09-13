@@ -9,13 +9,16 @@ import { ROUTES, sessionExists } from "$project/utils/project.util.js";
 import { cardService } from "$lib/modules/card/card.service.js";
 
 
-export async function load({ locals }) {
+export async function load({ locals, setHeaders }) {
 	if (!sessionExists(locals)) {
 		redirect(302, ROUTES.LOGIN)
 	}
 
 	const reviewForm = superValidate(zod(cardReviewSchema));
 	const cards = cardService.getCardsOrderByNextPractice(locals.user.id)
+	setHeaders({
+		'Cache-Control': 'max-age=60'
+	});
 
 	return {
 		reviewForm,
