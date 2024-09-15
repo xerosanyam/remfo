@@ -1,5 +1,5 @@
-export const shortcut = (node, params) => {
-	let handler;
+export const shortcut = (node: HTMLTextAreaElement, params: { control: any; code: any; callback: any; alt?: any; shift?: any; }) => {
+	let handler: { (this: Window, ev: KeyboardEvent): any; (e: any): void; (this: Window, ev: KeyboardEvent): any; };
 	const removeHandler = () => window.removeEventListener('keydown', handler), setHandler = () => {
 		removeHandler();
 		if (!params)

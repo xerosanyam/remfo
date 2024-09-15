@@ -4,6 +4,8 @@
 	import BodyMeasures from 'virtual:icons/arcticons/body-measures';
 	import MyBrain from 'virtual:icons/arcticons/my-brain';
 	import SoloLearn from 'virtual:icons/arcticons/sololearn';
+	import Offline from '$lib/components/offline/offline.svelte';
+	import { browser } from '$app/environment';
 </script>
 
 <div class="container mx-auto h-screen max-w-lg items-center py-8">

@@ -19,7 +19,7 @@ const handle: Handle = async ({ event, resolve }) => {
 	let { session, user } = sessionAndUserInfo[sessionId] || {}
 	if (!session || !user) {
 		({ session, user } = await lucia.validateSession(sessionId))
-		sessionAndUserInfo[sessionId] = { session, user }
+		sessionAndUserInfo[sessionId] = { session, user, deviceType: event.locals.deviceType }
 
 	}
 	console.timeEnd('validate')

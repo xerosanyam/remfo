@@ -27,7 +27,7 @@
 						<AddNewCard
 							action="/learn?/add"
 							data={{ ...data.addForm, data: { front: card.question, back: card.answer } }}
-							onSubmit={(question:string ) => addToList(question)}
+							onSubmit={(question:string) => addToList(question)}
 						/>
 					</div>
 				{/each}

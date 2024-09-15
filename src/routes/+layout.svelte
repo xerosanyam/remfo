@@ -16,7 +16,9 @@
 		});
 	}
 	export let data;
+	// @ts-ignore
 	import { pwaInfo } from 'virtual:pwa-info';
+	import Offline from '$lib/components/offline/offline.svelte';
 
 	$: webManifestLink = pwaInfo ? pwaInfo.webManifest.linkTag : '';
 </script>
@@ -73,3 +75,6 @@
 	</script>
 </svelte:head>
 <SvelteToast></SvelteToast>
+{#if browser}
+	<Offline />
+{/if}

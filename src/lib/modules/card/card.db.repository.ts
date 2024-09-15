@@ -1,7 +1,7 @@
 //repository; deals with how to CRUD in DB
 import { cardTable, type SelectCard } from '$lib/db/turso/remfo.turso.model';
 import { db } from '$lib/db/turso/turso.service';
-import type { ICardRepository } from '$lib/modules/card/card.model';
+import type { ICardRepository } from '$lib/modules/card/card.interface.repository';
 import { and, count, desc, eq, lt } from 'drizzle-orm';
 
 export class CardDBRepository implements ICardRepository {
