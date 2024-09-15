@@ -3,9 +3,7 @@
 	import PrimaryNav from '$lib/components/PrimaryNav.svelte';
 	import '../app.css';
 	import { dev, browser } from '$app/environment';
-	import { inject } from '@vercel/analytics';
 
-	inject({ mode: dev ? 'development' : 'production' });
 
 	import posthog from 'posthog-js';
 
