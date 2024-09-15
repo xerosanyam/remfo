@@ -21,7 +21,7 @@
 	$: webManifestLink = pwaInfo ? pwaInfo.webManifest.linkTag : '';
 </script>
 
-<PrimaryNav user={data?.user} />
+<PrimaryNav user={data?.user}></PrimaryNav>
 <div class="sm:ml-44">
 	<slot></slot>
 </div>
@@ -72,4 +72,4 @@
 		}
 	</script>
 </svelte:head>
-<SvelteToast />
+<SvelteToast></SvelteToast>
