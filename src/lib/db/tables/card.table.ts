@@ -60,7 +60,17 @@ export const getCardsGroupedByActivityDate = async (userId: string) => {
 
 export const getCardsOrderByNextPractice = async (userId: string) => {
 	console.time('getCards')
-	const data = await db.select({ id: cardTable.id, front: cardTable.front, back: cardTable.back, createdAt: cardTable.createdAt, nextPractice: cardTable.nextPractice }).from(cardTable).where(and(eq(cardTable.userId, userId), lt(cardTable.nextPractice, new Date()), eq(cardTable.deleted, false))).orderBy(cardTable.nextPractice)
+	const data = await db.select(
+		{
+			id: cardTable.id,
+			front: cardTable.front,
+			back: cardTable.back,
+			createdAt: cardTable.createdAt,
+			nextPractice: cardTable.nextPractice,
+			interval: cardTable.interval,
+			repetitions: cardTable.repetitions,
+			easiness: cardTable.easiness
+		}).from(cardTable).where(and(eq(cardTable.userId, userId), lt(cardTable.nextPractice, new Date()), eq(cardTable.deleted, false))).orderBy(cardTable.nextPractice).limit(1)
 	console.timeEnd('getCards')
 	return data
 }

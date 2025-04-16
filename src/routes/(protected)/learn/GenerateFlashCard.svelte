@@ -36,7 +36,6 @@
 						placeholder="i want to learn about..."
 						rows="3"
 						bind:value={$form.userInput}
-						{...$constraints.userInput}
 						data-gramm="false"
 						use:shortcut={{
 							control: true,

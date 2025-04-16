@@ -17,6 +17,8 @@
 	};
 </script>
 
+{JSON.stringify(form)}
+
 <section class="body-font mx-auto mt-10 max-w-lg text-gray-600">
 	<div class="container mx-auto">
 		<GenerateFlashCard data={data.learnForm} />
@@ -27,14 +29,14 @@
 						<AddNewCard
 							action="/learn?/add"
 							data={{ ...data.addForm, data: { front: card.question, back: card.answer } }}
-							onSubmit={(question:string ) => addToList(question)}
+							onSubmit={(question: string) => addToList(question)}
 						/>
 					</div>
 				{/each}
 			{/if}
-			{#if form?.error}
+			<!-- {#if form?.error}
 				<span class="mt-10 text-red-800">{form?.error}</span>
-			{/if}
+			{/if} -->
 		</div>
 	</div>
 </section>
