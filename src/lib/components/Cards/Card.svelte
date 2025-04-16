@@ -48,7 +48,7 @@
 			</div>
 		</div>
 		<div class="w-full">
-			<ReviewOptions cardId={card.id} {customEnhance} />
+			<ReviewOptions {card} {customEnhance} />
 		</div>
 	</div>
 </div>
