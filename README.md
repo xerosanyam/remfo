@@ -1,14 +1,16 @@
 # remfo (Remember Forever)
 
-## intro
+a tool that helps you remember.
 
-hi there
+short for Remember Forever -> Remfo
 
-this is that space of the internet where we welcome learners
+A minimalist tool, where you can dump your thoughts, your learnings. and then ponder. review. connect the dots.
 
-more talk soon
+simple.
 
-## running the project
+try here - https://remfo.app
+
+## first time
 
 1. `mv .env.example .env`
 2. fill in the values
