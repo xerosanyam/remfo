@@ -85,6 +85,7 @@
 										<button
 											class="flex items-center space-x-1 rounded-md border px-4 py-2 text-gray-900 disabled:pointer-events-none disabled:opacity-50"
 											disabled={modifyingCardId === card.id}
+											aria-label="delete card"
 											type="submit"><Trash style="stroke-width:2px;" /></button
 										>
 									</form>
@@ -108,5 +109,5 @@
 			{/each}
 		</div>
 	{/each}
-	<div class="pb-10 pt-24 text-center text-sm text-gray-400">total cards: {cards.length}</div>
+	<div class="pb-10 pt-24 text-center text-sm text-gray-500">total cards: {cards.length}</div>
 {/if}
