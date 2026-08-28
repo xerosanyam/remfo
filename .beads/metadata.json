@@ -1,0 +1,7 @@
+{
+  "database": "dolt",
+  "backend": "dolt",
+  "dolt_mode": "embedded",
+  "dolt_database": "remfo",
+  "project_id": "3094dd2e-defe-4ba5-8b2c-1863e1e19901"
+}
