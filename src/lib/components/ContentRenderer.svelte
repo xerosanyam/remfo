@@ -1,42 +1,29 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-
 	export let text = '';
 
-	let isUrl = false;
-	let isImageUrl = false;
+	// ponytail: extension sniff only. The old check loaded the URL with `new Image()` to see if it
+	// decoded, which fired a cross-origin request per card - leaking users' card URLs to those
+	// origins and setting their third-party cookies. Extension-less image URLs now render as links;
+	// revisit with a HEAD request if that turns out to matter.
+	const IMAGE_PATH = /\.(avif|bmp|gif|ico|jpe?g|png|svg|webp)$/i;
 
-	onMount(() => {
-		isUrl = isValidUrl(text);
-		if (isUrl) {
-			checkIfImageUrl(text).then((result: boolean) => {
-				isImageUrl = result;
-			});
-		}
-	});
-
-	function isValidUrl(string: string) {
+	function parseHttpUrl(value: string): URL | null {
 		try {
-			new URL(string);
-			return true;
-		} catch (_) {
-			return false;
+			const url = new URL(value);
+			// card text is user input rendered into an href, so keep javascript:/data: out
+			return url.protocol === 'http:' || url.protocol === 'https:' ? url : null;
+		} catch {
+			return null;
 		}
 	}
 
-	function checkIfImageUrl(url: string): Promise<boolean> {
-		return new Promise((resolve) => {
-			const img = new Image();
-			img.onload = () => resolve(true);
-			img.onerror = () => resolve(false);
-			img.src = url;
-		});
-	}
+	$: url = parseHttpUrl(text);
+	$: isImageUrl = !!url && IMAGE_PATH.test(url.pathname);
 </script>
 
 {#if isImageUrl}
 	<img src={text} alt="content" />
-{:else if isUrl}
+{:else if url}
 	<a class="underline" href={text} target="_blank" rel="noopener noreferrer">{text}</a>
 {:else}
 	{text}

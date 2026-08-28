@@ -12,7 +12,7 @@
 
 <div class="relative">
 	<div
-		class="mb-2 flex h-10 w-16 items-center justify-center rounded-full border border-gray-100 text-center text-gray-400"
+		class="mb-2 flex h-10 w-16 items-center justify-center rounded-full border border-gray-100 text-center text-gray-500"
 		title={date}
 	>
 		{humanReadableDate(cards[0].nextPractice)}

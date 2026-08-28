@@ -52,6 +52,6 @@
 		</div>
 	</div>
 </div>
-<div class="p-2 text-right text-sm text-gray-200" title={String(card.createdAt)}>
+<div class="p-2 text-right text-sm text-gray-500" title={String(card.createdAt)}>
 	added {formatDistanceToNow(card.createdAt)} ago
 </div>
