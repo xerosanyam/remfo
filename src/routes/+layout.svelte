@@ -2,19 +2,20 @@
 	import { SvelteToast } from '@zerodevx/svelte-toast';
 	import PrimaryNav from '$lib/components/PrimaryNav.svelte';
 	import '../app.css';
-	import { dev, browser } from '$app/environment';
+	import { onMount } from 'svelte';
+	import { dev } from '$app/environment';
 	import { inject } from '@vercel/analytics';
 
 	inject({ mode: dev ? 'development' : 'production' });
 
-	import posthog from 'posthog-js';
-
-	if (browser) {
+	// loaded lazily so the posthog SDK stays off the critical path and out of the root layout chunk
+	onMount(async () => {
+		const { default: posthog } = await import('posthog-js');
 		posthog.init('phc_9926SwyRC8yPRYf8le7laIwsnf1ygzhp3TtwXpYJ8Eq', {
 			api_host: 'https://us.i.posthog.com',
 			person_profiles: 'identified_only' // or 'always' to create profiles for anonymous users as well
 		});
-	}
+	});
 	export let data;
 	import { pwaInfo } from 'virtual:pwa-info';
 
@@ -22,9 +23,9 @@
 </script>
 
 <PrimaryNav user={data?.user} />
-<div class="sm:ml-44">
+<main class="sm:ml-44">
 	<slot></slot>
-</div>
+</main>
 
 <svelte:head>
 	<title>remember forever</title>
