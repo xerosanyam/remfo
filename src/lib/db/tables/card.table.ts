@@ -1,6 +1,7 @@
 import { db } from '$lib/db/turso.db';
-import { activityTable, cardTable, type SelectCard } from '$lib/db/turso.schema';
+import { activityTable, cardTable } from '$lib/db/turso.schema';
 import type { Difficulty } from '$lib/schemas';
+import { calculateSuperMemo2Algorithm } from '$lib/algo.utils';
 import { and, count, desc, eq, lt, sql, } from 'drizzle-orm';
 
 // const initialCard = {
@@ -98,39 +99,4 @@ export const reviewCard = async ({ cardId, userId, difficulty }: { cardId: strin
 	console.time('reviewCard')
 	await db.update(cardTable).set(card).where(and(eq(cardTable.id, cardId), eq(cardTable.userId, userId)))
 	console.timeEnd('reviewCard')
-}
-
-
-function calculateSuperMemo2Algorithm(card: SelectCard, difficulty: Difficulty) {
-	const difficultyMap: { [key in Difficulty]: number } = { 'Easy': 4, 'Good': 3, 'Hard': 2, 'Challenging': 1 }
-	let quality = difficultyMap[difficulty]
-
-	if (quality < 1 || quality > 4) {
-		// throw error here or ensure elsewhere that quality is always within 0-5
-		quality = 3
-	}
-
-	if (quality >= 3) {
-		if (card.repetitions === 0) {
-			card.interval = 1;
-		} else if (card.repetitions === 1) {
-			card.interval = 6;
-		} else {
-			card.interval = Math.round(card.interval * card.easiness);
-		}
-		card.repetitions += 1;
-	} else {
-		card.repetitions = 0;
-		card.interval = 1;
-	}
-
-	// easiness factor
-	card.easiness = Math.max(1.3, card.easiness + (0.1 - (5.0 - quality) * (0.08 + (5.0 - quality) * 0.02)))
-
-	// next practice
-	const millisecondsInDay = 60 * 60 * 24 * 1000
-	const now = new Date().getTime()
-	card.nextPractice = new Date(now + millisecondsInDay * card.interval)
-
-	return card
 }
