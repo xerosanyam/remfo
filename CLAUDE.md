@@ -2,8 +2,11 @@
 
 Spaced-repetition flashcard app (SvelteKit + Turso/libSQL + Lucia auth), deployed to Vercel edge.
 
-- All improvements should be measurable
-- always add tests for critical functionalities, after asking.
+- All improvements we make should be measurable
+- Always strive to add tests for critical functionalities
+- UX should be snappy
+- Use Best practices of HTML, CSS, JS, Accessibility
+- App should work well without JS
 
 ## Commands
 
