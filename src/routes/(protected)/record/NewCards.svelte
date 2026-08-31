@@ -8,6 +8,8 @@
 	import Trash from '~icons/arcticons/trashcan';
 
 	export let cards: CardEssentials[];
+	export let totalCards: number;
+	export let limit: number;
 	let groupedCards: { [key: string]: CardEssentials[] } = {};
 	let dates: string[] = [];
 
@@ -109,5 +111,16 @@
 			{/each}
 		</div>
 	{/each}
-	<div class="pb-10 pt-24 text-center text-sm text-gray-500">total cards: {cards.length}</div>
+	<div class="space-y-4 pb-10 pt-24 text-center text-sm text-gray-500">
+		{#if cards.length < totalCards}
+			<div>
+				<a
+					href="?limit={limit + 50}"
+					data-sveltekit-noscroll
+					class="rounded-md border px-4 py-2 text-gray-900 hover:bg-gray-100">load more</a
+				>
+			</div>
+		{/if}
+		<div>showing {cards.length} of {totalCards} cards</div>
+	</div>
 {/if}

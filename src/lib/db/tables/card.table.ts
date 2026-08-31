@@ -29,11 +29,18 @@ export const insertCard = async (values: {
 // 	return data
 // }
 
-export const getCardsOrderByCreated = async (userId: string) => {
+export const getCardsOrderByCreated = async (userId: string, limit: number) => {
 	console.time('getCards')
-	const data = await db.select({ id: cardTable.id, front: cardTable.front, back: cardTable.back, createdAt: cardTable.createdAt }).from(cardTable).where(and(eq(cardTable.userId, userId), eq(cardTable.deleted, false))).orderBy(desc(cardTable.createdAt))
+	const data = await db.select({ id: cardTable.id, front: cardTable.front, back: cardTable.back, createdAt: cardTable.createdAt }).from(cardTable).where(and(eq(cardTable.userId, userId), eq(cardTable.deleted, false))).orderBy(desc(cardTable.createdAt)).limit(limit)
 	console.timeEnd('getCards')
 	return data
+}
+
+export const getTotalCards = async (userId: string) => {
+	console.time('getTotalCards')
+	const data = await db.select({ count: count() }).from(cardTable).where(and(eq(cardTable.userId, userId), eq(cardTable.deleted, false)))
+	console.timeEnd('getTotalCards')
+	return data[0]?.count ?? 0
 }
 
 export const getCardsRecorded = async (userId: string) => {
@@ -71,14 +78,6 @@ export const getCardsOrderByNextPractice = async (userId: string) => {
 // 	const data = await db.select().from(cardTable).where(eq(cardTable.userId, userId)).orderBy(cardTable.nextPractice).limit(1)
 // 	console.timeEnd('getCard')
 // 	return data[0] || {}
-// }
-
-// export const getTotalCards = async (userId: string) => {
-// 	console.time('getTotalCard')
-// 	const data = await db.select({ count: count() }).from(cardTable).where(eq(cardTable.userId, userId))
-// 	console.log('getTotalCards ~ data:', data)
-// 	console.timeEnd('getTotalCard')
-// 	return data[0]?.count || 0
 // }
 
 export const deleteCard = async ({ cardId, userId }: { cardId: string, userId: string }) => {

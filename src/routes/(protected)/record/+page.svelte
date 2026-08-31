@@ -6,4 +6,4 @@
 
 <AddNewCard formData={data.addForm} />
 
-<NewCards cards={data.cards} />
+<NewCards cards={data.cards} totalCards={data.totalCards} limit={data.limit} />

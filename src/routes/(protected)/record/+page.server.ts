@@ -5,16 +5,28 @@ import { ROUTES } from "$lib/routes.util.js";
 
 import { cardAddSchema } from "$lib/schemas.js";
 import { addAction, deleteAction } from "$lib/actions/card.action.js";
-import { getCardsOrderByCreated } from "$lib/db/tables/card.table.js";
+import { getCardsOrderByCreated, getTotalCards } from "$lib/db/tables/card.table.js";
 
+const PAGE_SIZE = 50;
+// a hostile ?limit= would put the whole table back on the page, which is the thing we just fixed
+const MAX_LIMIT = 500;
 
-export async function load({ locals }) {
+export async function load({ locals, url }) {
+	const requested = Number(url.searchParams.get('limit')) || PAGE_SIZE;
+	const limit = Math.min(Math.max(requested, PAGE_SIZE), MAX_LIMIT);
+
 	const addForm = await superValidate(zod(cardAddSchema));
-	const cards = await getCardsOrderByCreated(locals.user!.id)
+	// parallel: the count costs no extra round trip
+	const [cards, totalCards] = await Promise.all([
+		getCardsOrderByCreated(locals.user!.id, limit),
+		getTotalCards(locals.user!.id)
+	]);
 
 	return {
 		addForm,
 		cards,
+		totalCards,
+		limit,
 	};
 }
 
