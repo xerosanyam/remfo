@@ -4,7 +4,6 @@
 	import { format } from 'date-fns';
 	import CardGroup from './CardGroup.svelte';
 	import ReviewProgress from './ReviewProgress.svelte';
-	import { toast } from '@zerodevx/svelte-toast';
 
 	export let cards: CardRevisePage[];
 	let groupedCards: { [key: string]: CardRevisePage[] } = {};
@@ -21,6 +20,7 @@
 	}
 
 	let modifyingCardId = '';
+	let error = '';
 
 	const customEnhance = ({ formData }: { formData: FormData }) => {
 		const id = formData.get('cardId') as string;
@@ -29,13 +29,8 @@
 		return ({ result }: { result: ActionResult }) => {
 			modifyingCardId = '';
 			if (result.type === 'error' || result.type === 'failure') {
-				toast.push('Failed to perform that action', {
-					theme: {
-						'--toastColor': 'white',
-						'--toastBackground': 'rgba(220,53,69,0.9)',
-						'--toastBarBackground': '#C53030'
-					}
-				});
+				error = 'Failed to perform that action';
+				setTimeout(() => (error = ''), 4000);
 			}
 		};
 	};
@@ -51,6 +46,12 @@
 		}, {});
 	}
 </script>
+
+{#if error}
+	<div class="fixed right-8 top-6 z-50 rounded bg-red-700 px-4 py-3 text-white" role="status">
+		{error}
+	</div>
+{/if}
 
 <div class="relative mx-auto max-w-lg rounded-lg">
 	<ReviewProgress {remainingCards} {revisedCards} {cards} />

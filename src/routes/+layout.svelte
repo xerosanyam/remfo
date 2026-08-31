@@ -1,15 +1,13 @@
 <script>
-	import { SvelteToast } from '@zerodevx/svelte-toast';
 	import PrimaryNav from '$lib/components/PrimaryNav.svelte';
 	import '../app.css';
 	import { onMount } from 'svelte';
-	import { dev } from '$app/environment';
 	import { inject } from '@vercel/analytics';
-
-	inject({ mode: dev ? 'development' : 'production' });
+	import { pwaInfo } from 'virtual:pwa-info';
 
 	// loaded lazily so the posthog SDK stays off the critical path and out of the root layout chunk
 	onMount(async () => {
+		if (!['localhost', '127.0.0.1'].includes(location.hostname)) inject({ mode: 'production' });
 		const { default: posthog } = await import('posthog-js');
 		posthog.init('phc_9926SwyRC8yPRYf8le7laIwsnf1ygzhp3TtwXpYJ8Eq', {
 			api_host: 'https://us.i.posthog.com',
@@ -17,9 +15,7 @@
 		});
 	});
 	export let data;
-	import { pwaInfo } from 'virtual:pwa-info';
-
-	$: webManifestLink = pwaInfo ? pwaInfo.webManifest.linkTag : '';
+	const webManifestLink = pwaInfo ? pwaInfo.webManifest.linkTag : '';
 </script>
 
 <PrimaryNav user={data?.user} />
@@ -73,4 +69,3 @@
 		}
 	</script>
 </svelte:head>
-<SvelteToast />

@@ -1,0 +1,13 @@
+# Remember Forever
+
+Remember Forever is a flashcard learning application for creating, reviewing, and measuring retained knowledge.
+
+Public pages:
+- [Product overview](https://remfo.app/)
+- [Pricing](https://remfo.app/pricing)
+
+Authenticated application pages:
+- [Record](https://remfo.app/record) — create and manage flashcards
+- [Learn](https://remfo.app/learn) — learn new material
+- [Revise](https://remfo.app/revise) — review due flashcards
+- [Measure](https://remfo.app/measure) — view learning progress

@@ -40,5 +40,3 @@ export const actions = {
 	add: addAction(ROUTES.RECORD),
 	delete: deleteAction(ROUTES.RECORD)
 }
-
-
