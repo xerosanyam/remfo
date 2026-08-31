@@ -1,23 +1,15 @@
 <script lang="ts">
 	import type { CardRevisePage } from '$lib/types/Card';
 	import type { ActionResult } from '@sveltejs/kit';
-	import { format } from 'date-fns';
-	import CardGroup from './CardGroup.svelte';
+	import { invalidateAll } from '$app/navigation';
+	import Card from './Card.svelte';
 	import ReviewProgress from './ReviewProgress.svelte';
 
 	export let cards: CardRevisePage[];
-	let groupedCards: { [key: string]: CardRevisePage[] } = {};
-	let dates: string[] = [];
 	let revisedCards: string[] = [];
 	let remainingCards: CardRevisePage[] = [];
-	let firstCardId = '';
 
-	$: {
-		remainingCards = cards.filter((card) => !revisedCards.includes(card.id));
-		groupedCards = groupCards(remainingCards);
-		dates = Object.keys(groupedCards).sort((b, a) => new Date(a).getTime() - new Date(b).getTime());
-		firstCardId = groupCards(remainingCards)[dates[0]]?.[0]?.id;
-	}
+	$: remainingCards = cards.filter((card) => !revisedCards.includes(card.id));
 
 	let modifyingCardId = '';
 	let error = '';
@@ -26,25 +18,17 @@
 		const id = formData.get('cardId') as string;
 		revisedCards = [...revisedCards, id];
 		modifyingCardId = id;
-		return ({ result }: { result: ActionResult }) => {
+		return async ({ result }: { result: ActionResult }) => {
 			modifyingCardId = '';
 			if (result.type === 'error' || result.type === 'failure') {
 				error = 'Failed to perform that action';
 				setTimeout(() => (error = ''), 4000);
+			} else if (remainingCards.length === 0) {
+				revisedCards = [];
+				await invalidateAll();
 			}
 		};
 	};
-
-	function groupCards(cards: CardRevisePage[]): { [key: string]: CardRevisePage[] } {
-		return cards.reduce((groups: { [key: string]: CardRevisePage[] }, card) => {
-			const date = format(card.nextPractice, 'P');
-			if (!groups[date]) {
-				groups[date] = [];
-			}
-			groups[date].push(card);
-			return groups;
-		}, {});
-	}
 </script>
 
 {#if error}
@@ -54,19 +38,11 @@
 {/if}
 
 <div class="relative mx-auto max-w-lg rounded-lg">
-	<ReviewProgress {remainingCards} {revisedCards} {cards} />
+	<ReviewProgress {revisedCards} {cards} />
 
 	<div class="mx-4 mt-10">
-		{#if cards.length > 0}
-			{#each dates as date (date)}
-				<CardGroup
-					{firstCardId}
-					{date}
-					cards={groupedCards[date]}
-					{customEnhance}
-					{modifyingCardId}
-				/>
-			{/each}
+		{#if remainingCards[0]}
+			<Card card={remainingCards[0]} {customEnhance} {modifyingCardId} />
 		{/if}
 	</div>
 </div>

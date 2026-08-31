@@ -43,17 +43,11 @@ export const getTotalCards = async (userId: string) => {
 	return data[0]?.count ?? 0
 }
 
-export const getCardsRecorded = async (userId: string) => {
-	console.time('getCardsGroupedByCreated')
-	const data = await db.select({ date: activityTable.createdAt }).from(activityTable).where(and(eq(activityTable.userId, userId), eq(activityTable.action, 'INSERT')))
-	console.timeEnd('getCardsGroupedByCreated')
-	return data
-}
-
-export const getCardsReviewed = async (userId: string) => {
-	console.time('getCardsGroupedByUpdated')
-	const data = await db.select({ date: activityTable.createdAt }).from(activityTable).where(and(eq(activityTable.userId, userId), eq(activityTable.action, 'UPDATE')))
-	console.timeEnd('getCardsGroupedByUpdated')
+export const getDailyActivity = async (userId: string) => {
+	console.time('getDailyActivity')
+	const date = sql<string>`DATE(${activityTable.createdAt}, 'unixepoch')`
+	const data = await db.select({ action: activityTable.action, date, count: count() }).from(activityTable).where(eq(activityTable.userId, userId)).groupBy(activityTable.action, date)
+	console.timeEnd('getDailyActivity')
 	return data
 }
 
@@ -66,9 +60,9 @@ export const getCardsGroupedByActivityDate = async (userId: string) => {
 
 
 
-export const getCardsOrderByNextPractice = async (userId: string) => {
+export const getCardsOrderByNextPractice = async (userId: string, limit = 50) => {
 	console.time('getCards')
-	const data = await db.select({ id: cardTable.id, front: cardTable.front, back: cardTable.back, createdAt: cardTable.createdAt, nextPractice: cardTable.nextPractice }).from(cardTable).where(and(eq(cardTable.userId, userId), lt(cardTable.nextPractice, new Date()), eq(cardTable.deleted, false))).orderBy(cardTable.nextPractice)
+	const data = await db.select({ id: cardTable.id, front: cardTable.front, back: cardTable.back, createdAt: cardTable.createdAt, nextPractice: cardTable.nextPractice }).from(cardTable).where(and(eq(cardTable.userId, userId), lt(cardTable.nextPractice, new Date()), eq(cardTable.deleted, false))).orderBy(cardTable.nextPractice).limit(limit)
 	console.timeEnd('getCards')
 	return data
 }

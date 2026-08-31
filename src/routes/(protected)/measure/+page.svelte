@@ -7,9 +7,9 @@
 <div class="container mt-10 flex flex-col items-center space-y-8">
 	{#await data.reviewedInfo then info}
 		<Streak data={info} />
-		<HeatmapCard title={`${info.length} cards reviewed in last one year`} data={info} />
+		<HeatmapCard title="cards reviewed" data={info} />
 	{/await}
 	{#await data.recordedInfo then info}
-		<HeatmapCard title={`${info.length} cards created in last one year`} data={info} />
+		<HeatmapCard title="cards created" data={info} />
 	{/await}
 </div>

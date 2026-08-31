@@ -3,7 +3,6 @@
 
 	export let cards: CardRevisePage[];
 	export let revisedCards: string[];
-	export let remainingCards: CardRevisePage[];
 	let progress = '0';
 	$: {
 		if (cards.length === 0) {
@@ -24,7 +23,7 @@
 	</div>
 </div>
 
-{#if remainingCards.length === 0}
+{#if cards.length === 0}
 	<div class="mt-20 text-center">
 		You have revised all the cards. Go to <a href="/record" class="underline">Record</a> to create more
 	</div>

@@ -6,7 +6,6 @@ import { server } from '../../../mocks/node';
 import { http, HttpResponse } from 'msw';
 import { mockCards } from '../../../mocks/mockData';
 
-
 beforeAll(() => server.listen());
 afterAll(() => server.close());
 afterEach(() => server.resetHandlers());
@@ -18,7 +17,7 @@ describe('CardReview', () => {
 
 			expect(screen.getByText('Reviewed: 0/2')).toBeInTheDocument();
 			expect(screen.getByText('Question 1')).toBeInTheDocument();
-			expect(screen.getByText('Question 2')).toBeInTheDocument();
+			expect(screen.queryByText('Question 2')).not.toBeInTheDocument();
 		});
 
 		it('shows "all cards reviewed" message when no cards remain', async () => {
@@ -26,7 +25,7 @@ describe('CardReview', () => {
 
 			expect(screen.getByText(/You have revised all the cards/)).toBeInTheDocument();
 		});
-	})
+	});
 
 	describe('Card Review Functionality', () => {
 		it('sends correct requestBody when a card is reviewed', async () => {
@@ -34,7 +33,7 @@ describe('CardReview', () => {
 				server.use(
 					http.post('?/review', async ({ request }) => {
 						const formData = await request.formData();
-						const requestBody = Object.fromEntries(formData)
+						const requestBody = Object.fromEntries(formData);
 						resolve(requestBody);
 					})
 				);
@@ -42,14 +41,14 @@ describe('CardReview', () => {
 			render(CardReview, { cards: mockCards });
 			const easyButton = screen.getAllByText('super easy')[0];
 			await fireEvent.click(easyButton);
-			await tick()
+			await tick();
 
 			const requestBody = await requestPromise;
 			expect(requestBody).toEqual({
 				cardId: '1',
 				difficulty: 'Easy'
 			});
-		})
+		});
 
 		it('updates revised cards count when a card is reviewed', async () => {
 			render(CardReview, { cards: mockCards });
@@ -63,27 +62,26 @@ describe('CardReview', () => {
 		});
 
 		it('shows correct message after reviewing 5 cards', async () => {
-			const manyCards = Array(6).fill(null).map((_, i) => ({
-				id: String(i),
-				front: `Question ${i}`,
-				back: `Answer ${i}`,
-				nextPractice: new Date(),
-				createdAt: new Date()
-			}));
+			const manyCards = Array(6)
+				.fill(null)
+				.map((_, i) => ({
+					id: String(i),
+					front: `Question ${i}`,
+					back: `Answer ${i}`,
+					nextPractice: new Date(),
+					createdAt: new Date()
+				}));
 
 			render(CardReview, { cards: manyCards });
 
-			const easyButtons = screen.getAllByText('super easy');
 			for (let i = 0; i < 5; i++) {
-				await fireEvent.click(easyButtons[i]);
+				await fireEvent.click(screen.getByText('super easy'));
 				await tick();
 			}
 
 			expect(screen.getByText('Reviewed: 5/6')).toBeInTheDocument();
 		});
-	})
-
-
+	});
 
 	describe('Card Deletion', () => {
 		it('deletes a card and updates UI correctly', async () => {
@@ -121,5 +119,5 @@ describe('CardReview', () => {
 				cardId: '1'
 			});
 		});
-	})
+	});
 });
