@@ -2,7 +2,6 @@
 	import { enhance } from '$app/forms';
 	import type { CardAddSchema } from '$lib/schemas';
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
-	import EmojiLockOpen from '~icons/arcticons/emoji-lock-open';
 
 	export let data: SuperValidated<Infer<CardAddSchema>>;
 	export let showHeading = false;
@@ -16,15 +15,15 @@
 <form
 	method="post"
 	{action}
-	use:enhance={({ formElement, formData, action, cancel, submitter }) => {
+	use:enhance={({ formData }) => {
 		loading = true;
-		return ({update}) => {
+		return ({ update }) => {
 			loading = false;
 			const result = onSubmit(formData.get('front') as string);
-			if(result === undefined){
+			if (result === undefined) {
 				update();
 			}
-		}
+		};
 	}}
 >
 	<div class="mx-auto max-w-xl rounded-lg border border-dashed shadow-sm">

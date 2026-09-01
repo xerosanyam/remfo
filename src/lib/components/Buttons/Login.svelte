@@ -1,5 +1,4 @@
 <script lang="ts">
-	import SqrlLoginIcon from '~icons/arcticons/signaturespoofingchecker';
 	export let text: string = 'sign in';
 </script>
 

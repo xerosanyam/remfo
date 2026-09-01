@@ -28,6 +28,7 @@
 	<meta name="description" content="a tool that helps you remember" />
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	<!-- eslint-disable-next-line svelte/no-at-html-tags -- trusted markup from vite-plugin-pwa -->
 	{@html webManifestLink}
 	<script type="application/ld+json">
 		{

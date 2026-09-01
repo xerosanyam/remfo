@@ -164,10 +164,7 @@ describe('calculateSuperMemo2Algorithm', () => {
 
 	describe('failing grades reset the schedule', () => {
 		test.each(['Hard', 'Challenging'] as const)('%s resets to day 1 and 0 repetitions', (grade) => {
-			const result = calculateSuperMemo2Algorithm(
-				card({ repetitions: 9, interval: 240 }),
-				grade
-			);
+			const result = calculateSuperMemo2Algorithm(card({ repetitions: 9, interval: 240 }), grade);
 			expect(result.interval).toBe(1);
 			expect(result.repetitions).toBe(0);
 		});

@@ -4,8 +4,9 @@
 	export let data;
 	export let form;
 
+	type GeneratedCard = { question: string; answer: string };
 	let added: string[] = [];
-	let cards: any = [];
+	let cards: GeneratedCard[] = [];
 	$: {
 		cards =
 			form?.data?.filter((card: { question: string }) => !added.includes(card.question)) || [];
@@ -27,7 +28,7 @@
 						<AddNewCard
 							action="/learn?/add"
 							data={{ ...data.addForm, data: { front: card.question, back: card.answer } }}
-							onSubmit={(question:string ) => addToList(question)}
+							onSubmit={(question: string) => addToList(question)}
 						/>
 					</div>
 				{/each}

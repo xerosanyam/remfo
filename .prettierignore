@@ -2,3 +2,16 @@
 pnpm-lock.yaml
 package-lock.json
 yarn.lock
+
+# Generated and tool-owned state
+.agents
+.beads
+.claude
+.codex
+.perf
+.svelte-kit
+.vercel
+build
+migrations/meta
+node_modules
+static/mockServiceWorker.js

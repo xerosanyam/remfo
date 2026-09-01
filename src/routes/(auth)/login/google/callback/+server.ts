@@ -1,16 +1,16 @@
-import { OAuth2RequestError } from "arctic";
-import { google, lucia } from "$lib/server/auth";
+import { OAuth2RequestError } from 'arctic';
+import { google, lucia } from '$lib/server/auth';
 
-import type { RequestEvent } from "@sveltejs/kit";
-import { getGoogleUserWhereEmail, insertOrUpdateGoogleUser } from "$lib/db/tables/user.table";
-import { ROUTES } from "$lib/routes.util";
+import type { RequestEvent } from '@sveltejs/kit';
+import { getGoogleUserWhereEmail, insertOrUpdateGoogleUser } from '$lib/db/tables/user.table';
+import { ROUTES } from '$lib/routes.util';
 
 export async function GET(event: RequestEvent): Promise<Response> {
-	const code = event.url.searchParams.get("code");
-	const state = event.url.searchParams.get("state");
+	const code = event.url.searchParams.get('code');
+	const state = event.url.searchParams.get('state');
 
-	const storedState = event.cookies.get("google_oauth_state") ?? null;
-	const storedCodeVerifier = event.cookies.get("google_oauth_code_verifier");
+	const storedState = event.cookies.get('google_oauth_state') ?? null;
+	const storedCodeVerifier = event.cookies.get('google_oauth_code_verifier');
 
 	if (!code || !state || !storedState || !storedCodeVerifier || state !== storedState) {
 		return new Response(null, {
@@ -20,7 +20,7 @@ export async function GET(event: RequestEvent): Promise<Response> {
 
 	try {
 		const tokens = await google.validateAuthorizationCode(code, storedCodeVerifier);
-		const response = await fetch("https://openidconnect.googleapis.com/v1/userinfo", {
+		const response = await fetch('https://openidconnect.googleapis.com/v1/userinfo', {
 			headers: {
 				Authorization: `Bearer ${tokens.accessToken}`
 			}
@@ -47,7 +47,7 @@ export async function GET(event: RequestEvent): Promise<Response> {
 		const session = await lucia.createSession(userId, {});
 		const sessionCookie = lucia.createSessionCookie(session.id);
 		event.cookies.set(sessionCookie.name, sessionCookie.value, {
-			path: ".",
+			path: '.',
 			...sessionCookie.attributes
 		});
 		return new Response(null, {
@@ -57,7 +57,7 @@ export async function GET(event: RequestEvent): Promise<Response> {
 			}
 		});
 	} catch (e) {
-		console.error('google auth:', e)
+		console.error('google auth:', e);
 		// the specific error message depends on the provider
 		if (e instanceof OAuth2RequestError) {
 			// invalid code

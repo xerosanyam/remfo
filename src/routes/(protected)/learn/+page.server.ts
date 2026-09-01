@@ -10,7 +10,7 @@ import { addAction } from '$lib/actions/card.action.js';
 
 export async function load({ locals }) {
 	if (!sessionExists(locals)) {
-		redirect(302, ROUTES.LOGIN)
+		redirect(302, ROUTES.LOGIN);
 	}
 
 	const addForm = await superValidate(zod(cardAddSchema));
@@ -19,12 +19,12 @@ export async function load({ locals }) {
 
 	return {
 		addForm,
-		learnForm,
+		learnForm
 	};
 }
 
 const generateCard = async (event: RequestEvent) => {
-	const { locals } = event
+	const { locals } = event;
 	if (!sessionExists(locals)) {
 		redirect(302, ROUTES.LOGIN);
 	}
@@ -34,16 +34,16 @@ const generateCard = async (event: RequestEvent) => {
 		return fail(400, { form });
 	}
 
-	console.log('generateCard ~ form:', form)
+	console.log('generateCard ~ form:', form);
 
 	const { cards, error } = await generateCardUsingOpenAI({
 		userInput: form.data.userInput
 	});
 
-	return { data: cards, error: error, userInput: form.data.userInput }
-}
+	return { data: cards, error: error, userInput: form.data.userInput };
+};
 
 export const actions = {
 	generateCard,
-	add: addAction(ROUTES.LEARN),
-}
+	add: addAction(ROUTES.LEARN)
+};

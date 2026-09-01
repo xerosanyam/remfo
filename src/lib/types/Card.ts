@@ -3,8 +3,8 @@ export type CardEssentials = {
 	front: string;
 	back: string;
 	createdAt: Date;
-}
+};
 
 export type CardRevisePage = CardEssentials & {
 	nextPractice: Date;
-}
+};
