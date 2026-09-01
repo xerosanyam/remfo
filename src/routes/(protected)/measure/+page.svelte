@@ -5,11 +5,7 @@
 </script>
 
 <div class="container mt-10 flex flex-col items-center space-y-8">
-	{#await data.reviewedInfo then info}
-		<Streak data={info} />
-		<HeatmapCard title="cards reviewed" data={info} />
-	{/await}
-	{#await data.recordedInfo then info}
-		<HeatmapCard title="cards created" data={info} />
-	{/await}
+	<Streak data={data.reviewedInfo} />
+	<HeatmapCard title="cards reviewed" data={data.reviewedInfo} />
+	<HeatmapCard title="cards created" data={data.recordedInfo} />
 </div>

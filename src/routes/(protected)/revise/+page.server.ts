@@ -1,10 +1,6 @@
 import { redirect } from '@sveltejs/kit';
-import { superValidate } from 'sveltekit-superforms';
-import { zod } from 'sveltekit-superforms/adapters';
-
 import { ROUTES } from '$lib/routes.util.js';
 
-import { cardReviewSchema } from '$lib/schemas.js';
 import { sessionExists } from '$lib/common.util.js';
 import { deleteAction, reviewAction } from '$lib/actions/card.action.js';
 import { getCardsOrderByNextPractice } from '$lib/db/tables/card.table.js';
@@ -14,13 +10,9 @@ export async function load({ locals }) {
 		redirect(302, ROUTES.LOGIN);
 	}
 
-	const reviewForm = superValidate(zod(cardReviewSchema));
 	const cards = await getCardsOrderByNextPractice(locals.user.id);
 
-	return {
-		reviewForm,
-		cards
-	};
+	return { cards };
 }
 
 export const actions = {

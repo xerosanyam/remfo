@@ -27,6 +27,40 @@ describe('CardReview', () => {
 		});
 	});
 
+	describe('Answer disclosure', () => {
+		// The answer used to be hidden with `blur-md hover:filter-none`, unreachable on a
+		// touch/e-ink device and dependent on hover. <details> is the native, JS-free
+		// equivalent. happy-dom 14 has no HTMLDetailsElement, so it neither exposes `open`
+		// nor toggles on click; native disclosure is the browser's contract, not ours.
+		// What is ours, and what these assert: the answer lives inside a <details> behind a
+		// <summary>, and the disclosure is rebuilt per card so it cannot stay open.
+		const disclosure = () => document.querySelector('details#answer') as HTMLElement;
+
+		it('puts the answer behind a summary rather than a hover-revealed div', async () => {
+			render(CardReview, { cards: mockCards });
+
+			expect(disclosure()).toBeInTheDocument();
+			expect(disclosure().querySelector('summary')?.textContent?.trim()).toBe('show answer');
+			expect(disclosure().textContent).toContain('Answer 1');
+			expect(disclosure().hasAttribute('open')).toBe(false);
+			expect(disclosure().className).not.toMatch(/blur|hover:filter-none/);
+		});
+
+		it('rebuilds the disclosure for the next card so it cannot stay open', async () => {
+			render(CardReview, { cards: mockCards });
+
+			// stands in for the user opening it, since happy-dom will not toggle on click
+			disclosure().setAttribute('open', '');
+
+			await fireEvent.click(screen.getAllByText('super easy')[0]);
+			await tick();
+
+			expect(screen.getByText('Question 2')).toBeInTheDocument();
+			expect(disclosure().textContent).toContain('Answer 2');
+			expect(disclosure().hasAttribute('open')).toBe(false);
+		});
+	});
+
 	describe('Card Review Functionality', () => {
 		it('sends correct requestBody when a card is reviewed', async () => {
 			const requestPromise = new Promise((resolve) => {
