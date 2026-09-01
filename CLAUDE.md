@@ -1,4 +1,4 @@
-# remfo
+# Remfo
 
 Spaced-repetition flashcard app (SvelteKit + Turso/libSQL + Lucia auth), deployed to Vercel edge.
 

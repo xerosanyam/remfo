@@ -15,7 +15,7 @@ export async function load({ locals }) {
 	}
 
 	const reviewForm = superValidate(zod(cardReviewSchema));
-	const cards = getCardsOrderByNextPractice(locals.user.id);
+	const cards = await getCardsOrderByNextPractice(locals.user.id);
 
 	return {
 		reviewForm,

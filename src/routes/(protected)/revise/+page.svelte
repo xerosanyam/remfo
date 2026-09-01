@@ -3,6 +3,4 @@
 	export let data;
 </script>
 
-{#await data.cards then cards}
-	<CardReview {cards} />
-{/await}
+<CardReview cards={data.cards} />
