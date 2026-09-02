@@ -2,6 +2,10 @@
 	"name": "remfo",
 	"version": "0.0.1",
 	"private": true,
+	"browserslist": [
+		"defaults",
+		"Safari 6"
+	],
 	"scripts": {
 		"dev": "vite dev",
 		"build": "bun run test && vite build",

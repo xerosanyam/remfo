@@ -69,7 +69,7 @@
 			{#each links as link (link.href)}
 				<a
 					target={link.href.includes('https://') ? '_blank' : ''}
-					class={`${$page.url.pathname === link.href ? 'bg-gray-100' : ''} flex w-1/3 flex-col items-center whitespace-nowrap border-r p-1 px-4 text-xs ring-offset-background transition-colors hover:bg-gray-200 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 sm:h-10 sm:w-full sm:flex-row sm:gap-2 sm:py-6 sm:text-base `}
+					class={`${$page.url.pathname === link.href ? 'bg-gray-100' : ''} flex w-1/4 flex-col items-center whitespace-nowrap border-r p-1 px-4 text-xs ring-offset-background transition-colors hover:bg-gray-200 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 sm:h-10 sm:w-full sm:flex-row sm:gap-2 sm:py-6 sm:text-base `}
 					href={link.href}
 				>
 					<svelte:component
