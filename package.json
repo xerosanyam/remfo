@@ -15,7 +15,8 @@
 		"format": "prettier --write .",
 		"generate": "npx drizzle-kit generate",
 		"migrate": "npx drizzle-kit migrate",
-		"perf": "node scripts/perf.mjs"
+		"perf": "node scripts/perf.mjs",
+		"test:nojs": "node scripts/nojs.mjs"
 	},
 	"devDependencies": {
 		"@eslint/js": "9.7.0",

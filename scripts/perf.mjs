@@ -13,9 +13,9 @@
 // Protected pages need a session. This mints one directly in the DB the same way the lucia
 // libsql adapter does, scopes the cookie to the target origin, and deletes it afterwards.
 
-import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
-import { randomUUID } from 'node:crypto';
+import { mkdirSync, readdirSync, writeFileSync } from 'node:fs';
 import { createClient } from '@libsql/client';
+import { deleteSession, loadEnv, mintSession, openDb } from './session.mjs';
 import * as chromeLauncher from 'chrome-launcher';
 import puppeteer from 'puppeteer-core';
 import lighthouse from 'lighthouse';
@@ -62,15 +62,7 @@ const opts = {
 	report: has('report')
 };
 
-// vite loads .env then .env.local, later wins
-const env = {};
-for (const file of ['.env', '.env.local']) {
-	if (!existsSync(file)) continue;
-	for (const line of readFileSync(file, 'utf8').split('\n')) {
-		const m = line.match(/^\s*([A-Z_][A-Z0-9_]*)\s*=\s*(.*)$/);
-		if (m) env[m[1]] = m[2].trim().replace(/^['"]|['"]$/g, '');
-	}
-}
+const env = loadEnv();
 
 // ------------------------------------------------------------- results store
 
@@ -273,21 +265,10 @@ let app = null;
 let sessionId = null;
 
 if (needsAuth) {
-	if (!env.TURSO_CONNECTION_URL) throw new Error('TURSO_CONNECTION_URL missing from .env');
-	app = createClient({ url: env.TURSO_CONNECTION_URL, authToken: env.TURSO_AUTH_TOKEN });
-
-	const userId =
-		env.PERF_USER_ID ??
-		(await app.execute('SELECT id FROM auth_user ORDER BY created_at LIMIT 1')).rows[0]?.id;
-	if (!userId) throw new Error('no user in auth_user to mint a session for');
-
-	// same columns and second-precision expiry the lucia libsql adapter writes
-	sessionId = randomUUID();
-	await app.execute({
-		sql: 'INSERT INTO user_session (id, user_id, expires_at) VALUES (?, ?, ?)',
-		args: [sessionId, userId, Math.floor(Date.now() / 1000) + 3600]
-	});
-	console.log(`minted session for user ${userId}`);
+	app = openDb(env);
+	const minted = await mintSession(app, env);
+	sessionId = minted.sessionId;
+	console.log(`minted session for user ${minted.userId}`);
 }
 console.log(`pages: ${opts.pages.join(', ')}`);
 
@@ -424,7 +405,7 @@ try {
 } finally {
 	if (chrome) await chrome.kill();
 	if (sessionId) {
-		await app.execute({ sql: 'DELETE FROM user_session WHERE id = ?', args: [sessionId] });
+		await deleteSession(app, sessionId);
 		console.log('session deleted');
 	}
 	if (previewServer) await previewServer.close();

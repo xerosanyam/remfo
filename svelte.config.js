@@ -12,7 +12,15 @@ const config = {
 		// If your environment is not supported or you settled on a specific environment, switch out the adapter.
 		// See https://kit.svelte.dev/docs/adapters for more information about adapters.
 		adapter: adapter({
-			runtime: 'edge'
+			runtime: 'edge',
+			// The database is a single Turso primary in India. Edge functions otherwise run
+			// near the viewer, which maximises the distance to it on the hot path, and every
+			// protected request pays that round trip twice: once to validate the session in
+			// hooks.server.ts, then again for the page's own query. Measured at 256ms each
+			// against production before this was set (Server-Timing: auth;desc="session db").
+			// Pinning next to the database trades one round trip of HTML latency for far-away
+			// viewers against two round trips of database latency for everyone.
+			regions: ['bom1']
 		})
 	}
 };
