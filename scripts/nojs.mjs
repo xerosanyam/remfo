@@ -32,6 +32,19 @@ const CHECKS = [
 		]
 	},
 	{
+		page: '/record',
+		present: [
+			{ what: 'the add-card form', match: (html) => /<textarea/.test(html) },
+			// NewCards renders this footer only once the list is in hand, so it doubles as
+			// proof that the load resolved rather than that a shell was returned
+			{ what: 'the card list', match: (html) => /showing \d+ of \d+ cards/.test(html) },
+			{ what: 'no load failure', match: (html) => !html.includes('could not load your cards.') }
+		],
+		absent: [
+			{ what: 'a streamed-promise resolve() script', match: (html) => /\.resolve\(/.test(html) }
+		]
+	},
+	{
 		page: '/measure',
 		present: [
 			{ what: 'the streak panel', match: (html) => html.includes('Current Streak:') },

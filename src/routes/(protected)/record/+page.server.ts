@@ -30,9 +30,13 @@ export async function load({ locals, url }) {
 	return {
 		addForm,
 		limit,
-		// streamed, not awaited: the shell and the add-card form render one round trip
-		// earlier, while the card list is still in flight
-		cards: loadCards(locals.user!.id, limit)
+		// Awaited, not streamed. A streamed promise is delivered through an inline script,
+		// so with no JS the list never arrived at all. Streaming bought a couple of
+		// milliseconds once the database stopped being a continent away, which is not worth
+		// a card list that only exists for JS clients.
+		// The catch keeps what the old {:catch} branch gave us: a failed load degrades to a
+		// message beside a working add form, rather than a whole error page.
+		cards: await loadCards(locals.user!.id, limit).catch(() => null)
 	};
 }
 
