@@ -5,6 +5,7 @@
 	import JotTextEditor from '~icons/arcticons/jotatexteditor';
 	import SoloLearn from '~icons/arcticons/sololearn';
 	import GithubStar from '~icons/material-symbols-light/kid-star-outline';
+	import PrivacyTip from '~icons/material-symbols-light/privacy-tip-outline';
 	import SendIt from '~icons/arcticons/sendit';
 	import MeditationAssistant from '~icons/arcticons/atom-meditation';
 	import Hamburger from '~icons/arcticons/hamburger-menu';
@@ -26,21 +27,20 @@
 			text: 'essays',
 			icon: MeditationAssistant
 		},
-		{ href: 'https://twitter.com/xerosanyam', text: 'share feedback', icon: SendIt }
+		{ href: 'https://twitter.com/xerosanyam', text: 'share feedback', icon: SendIt },
+		{ href: ROUTES.PRIVACY, text: 'privacy policy', icon: PrivacyTip }
 		// { href: 'https://x.com/remfoapp', text: 'follow on x', icon: XIcon }
 	];
 
 	export let user;
 
-	let links;
-	if (user) {
-		links = signedInLinks;
-	} else {
-		links = signedOuLinks;
-	}
+	// Reactive on purpose. This nav lives in the root layout, so the component survives
+	// client-side navigation: after signing in without a full page load, `user` changes but a
+	// one-time assignment here would keep showing the signed-out links.
+	$: links = user ? signedInLinks : signedOuLinks;
 
-	const pinMenu = $page.url.pathname !== ROUTES.LOGIN;
-	const open = pinMenu || !$page.data.deviceType?.isMobile;
+	$: pinMenu = $page.url.pathname !== ROUTES.LOGIN;
+	$: open = !user || pinMenu || !$page.data.deviceType?.isMobile;
 </script>
 
 <header
@@ -59,8 +59,9 @@
 			<div class="flex items-center justify-between">
 				<Hamburger class="text-xl" />
 				<span class="flex space-x-1">
-					<!-- <Login /> -->
-					<Google text="sign up / login" />
+					{#if !user}
+						<Google text="sign up / login" />
+					{/if}
 				</span>
 			</div>
 		</summary>

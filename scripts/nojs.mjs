@@ -22,6 +22,34 @@ const URL_BASE = 'http://localhost:4173';
 // still on the page, so something is being delivered to JS clients only.
 const CHECKS = [
 	{
+		page: '/privacy',
+		anonymous: true,
+		present: [
+			{ what: 'google data disclosure', match: (html) => html.includes('Google account data') },
+			{ what: 'deletion instructions', match: (html) => html.includes('request deletion') }
+		],
+		absent: [
+			{ what: 'a streamed-promise resolve() script', match: (html) => /\.resolve\(/.test(html) }
+		]
+	},
+	{
+		// signed out on purpose: this page is the way in for browsers google refuses, so it
+		// has to work before any session exists
+		page: '/login/device',
+		anonymous: true,
+		present: [
+			{ what: 'a user code', match: (html) => /\b[A-Z0-9]{3,}(?:-[A-Z0-9]{3,})+\b/.test(html) },
+			{ what: "google's verification link", match: (html) => html.includes('google.com/device') },
+			{
+				what: 'a plain form post to continue',
+				match: (html) => /<form\b[^>]*\bmethod="post"/.test(html)
+			}
+		],
+		absent: [
+			{ what: 'a streamed-promise resolve() script', match: (html) => /\.resolve\(/.test(html) }
+		]
+	},
+	{
 		page: '/revise',
 		present: [
 			{ what: 'the card question block', match: (html) => html.includes('id="question"') },
@@ -82,9 +110,9 @@ try {
 		});
 	}
 
-	for (const { page, present, absent } of CHECKS) {
+	for (const { page, present, absent, anonymous } of CHECKS) {
 		const res = await fetch(URL_BASE + page, {
-			headers: { cookie: `auth_session=${sessionId}` },
+			headers: anonymous ? {} : { cookie: `auth_session=${sessionId}` },
 			redirect: 'manual'
 		});
 		const html = await res.text();

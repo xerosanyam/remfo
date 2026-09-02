@@ -1,8 +1,7 @@
 import { OAuth2RequestError } from 'arctic';
-import { google, lucia } from '$lib/server/auth';
+import { createSessionFromGoogleToken, google } from '$lib/server/auth';
 
 import type { RequestEvent } from '@sveltejs/kit';
-import { getGoogleUserWhereEmail, insertOrUpdateGoogleUser } from '$lib/db/tables/user.table';
 import { ROUTES } from '$lib/routes.util';
 
 export async function GET(event: RequestEvent): Promise<Response> {
@@ -18,38 +17,14 @@ export async function GET(event: RequestEvent): Promise<Response> {
 		});
 	}
 
+	// Single-use secrets, so they go as soon as they have been read. Leaving them behind also
+	// muddies the signal the login page uses to notice an attempt that never came back.
+	event.cookies.delete('google_oauth_state', { path: '/' });
+	event.cookies.delete('google_oauth_code_verifier', { path: '/' });
+
 	try {
 		const tokens = await google.validateAuthorizationCode(code, storedCodeVerifier);
-		const response = await fetch('https://openidconnect.googleapis.com/v1/userinfo', {
-			headers: {
-				Authorization: `Bearer ${tokens.accessToken}`
-			}
-		});
-		const user = await response.json();
-
-		const existingUser = await getGoogleUserWhereEmail(user.email);
-		let userId = null;
-		if (existingUser) {
-			await insertOrUpdateGoogleUser({
-				id: existingUser.id,
-				...user
-			});
-			userId = existingUser.id;
-		} else {
-			const newUserId = crypto.randomUUID();
-			await insertOrUpdateGoogleUser({
-				id: newUserId,
-				...user
-			});
-			userId = newUserId;
-		}
-
-		const session = await lucia.createSession(userId, {});
-		const sessionCookie = lucia.createSessionCookie(session.id);
-		event.cookies.set(sessionCookie.name, sessionCookie.value, {
-			path: '.',
-			...sessionCookie.attributes
-		});
+		await createSessionFromGoogleToken(tokens.accessToken, event.cookies);
 		return new Response(null, {
 			status: 302,
 			headers: {

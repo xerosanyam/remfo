@@ -1,5 +1,7 @@
 <script>
 	import Google from '$lib/components/Buttons/Google.svelte';
+	import { ROUTES } from '$lib/routes.util';
+	export let data;
 	import JotTextEditor from '~icons/arcticons/jotatexteditor';
 	import BodyMeasures from 'virtual:icons/arcticons/body-measures';
 	import MyBrain from 'virtual:icons/arcticons/my-brain';
@@ -47,4 +49,17 @@
 	<div class="mt-10 hidden justify-center space-x-1 sm:flex">
 		<Google text="sign up / login" />
 	</div>
+
+	<!-- The fallback stays a quiet link, never a second button: it must not compete with the
+	     primary call to action for people whose browser google accepts. It sits outside the
+	     wrapper above, which is hidden below the sm breakpoint, so it stays reachable at the
+	     narrow widths where this is actually needed. -->
+	<p class="mx-auto mt-6 max-w-xs text-center text-sm text-gray-500">
+		{#if data.bouncedFromGoogle}
+			couldn't sign in? some browsers can't load google's sign-in page.
+			<a class="whitespace-nowrap underline" href={ROUTES.LOGIN_DEVICE}>sign in with a code</a>
+		{:else}
+			<a class="underline" href={ROUTES.LOGIN_DEVICE}>trouble signing in? use a code</a>
+		{/if}
+	</p>
 </div>
