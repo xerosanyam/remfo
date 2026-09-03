@@ -52,7 +52,7 @@ describe('CardReview', () => {
 			// stands in for the user opening it, since happy-dom will not toggle on click
 			disclosure().setAttribute('open', '');
 
-			await fireEvent.click(screen.getAllByText('super easy')[0]);
+			await fireEvent.click(screen.getAllByRole('button', { name: 'super easy' })[0]);
 			await tick();
 
 			expect(screen.getByText('Question 2')).toBeInTheDocument();
@@ -73,7 +73,7 @@ describe('CardReview', () => {
 				);
 			});
 			render(CardReview, { cards: mockCards });
-			const easyButton = screen.getAllByText('super easy')[0];
+			const easyButton = screen.getAllByRole('button', { name: 'super easy' })[0];
 			await fireEvent.click(easyButton);
 			await tick();
 
@@ -87,8 +87,9 @@ describe('CardReview', () => {
 		it('updates revised cards count when a card is reviewed', async () => {
 			render(CardReview, { cards: mockCards });
 
-			const easyButton = screen.getAllByText('super easy')[0];
+			const easyButton = screen.getAllByRole('button', { name: 'super easy' })[0];
 			await fireEvent.click(easyButton);
+			await tick();
 
 			expect(screen.getByText('Reviewed: 1/2')).toBeInTheDocument();
 			expect(screen.queryByText('Question 1')).not.toBeInTheDocument();
@@ -109,7 +110,7 @@ describe('CardReview', () => {
 			render(CardReview, { cards: manyCards });
 
 			for (let i = 0; i < 5; i++) {
-				await fireEvent.click(screen.getByText('super easy'));
+				await fireEvent.click(screen.getByRole('button', { name: 'super easy' }));
 				await tick();
 			}
 

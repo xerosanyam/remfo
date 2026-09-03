@@ -7,7 +7,6 @@
 		"vitest.explorer",
 		"antfu.iconify",
 		"yoavbls.pretty-ts-errors",
-		"streetsidesoftware.code-spell-checker",
 		"usernamehw.errorlens",
 		"mikestead.dotenv"
 	]

@@ -10,7 +10,7 @@
 		"sourceMap": true,
 		"strict": true,
 		"moduleResolution": "bundler",
-		"types": ["unplugin-icons/types/svelte", "@testing-library/jest-dom"]
+		"types": ["unplugin-icons/types/svelte", "@testing-library/jest-dom/vitest"]
 	}
 	// Path aliases are handled by https://kit.svelte.dev/docs/configuration#alias
 	//

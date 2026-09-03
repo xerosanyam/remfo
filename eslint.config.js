@@ -42,9 +42,5 @@ export default [
 		plugins: { '@typescript-eslint': ts },
 		rules: { ...ts.configs.recommended.rules, 'no-undef': 'off' }
 	},
-	{
-		files: ['cypress/**/*.ts'],
-		languageOptions: { globals: { ...globals.browser, ...globals.mocha, cy: 'readonly' } }
-	},
 	prettier
 ];
