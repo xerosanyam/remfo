@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import type { CardAddSchema } from '$lib/schemas';
+	import { shortcut } from '$lib/shortcuts';
 	import MyStar from '~icons/arcticons/mykyivstar';
 	import Save from '~icons/arcticons/saveto';
 
@@ -11,6 +12,7 @@
 
 	const { form, errors, constraints } = superForm(formData);
 	let loading = false;
+	let formRef: HTMLFormElement;
 
 	let placeholders = [
 		{
@@ -35,7 +37,17 @@
 	};
 </script>
 
-<form method="post" action="/record?/add" use:enhance={customEnhance}>
+<form
+	method="post"
+	action="/record?/add"
+	use:enhance={customEnhance}
+	bind:this={formRef}
+	use:shortcut={{
+		control: true,
+		code: 'Enter',
+		callback: () => formRef.requestSubmit()
+	}}
+>
 	<div class="relative mx-auto mt-8 flex max-w-lg space-x-1">
 		<div class="w-full rounded-sm border-dashed sm:border">
 			<div class="mb-0 flex flex-col px-6 py-2">
