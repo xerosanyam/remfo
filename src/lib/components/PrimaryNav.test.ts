@@ -22,6 +22,15 @@ describe('PrimaryNav', () => {
 			'/privacy'
 		);
 		expect(screen.queryByText('revise')).not.toBeInTheDocument();
+		expect(container.querySelector('form[action="/logout"]')).not.toBeInTheDocument();
+	});
+
+	it('keeps sign out in the shared navigation for narrow signed-in layouts', () => {
+		const { container } = render(PrimaryNav, { user });
+		const logoutForm = container.querySelector('nav form[action="/logout"]');
+
+		expect(logoutForm).toBeInTheDocument();
+		expect(logoutForm?.querySelector('button')).toHaveTextContent('sign out');
 	});
 
 	// The regression this exists for: this component lives in the root layout, so it survives

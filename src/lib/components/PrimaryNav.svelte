@@ -43,10 +43,23 @@
 	$: open = !user || pinMenu || !$page.data.deviceType?.isMobile;
 </script>
 
+<!-- Keep the last page content above the fixed mobile navigation. In the signed-out menu,
+     the native details summary adds a second row. The spacer remains in normal flow so the
+     root flex layout also puts the navigation at the bottom of short pages. -->
+<div
+	aria-hidden="true"
+	class="shrink-0 sm:hidden"
+	style={`height: calc(${open && !pinMenu ? '8rem' : '4rem'} + env(safe-area-inset-bottom))`}
+></div>
+
 <header
-	class="fixed bottom-0 z-20 flex w-full flex-col border-r bg-white shadow-lg sm:top-0 sm:h-screen sm:w-44"
+	class="fixed bottom-0 z-20 flex w-full flex-col border-r bg-white pb-[env(safe-area-inset-bottom)] shadow-lg sm:top-0 sm:h-screen sm:w-44 sm:pb-0"
 >
-	<a class="hidden items-center p-2 text-gray-900 sm:flex md:mb-0" href="/">
+	<a
+		class="hidden items-center p-2 text-gray-900 sm:flex md:mb-0"
+		href="/"
+		aria-label="remember forever home"
+	>
 		<enhanced:img
 			src={Logo}
 			class="h-10 w-10 rounded-full"
@@ -54,8 +67,8 @@
 			alt="logo of remember forever"
 		></enhanced:img>
 	</a>
-	<details {open}>
-		<summary class={`list-none p-4 sm:hidden ${pinMenu ? 'hidden' : ''}`}>
+	<details {open} class="sm:flex sm:min-h-0 sm:flex-1 sm:flex-col">
+		<summary class={`h-16 list-none p-4 sm:hidden ${pinMenu ? 'hidden' : ''}`}>
 			<div class="flex items-center justify-between">
 				<Hamburger class="text-xl" />
 				<span class="flex space-x-1">
@@ -65,11 +78,11 @@
 				</span>
 			</div>
 		</summary>
-		<nav class="flex w-screen sm:mt-8 sm:w-44 sm:flex-col">
+		<nav class="flex w-screen sm:mt-8 sm:w-44 sm:flex-1 sm:flex-col">
 			{#each links as link (link.href)}
 				<a
 					target={link.href.includes('https://') ? '_blank' : ''}
-					class={`${$page.url.pathname === link.href ? 'bg-gray-100' : ''} flex w-1/4 flex-col items-center whitespace-nowrap border-r p-1 px-4 text-xs ring-offset-background transition-colors hover:bg-gray-200 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 sm:h-10 sm:w-full sm:flex-row sm:gap-2 sm:py-6 sm:text-base `}
+					class={`${$page.url.pathname === link.href ? 'bg-gray-100' : ''} flex h-16 min-w-0 ${user ? 'w-1/5' : 'w-1/4'} flex-col items-center justify-center border-r p-1 text-center text-[0.7rem] leading-tight ring-offset-background transition-colors hover:bg-gray-200 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 sm:h-10 sm:w-full sm:flex-row sm:justify-start sm:gap-2 sm:px-4 sm:py-6 sm:text-left sm:text-base sm:leading-normal `}
 					href={link.href}
 				>
 					<svelte:component
@@ -79,10 +92,7 @@
 					{link.text}
 				</a>
 			{/each}
+			{#if user}<Logout />{/if}
 		</nav>
 	</details>
-	<div class="hidden sm:block">
-		{#if user}<Logout></Logout>
-		{/if}
-	</div>
 </header>

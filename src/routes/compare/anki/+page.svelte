@@ -1,7 +1,7 @@
-<div class="mx-auto max-w-lg pt-8">
+<div class="mx-auto max-w-lg px-4 py-8">
 	<h1 class="mb-8 text-xl">Remfo vs Anki</h1>
 
-	<pre class="font-sans">
+	<pre class="whitespace-pre-wrap break-words font-sans">
 remfo is modern-anki
 you can set it as new tab
 
@@ -12,7 +12,7 @@ we want you to have fun!
 </pre>
 	<br />
 
-	<pre class="font-sans">
+	<pre class="whitespace-pre-wrap break-words font-sans">
 anki is versatile
 </pre>
 </div>

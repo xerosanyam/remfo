@@ -18,10 +18,12 @@
 	const webManifestLink = pwaInfo ? pwaInfo.webManifest.linkTag : '';
 </script>
 
-<PrimaryNav user={data?.user} />
-<main class="sm:ml-44">
-	<slot></slot>
-</main>
+<div class="flex min-h-screen flex-col sm:block">
+	<main class="flex-1 sm:ml-44">
+		<slot></slot>
+	</main>
+	<PrimaryNav user={data?.user} />
+</div>
 
 <svelte:head>
 	<title>remember forever</title>

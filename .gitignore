@@ -10,6 +10,7 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vercel/
 .perf/
+.superdesign/tmp/
 
 # Beads / Dolt files (added by bd init)
 .dolt/

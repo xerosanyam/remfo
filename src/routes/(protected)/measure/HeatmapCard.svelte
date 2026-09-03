@@ -6,9 +6,9 @@
 	$: total = data.reduce((sum, item) => sum + item.count, 0);
 </script>
 
-<div class="rounded-sm border p-2">
+<div class="w-full max-w-full rounded-sm border p-2">
 	<h2>{total} {title}</h2>
-	<div>
+	<div class="max-w-full overflow-x-auto pb-2">
 		<Heatmap {data} />
 	</div>
 </div>

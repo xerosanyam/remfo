@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "targets": {
+    "/:mobile": {
+      "targetKind": "existing-ui",
+      "projectId": "689e243a-4f70-4f16-935a-8fd02ad3df0b",
+      "baselineDraftId": "19c864b9-29ab-4852-b065-7a01ffbea4ef",
+      "activeDraftId": "19c864b9-29ab-4852-b065-7a01ffbea4ef",
+      "designSystemPath": ".superdesign/design-system.md",
+      "referenceIds": ["src-lib-assets-logo-black.png"],
+      "brandAssets": {
+        "logo": {
+          "assetKey": "src-lib-assets-logo-black.png",
+          "url": "https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/projects/689e243a-4f70-4f16-935a-8fd02ad3df0b/brand-assets/src-lib-assets-logo-black.png/logo-black.png",
+          "sourcePath": "src/lib/assets/logo-black.png"
+        }
+      },
+      "contextFiles": [
+        ".superdesign/design-system.md",
+        "src/app.css",
+        "tailwind.config.ts",
+        "src/routes/+layout.svelte",
+        "src/lib/components/PrimaryNav.svelte",
+        "src/lib/components/Buttons/Google.svelte",
+        "src/routes/+page.svelte"
+      ],
+      "fingerprints": {
+        ".superdesign/design-system.md": "bafc41d88b3efcbc144e9e9e20e303145784e4af20ab22d529b49587c893b520",
+        "src/app.css": "9655ed9ae3225c2ebf088d277b31e7cafe2c86370bb4983de305b2e3a7a5be19",
+        "tailwind.config.ts": "77d169e317f41a9473201f71fe575825f0f9e6b7ca1d363bd5dc5d56c9b7527f",
+        "src/routes/+layout.svelte": "29d002acc4de6835d81c7e333f2ba395ffa3ab2b4010e32da1fa19bbfd8552b6",
+        "src/lib/components/PrimaryNav.svelte": "b36917706447bbc87073a58bfbe3110a6d7167da343d8946b6814a3bbe476d70",
+        "src/lib/components/Buttons/Google.svelte": "fd78ec3e0da89f5cae6e92f2c5a2dec033305c90cf49fc3559b56bd8c2c9ff06",
+        "src/routes/+page.svelte": "6782f4d10b8baa1d21609bf05c35e89cf15a095f865865f7756244243ef47c41"
+      },
+      "components": [
+        {
+          "name": "PrimaryNav",
+          "id": "1d024347-4c04-4e7d-ad0f-3e000302ecb0",
+          "sourcePath": "src/lib/components/PrimaryNav.svelte",
+          "logoAssetKey": "src-lib-assets-logo-black.png"
+        }
+      ],
+      "drafts": {
+        "19c864b9-29ab-4852-b065-7a01ffbea4ef": {
+          "title": "Remfo Home",
+          "visualDirection": "spacious mobile home with explicit bottom-navigation clearance",
+          "currentVersion": 2
+        }
+      },
+      "updatedAt": "2026-09-02T23:55:00Z"
+    },
+    "/:desktop": {
+      "targetKind": "existing-ui",
+      "projectId": "689e243a-4f70-4f16-935a-8fd02ad3df0b",
+      "baselineDraftId": "4db31faa-921b-4d4d-9f67-8458e2b02fce",
+      "activeDraftId": "4db31faa-921b-4d4d-9f67-8458e2b02fce",
+      "designSystemPath": ".superdesign/design-system.md",
+      "referenceIds": ["src-lib-assets-logo-black.png"],
+      "brandAssets": {
+        "logo": {
+          "assetKey": "src-lib-assets-logo-black.png",
+          "url": "https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/projects/689e243a-4f70-4f16-935a-8fd02ad3df0b/brand-assets/src-lib-assets-logo-black.png/logo-black.png",
+          "sourcePath": "src/lib/assets/logo-black.png"
+        }
+      },
+      "contextFiles": [
+        ".superdesign/design-system.md",
+        "src/app.css",
+        "tailwind.config.ts",
+        "src/routes/+layout.svelte",
+        "src/lib/components/PrimaryNav.svelte",
+        "src/lib/components/Buttons/Google.svelte",
+        "src/routes/+page.svelte"
+      ],
+      "fingerprints": {
+        ".superdesign/design-system.md": "bafc41d88b3efcbc144e9e9e20e303145784e4af20ab22d529b49587c893b520",
+        "src/app.css": "9655ed9ae3225c2ebf088d277b31e7cafe2c86370bb4983de305b2e3a7a5be19",
+        "tailwind.config.ts": "77d169e317f41a9473201f71fe575825f0f9e6b7ca1d363bd5dc5d56c9b7527f",
+        "src/routes/+layout.svelte": "29d002acc4de6835d81c7e333f2ba395ffa3ab2b4010e32da1fa19bbfd8552b6",
+        "src/lib/components/PrimaryNav.svelte": "b36917706447bbc87073a58bfbe3110a6d7167da343d8946b6814a3bbe476d70",
+        "src/lib/components/Buttons/Google.svelte": "fd78ec3e0da89f5cae6e92f2c5a2dec033305c90cf49fc3559b56bd8c2c9ff06",
+        "src/routes/+page.svelte": "6782f4d10b8baa1d21609bf05c35e89cf15a095f865865f7756244243ef47c41"
+      },
+      "components": [
+        {
+          "name": "PrimaryNav",
+          "id": "1d024347-4c04-4e7d-ad0f-3e000302ecb0",
+          "sourcePath": "src/lib/components/PrimaryNav.svelte",
+          "logoAssetKey": "src-lib-assets-logo-black.png"
+        }
+      ],
+      "drafts": {
+        "4db31faa-921b-4d4d-9f67-8458e2b02fce": {
+          "title": "Remfo Home, centered desktop layout",
+          "visualDirection": "vertically centered spacious desktop home with nowrap sidebar labels",
+          "currentVersion": 2
+        }
+      },
+      "updatedAt": "2026-09-02T23:55:00Z"
+    },
+    "/measure:desktop": {
+      "targetKind": "existing-ui",
+      "projectId": "689e243a-4f70-4f16-935a-8fd02ad3df0b",
+      "baselineDraftId": "21cae076-8369-46d1-88f0-809c02503e05",
+      "activeDraftId": "21cae076-8369-46d1-88f0-809c02503e05",
+      "designSystemPath": ".superdesign/design-system.md",
+      "referenceIds": ["src-lib-assets-logo-black.png"],
+      "brandAssets": {
+        "logo": {
+          "assetKey": "src-lib-assets-logo-black.png",
+          "url": "https://vgbujcuwptvheqijyjbe.supabase.co/storage/v1/object/public/hmac-uploads/projects/689e243a-4f70-4f16-935a-8fd02ad3df0b/brand-assets/src-lib-assets-logo-black.png/logo-black.png",
+          "sourcePath": "src/lib/assets/logo-black.png"
+        }
+      },
+      "contextFiles": [
+        ".superdesign/design-system.md",
+        "src/app.css",
+        "tailwind.config.ts",
+        "src/routes/+layout.svelte",
+        "src/lib/components/PrimaryNav.svelte",
+        "src/lib/components/Logout.svelte",
+        "src/routes/(protected)/measure/+page.svelte",
+        "src/routes/(protected)/measure/Streak.svelte",
+        "src/routes/(protected)/measure/HeatmapCard.svelte",
+        "src/lib/components/Heatmap/Heatmap.svelte"
+      ],
+      "fingerprints": {
+        ".superdesign/design-system.md": "bafc41d88b3efcbc144e9e9e20e303145784e4af20ab22d529b49587c893b520",
+        "src/app.css": "9655ed9ae3225c2ebf088d277b31e7cafe2c86370bb4983de305b2e3a7a5be19",
+        "tailwind.config.ts": "77d169e317f41a9473201f71fe575825f0f9e6b7ca1d363bd5dc5d56c9b7527f",
+        "src/routes/+layout.svelte": "29d002acc4de6835d81c7e333f2ba395ffa3ab2b4010e32da1fa19bbfd8552b6",
+        "src/lib/components/PrimaryNav.svelte": "b36917706447bbc87073a58bfbe3110a6d7167da343d8946b6814a3bbe476d70",
+        "src/lib/components/Logout.svelte": "6fbc32f80862bca3090dc3229795b3d0e2735687ebfb3a03cb71319f6896e261",
+        "src/routes/(protected)/measure/+page.svelte": "b01addf0debd73695944149bba4594b8d3d2cc111df829fecef59bb3deeaf003",
+        "src/routes/(protected)/measure/Streak.svelte": "b40d02c724a1a38a5c0a4b46f653c7ff965fb8fded26d1cf5c5835a713082910",
+        "src/routes/(protected)/measure/HeatmapCard.svelte": "790a41f8248e51618f26785f989632c6865b73a1abab05483a05185b2e41ea0d",
+        "src/lib/components/Heatmap/Heatmap.svelte": "678a99950f4e5e0f59af32b2ce36e793e0c3029a45281c32a2159dc9db29e453"
+      },
+      "components": [
+        {
+          "name": "PrimaryNav",
+          "id": "1d024347-4c04-4e7d-ad0f-3e000302ecb0",
+          "sourcePath": "src/lib/components/PrimaryNav.svelte",
+          "logoAssetKey": "src-lib-assets-logo-black.png"
+        }
+      ],
+      "drafts": {
+        "21cae076-8369-46d1-88f0-809c02503e05": {
+          "title": "Remfo Measure, desktop sidebar and calendar repair",
+          "visualDirection": "centered desktop calendars with matched bottom sidebar sign-out",
+          "currentVersion": 2
+        }
+      },
+      "updatedAt": "2026-09-02T23:55:00Z"
+    }
+  }
+}

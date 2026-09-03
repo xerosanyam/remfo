@@ -8,7 +8,7 @@
 	import SoloLearn from 'virtual:icons/arcticons/sololearn';
 </script>
 
-<div class="container mx-auto h-screen max-w-lg items-center py-8">
+<div class="container mx-auto max-w-lg items-center px-4 py-8">
 	<div class="mx-auto font-sans">
 		<h1 class="mb-2 text-3xl font-medium">a tool that helps you remember.</h1>
 		<ul class="mt-10 grid gap-8">

@@ -50,10 +50,13 @@
 {#if cards.length > 0}
 	{#each dates as date (date)}
 		<div class="relative mx-auto mt-8 max-w-lg space-y-4 rounded-lg">
-			<div class="absolute -left-14 z-10 w-12 bg-white py-2 text-center" title={date}>
+			<div
+				class="w-fit bg-white px-4 py-2 text-sm text-gray-500 sm:absolute sm:-left-14 sm:z-10 sm:w-12 sm:px-0 sm:text-center"
+				title={date}
+			>
 				{humanReadableDate(groupedCards[date][0].createdAt)}
 			</div>
-			<div class="absolute -left-8 h-full border-r"></div>
+			<div class="absolute -left-8 hidden h-full border-r sm:block"></div>
 			{#each groupedCards[date] as card (card.id)}
 				<div
 					class="group relative min-h-16 rounded-sm border-white px-4 py-2 hover:bg-gray-100"
@@ -81,7 +84,7 @@
 								>
 									{card.back}
 								</div>
-								<div class="flex justify-end px-2 sm:hidden">
+								<div class="flex justify-end px-2 lg:hidden">
 									<form method="post" action="?/delete" use:enhance={customEnhance}>
 										<input type="hidden" hidden name="cardId" value={card.id} />
 										<button
@@ -96,7 +99,7 @@
 						</div>
 					</div>
 					<div
-						class="absolute -right-28 bottom-0 hidden h-full flex-col-reverse px-2 opacity-0 group-hover:opacity-100 sm:flex"
+						class="absolute -right-28 bottom-0 hidden h-full flex-col-reverse px-2 opacity-0 group-hover:opacity-100 lg:flex"
 					>
 						<form method="post" action="?/delete" use:enhance={customEnhance}>
 							<input type="hidden" hidden name="cardId" value={card.id} />

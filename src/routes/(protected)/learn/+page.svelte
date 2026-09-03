@@ -18,7 +18,7 @@
 	};
 </script>
 
-<section class="body-font mx-auto mt-10 max-w-lg text-gray-600">
+<section class="body-font mx-auto mt-10 max-w-lg px-4 text-gray-600 sm:px-0">
 	<div class="container mx-auto">
 		<GenerateFlashCard data={data.learnForm} />
 		<div class="container mx-auto mt-10 flex flex-wrap justify-center text-center">

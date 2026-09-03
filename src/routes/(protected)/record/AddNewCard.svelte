@@ -37,7 +37,7 @@
 
 <form method="post" action="/record?/add" use:enhance={customEnhance}>
 	<div class="relative mx-auto mt-8 flex max-w-lg space-x-1">
-		<div class="w-full rounded-sm border-dashed sm:border">
+		<div class="w-full rounded-sm border-dashed lg:border">
 			<div class="mb-0 flex flex-col px-6 py-2">
 				<p class="ml-6 text-muted-foreground">write something you'd like to remember</p>
 			</div>
@@ -76,7 +76,7 @@
 								disabled={loading}
 								{...$constraints.back}
 							></textarea>
-							<div class="flex justify-end sm:hidden">
+							<div class="flex justify-end lg:hidden">
 								<button
 									class="flex items-center space-x-1 rounded-md border bg-gray-800 px-4 py-2 text-white disabled:pointer-events-none disabled:opacity-50"
 									disabled={loading}
@@ -89,7 +89,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="absolute -right-24 bottom-0 hidden sm:block">
+		<div class="absolute -right-24 bottom-0 hidden lg:block">
 			<button
 				class="flex items-center space-x-1 rounded-md border bg-gray-800 px-4 py-2 text-white disabled:pointer-events-none disabled:opacity-50"
 				disabled={loading}
