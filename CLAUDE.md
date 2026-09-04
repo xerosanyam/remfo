@@ -10,6 +10,7 @@ Spaced-repetition flashcard app (SvelteKit + Turso/libSQL + Lucia auth), deploye
 - App should work well without Mouse
 - Should work well on touch devices
 - Should work well with Firefox, Chrome
+- Use ponytail, caveman, grillme skill when requried
 
 ## Commands
 
