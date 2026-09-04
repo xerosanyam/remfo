@@ -1,5 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 import { lucia } from '$lib/server/auth';
+import { evictSessionCache } from '$lib/server/session-cache';
 
 import type { RequestEvent } from './$types';
 import { ROUTES } from '$lib/routes.util';
@@ -9,6 +10,7 @@ const logout = async (event: RequestEvent) => {
 		redirect(302, ROUTES.LOGIN);
 	}
 	await lucia.invalidateSession(event.locals.session.id);
+	evictSessionCache(event.locals.session.id);
 	const sessionCookie = lucia.createBlankSessionCookie();
 	event.cookies.set(sessionCookie.name, sessionCookie.value, {
 		path: '.',
