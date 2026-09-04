@@ -1,0 +1,74 @@
+name: CI
+
+on:
+  push:
+    branches: [main, dev, staging]
+  pull_request:
+
+# Cancel superseded runs on the same branch/PR so pushes don't queue behind stale ones.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test-and-build:
+    name: Test & build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Test
+        run: bun run test
+
+      - name: Build
+        run: bun run build
+        env:
+          # $env/static/private is resolved at build time, so SvelteKit needs every var
+          # referenced anywhere in the app to at least be defined. These are placeholders,
+          # not real credentials - the build never connects out, it only bundles/type-checks.
+          # Real secrets live in Vercel's own env vars for the actual deploy.
+          TURSO_CONNECTION_URL: 'libsql://ci-placeholder.turso.io'
+          TURSO_AUTH_TOKEN: 'ci-placeholder'
+          GOOGLE_CLIENT_ID: 'ci-placeholder'
+          GOOGLE_CLIENT_SECRET: 'ci-placeholder'
+          REDIRECT_URI: 'https://ci-placeholder.example.com/login/google/callback'
+          GOOGLE_DEVICE_CLIENT_ID: 'ci-placeholder'
+          GOOGLE_DEVICE_CLIENT_SECRET: 'ci-placeholder'
+          OPENAI_API_KEY: 'ci-placeholder'
+
+  check-and-lint:
+    name: Type check & lint (informational)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      # Not blocking yet: both currently fail on pre-existing debt unrelated to any one
+      # change (see remfo-vav for lint, and the long-standing svelte-check baseline).
+      # Promote to blocking once that debt is cleared - continue-on-error keeps the
+      # signal visible in the run without failing the check.
+      - name: Type check
+        run: bun run check
+        continue-on-error: true
+        env:
+          TURSO_CONNECTION_URL: 'libsql://ci-placeholder.turso.io'
+          TURSO_AUTH_TOKEN: 'ci-placeholder'
+          GOOGLE_CLIENT_ID: 'ci-placeholder'
+          GOOGLE_CLIENT_SECRET: 'ci-placeholder'
+          REDIRECT_URI: 'https://ci-placeholder.example.com/login/google/callback'
+          GOOGLE_DEVICE_CLIENT_ID: 'ci-placeholder'
+          GOOGLE_DEVICE_CLIENT_SECRET: 'ci-placeholder'
+          OPENAI_API_KEY: 'ci-placeholder'
+
+      - name: Lint
+        run: bun run lint
+        continue-on-error: true
