@@ -7,6 +7,9 @@ Spaced-repetition flashcard app (SvelteKit + Turso/libSQL + Lucia auth), deploye
 - UX should be snappy
 - Use Best practices of HTML, CSS, JS, Accessibility
 - App should work well without JS
+- App should work well without Mouse
+- Should work well on touch devices
+- Should work well with Firefox, Chrome
 
 ## Commands
 
@@ -104,4 +107,5 @@ This protocol applies when ending a Beads implementation workflow. It is subordi
 - Explicit user or orchestrator instructions override this Beads block.
 - Do not commit or push without clear authority from the active profile or the current user request.
 - If a required sync or push is blocked, stop and report the exact command and error.
+
 <!-- END BEADS INTEGRATION -->

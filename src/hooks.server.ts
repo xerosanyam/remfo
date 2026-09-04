@@ -1,7 +1,7 @@
 import { lucia } from '$lib/server/auth';
 import { turso_client } from '$lib/db/turso.db';
 import type { Handle } from '@sveltejs/kit';
-import { handleDeviecDetector } from 'sveltekit-device-detector';
+import { handleDeviceDetector } from 'sveltekit-device-detector';
 
 const sessionAndUserInfo: { [key: string]: App.Locals } = {};
 
@@ -79,6 +79,6 @@ const handle: Handle = async ({ event, resolve }) => {
 	return response;
 };
 
-const handleWithDeviceDetector = handleDeviecDetector({}, handle);
+const handleWithDeviceDetector = handleDeviceDetector({}, handle);
 
 export { handleWithDeviceDetector as handle };

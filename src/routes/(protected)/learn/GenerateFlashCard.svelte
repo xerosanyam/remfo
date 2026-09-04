@@ -21,6 +21,11 @@
 		};
 	}}
 	bind:this={formRef}
+	use:shortcut={{
+		control: true,
+		code: 'Enter',
+		callback: () => formRef.requestSubmit()
+	}}
 >
 	<div class="mx-auto mt-4 max-w-xl rounded-lg border border-dashed shadow-sm">
 		<div class="flex flex-col p-6 pb-4">
@@ -38,11 +43,6 @@
 						bind:value={$form.userInput}
 						{...$constraints.userInput}
 						data-gramm="false"
-						use:shortcut={{
-							control: true,
-							code: 'Enter',
-							callback: () => formRef.dispatchEvent(new Event('submit', { bubbles: true }))
-						}}
 					></textarea>
 					{#if $errors.userInput}<div class="text-red-800">{$errors.userInput}</div>{/if}
 				</div>
