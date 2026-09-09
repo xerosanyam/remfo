@@ -136,13 +136,18 @@ export const reviewCard = async ({
 		.select()
 		.from(cardTable)
 		.where(and(eq(cardTable.id, cardId), eq(cardTable.userId, userId)));
-	let card = cards[0];
+	const existing = cards[0];
 
-	card = calculateSuperMemo2Algorithm(card, difficulty);
+	// A forged or foreign cardId matches nothing here. Say so rather than handing undefined to
+	// the SM-2 calculation, which dereferences card.repetitions and surfaced as a 500.
+	if (!existing) return false;
+
+	const card = calculateSuperMemo2Algorithm(existing, difficulty);
 	console.time('reviewCard');
 	await db
 		.update(cardTable)
 		.set(card)
 		.where(and(eq(cardTable.id, cardId), eq(cardTable.userId, userId)));
 	console.timeEnd('reviewCard');
+	return true;
 };

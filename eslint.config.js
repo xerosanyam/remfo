@@ -40,7 +40,14 @@ export default [
 			globals: { ...globals.browser, ...globals.node }
 		},
 		plugins: { '@typescript-eslint': ts },
-		rules: { ...ts.configs.recommended.rules, 'no-undef': 'off' }
+		rules: {
+			...ts.configs.recommended.rules,
+			'no-undef': 'off',
+			// The core rule cannot see Svelte reactivity: it reads `let x = initial` followed by
+			// a `$:` block assigning x as a dead store, when the initialiser is what the first
+			// render actually uses. Left on for .ts/.js, where it is accurate.
+			'no-useless-assignment': 'off'
+		}
 	},
 	prettier
 ];

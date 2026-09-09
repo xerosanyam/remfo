@@ -8,8 +8,11 @@
 	let cal;
 	let divElement: HTMLDivElement;
 
-	const currentDate = new Date();
-	currentDate.setMonth(currentDate.getMonth() - 12);
+	// Built in one shot rather than mutated after construction: this is only the calendar's
+	// start boundary, so it needs no reactivity (and so no SvelteDate). Shifting the year is
+	// equivalent to setMonth(month - 12), Feb 29 normalisation included.
+	const today = new Date();
+	const currentDate = new Date(today.getFullYear() - 1, today.getMonth(), today.getDate());
 	onMount(() => {
 		cal = new CalHeatmap();
 		cal.paint(

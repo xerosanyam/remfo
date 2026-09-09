@@ -15,7 +15,7 @@
 
 <div>
 	<div class="h-2 w-full bg-gray-200">
-		<div style={`width:${progress}`} class={`h-full w-0 bg-gray-400`}></div>
+		<div style={`width:${progress}`} class="h-full w-0 bg-gray-400"></div>
 	</div>
 	<div class="flex justify-between text-gray-500">
 		<div>{progress}</div>
