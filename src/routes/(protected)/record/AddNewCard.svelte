@@ -7,6 +7,7 @@
 
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
 	import type { ActionResult } from '@sveltejs/kit';
+	import posthog from 'posthog-js';
 
 	export let formData: SuperValidated<Infer<CardAddSchema>>;
 
@@ -29,7 +30,9 @@
 	const customEnhance = ({ formElement }: { formElement: HTMLFormElement }) => {
 		HTMLFormElement.prototype.reset.call(formElement);
 		return ({ result, update }: { result: ActionResult; update: () => void }) => {
-			if (result.type === 'error' || result.type === 'failure') {
+			if (result.type === 'success') {
+				posthog.capture('flashcard_created', { entry_point: 'record' });
+			} else if (result.type === 'error' || result.type === 'failure') {
 				alert('unable to save.');
 			}
 			update();

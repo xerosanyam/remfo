@@ -8,5 +8,6 @@ export const ROUTES = {
 	RECORD: '/record',
 	ALL: '/all',
 	LEARN: '/learn',
-	REVISE: '/revise'
+	REVISE: '/revise',
+	POMO: '/pomo'
 };
