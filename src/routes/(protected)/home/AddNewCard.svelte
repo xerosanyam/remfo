@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import type { CardAddSchema } from '$lib/schemas';
+	import posthog from 'posthog-js';
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
 
 	export let data: SuperValidated<Infer<CardAddSchema>>;
@@ -17,10 +18,15 @@
 	{action}
 	use:enhance={({ formData }) => {
 		loading = true;
-		return ({ update }) => {
+		return ({ result, update }) => {
 			loading = false;
-			const result = onSubmit(formData.get('front') as string);
-			if (result === undefined) {
+			if (result.type === 'success') {
+				posthog.capture('flashcard_created', {
+					entry_point: action === '/learn?/add' ? 'learning' : 'home'
+				});
+			}
+			const submittedResult = onSubmit(formData.get('front') as string);
+			if (submittedResult === undefined) {
 				update();
 			}
 		};

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
+	import posthog from 'posthog-js';
 
 	import {
 		POMODORO_SECONDS,
@@ -47,7 +48,11 @@
 				body: JSON.stringify(body)
 			});
 			// Offline, edge hiccup, expired session: keep it locally rather than lose the minutes.
-			if (!response.ok) addPending(body);
+			if (response.ok) {
+				posthog.capture('pomodoro_session_recorded', { completed: body.completed });
+			} else {
+				addPending(body);
+			}
 		} catch {
 			addPending(body);
 		}
@@ -81,6 +86,7 @@
 	}
 
 	function start() {
+		posthog.capture('pomodoro_started');
 		justFinished = false;
 		writeRunning({ startedAt: Date.now(), duration: POMODORO_SECONDS });
 		refresh();

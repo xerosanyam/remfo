@@ -6,6 +6,7 @@
 	import { format } from 'date-fns';
 	import MyStar from '~icons/arcticons/mykyivstar';
 	import Trash from '~icons/arcticons/trashcan';
+	import posthog from 'posthog-js';
 
 	export let cards: CardEssentials[];
 	export let totalCards: number;
@@ -38,7 +39,9 @@
 		const tCardId = formData.get('cardId') as string;
 		modifyingCardId = tCardId;
 		return ({ result, update }: { result: ActionResult; update: () => void }) => {
-			if (result.type === 'error' || result.type === 'failure') {
+			if (result.type === 'success') {
+				posthog.capture('flashcard_deleted');
+			} else if (result.type === 'error' || result.type === 'failure') {
 				alert('unable to delete.');
 			}
 			modifyingCardId = '';

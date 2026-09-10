@@ -18,3 +18,4 @@ vite.config.ts.timestamp-*
 .beads/proxieddb/
 .superdesign
 .vercel
+.posthog-wizard-cache/
