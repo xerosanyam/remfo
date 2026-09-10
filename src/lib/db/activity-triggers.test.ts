@@ -131,9 +131,7 @@ describe('pomodoro triggers', () => {
 	it('dates the activity row from ended_at, not from now', async () => {
 		const row = await pomodoro(db);
 
-		const { rows } = await db.execute(
-			"SELECT created_at FROM activity WHERE action = 'POMODORO'"
-		);
+		const { rows } = await db.execute("SELECT created_at FROM activity WHERE action = 'POMODORO'");
 		expect(Number(rows[0].created_at)).toBe(row.ended_at);
 	});
 });

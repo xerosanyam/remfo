@@ -73,6 +73,25 @@ const CHECKS = [
 		]
 	},
 	{
+		// The one page whose no-JS story is not "the data arrived": a countdown cannot exist
+		// without a clock. The fallback is a CSS-only timer, so what has to be true is that the
+		// stylesheet reaches the page as a <link> rather than being injected by JS, and that the
+		// checkbox the animation hangs off is really in the markup.
+		page: '/pomo',
+		anonymous: true,
+		present: [
+			{ what: 'the css-only timer control', match: (html) => html.includes('id="css-start"') },
+			{
+				what: 'a linked stylesheet, not one injected by script',
+				match: (html) => /<link[^>]*rel="stylesheet"/.test(html)
+			},
+			{ what: 'the starting time', match: (html) => html.includes('25:00') }
+		],
+		absent: [
+			{ what: 'a streamed-promise resolve() script', match: (html) => /\.resolve\(/.test(html) }
+		]
+	},
+	{
 		page: '/measure',
 		present: [
 			{ what: 'the streak panel', match: (html) => html.includes('Current Streak:') },

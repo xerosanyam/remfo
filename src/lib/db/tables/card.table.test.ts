@@ -15,7 +15,9 @@ vi.mock('$lib/db/turso.db', async () => {
 
 	const client = createClient({ url: ':memory:' });
 	const dir = new URL('../../../../migrations', import.meta.url).pathname;
-	for (const file of readdirSync(dir).filter((f) => f.endsWith('.sql')).sort()) {
+	for (const file of readdirSync(dir)
+		.filter((f) => f.endsWith('.sql'))
+		.sort()) {
 		for (const statement of readFileSync(`${dir}/${file}`, 'utf8').split(
 			'--> statement-breakpoint'
 		)) {

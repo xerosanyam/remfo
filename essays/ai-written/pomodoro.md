@@ -29,8 +29,7 @@ return.
 
 Ringing a locked phone needs Web Push: a service worker, VAPID keys, stored
 subscriptions, a scheduled server-side send, and on iOS a home-screen install.
-That is the largest single piece of work in the feature, for a ring at minute
-25. Deferred until there is evidence of using `/pomo` from a locked phone.
+That is the largest single piece of work in the feature, for a ring at minute 25. Deferred until there is evidence of using `/pomo` from a locked phone.
 
 Wake Lock does not help here. It keeps the screen from dimming while the page
 is visible and auto-releases the moment the tab is hidden, which is exactly
@@ -68,10 +67,23 @@ stream of who, what, when. That is what makes a future `/log` cheap.
 The `@property` CSS countdown genuinely works, and is the fallback:
 
 ```css
-@property --t { syntax: '<integer>'; initial-value: 1500; inherits: false }
-.t { animation: tick 1500s linear forwards; counter-reset: t var(--t) }
-.t::after { content: counter(t) }
-@keyframes tick { to { --t: 0 } }
+@property --t {
+	syntax: '<integer>';
+	initial-value: 1500;
+	inherits: false;
+}
+.t {
+	animation: tick 1500s linear forwards;
+	counter-reset: t var(--t);
+}
+.t::after {
+	content: counter(t);
+}
+@keyframes tick {
+	to {
+		--t: 0;
+	}
+}
 ```
 
 Firefox shipped `@property` in 128, so all three target browsers are covered.
@@ -79,7 +91,7 @@ Pause works via a checkbox toggling `animation-play-state`. What CSS cannot do
 is make a sound or log a row, so JS-off gets a working visual countdown and
 nothing else.
 
-Note that offline and no-JS point in opposite directions: offline needs *more*
+Note that offline and no-JS point in opposite directions: offline needs _more_
 JS, not less, since it wants a service worker.
 
 ## Anonymous sessions
