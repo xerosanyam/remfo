@@ -36,7 +36,6 @@
 		"@testing-library/svelte": "^5.2.0",
 		"@typescript-eslint/eslint-plugin": "8.69.0",
 		"@typescript-eslint/parser": "8.69.0",
-		"@vercel/analytics": "2.0.1",
 		"@vite-pwa/sveltekit": "1.1.0",
 		"@vitest/ui": "5.0.0",
 		"arctic": "1.9.2",
