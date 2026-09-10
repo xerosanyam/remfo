@@ -68,9 +68,9 @@ export type SelectCard = typeof cardTable.$inferSelect;
 export const activityTable = sqliteTable('activity', {
 	id: text('id').primaryKey(),
 	action: text('action').notNull(),
-	cardId: text('card_id')
-		.notNull()
-		.references(() => cardTable.id),
+	// Nullable: not every logged event has a card. A pomodoro session writes an activity row
+	// with no card_id at all (see migrations/0004).
+	cardId: text('card_id').references(() => cardTable.id),
 	userId: text('user_id')
 		.notNull()
 		.references(() => userTable.id),
@@ -80,3 +80,23 @@ export const activityTable = sqliteTable('activity', {
 });
 export type InsertActivity = typeof activityTable.$inferInsert;
 export type SelectActivity = typeof activityTable.$inferSelect;
+
+export const pomodoroSessionTable = sqliteTable('pomodoro_session', {
+	id: text('id').primaryKey(),
+	userId: text('user_id')
+		.notNull()
+		.references(() => userTable.id),
+	// Nullable: an abandoned session, or one claimed from a logged-out browser, may have no task.
+	task: text('task'),
+	// The planned length in seconds (1500 for a standard 25 minutes). Actual focus time is
+	// ended_at - started_at, so a session abandoned early keeps its real minutes.
+	duration: integer('duration').notNull(),
+	startedAt: integer('started_at', { mode: 'timestamp' }).notNull(),
+	endedAt: integer('ended_at', { mode: 'timestamp' }).notNull(),
+	completed: integer('completed', { mode: 'boolean' }).default(false).notNull(),
+	createdAt: integer('created_at', { mode: 'timestamp' })
+		.default(sql`(unixepoch())`)
+		.notNull()
+});
+export type InsertPomodoroSession = typeof pomodoroSessionTable.$inferInsert;
+export type SelectPomodoroSession = typeof pomodoroSessionTable.$inferSelect;
