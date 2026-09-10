@@ -6,7 +6,12 @@ import { server } from '../../../mocks/node';
 import { http, HttpResponse } from 'msw';
 import { mockCards } from '../../../mocks/mockData';
 
-beforeAll(() => server.listen());
+// 'error' rather than the default 'warn': warn also PERFORMS the unhandled request, so a
+// mock that stops matching turns into a real socket to localhost:3000 (happy-dom's default
+// document origin) that nothing answers. That failed fetch is invisible here, because the
+// optimistic UI update in customEnhance lands before the response, so the assertions still
+// pass while the request they exist to exercise never happened.
+beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
 afterAll(() => server.close());
 afterEach(() => server.resetHandlers());
 
@@ -69,6 +74,9 @@ describe('CardReview', () => {
 						const formData = await request.formData();
 						const requestBody = Object.fromEntries(formData);
 						resolve(requestBody);
+						// returning nothing makes MSW fall through and replay the real request,
+						// whose body this handler has already consumed -> ReadableStream is locked
+						return new HttpResponse(null, { status: 200 });
 					})
 				);
 			});
