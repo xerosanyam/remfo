@@ -17,3 +17,5 @@ vite.config.ts.timestamp-*
 .beads-credential-key
 .beads/proxieddb/
 .superdesign
+.vercel
+.posthog-wizard-cache/

@@ -5,6 +5,15 @@ import { enhancedImages } from '@sveltejs/enhanced-img';
 import { SvelteKitPWA } from '@vite-pwa/sveltekit';
 import { svelteTesting } from '@testing-library/svelte/vite';
 
+const vercelEnvironment = process.env.VERCEL_ENV;
+if (vercelEnvironment === 'preview' || vercelEnvironment === 'production') {
+	for (const name of ['PUBLIC_POSTHOG_PROJECT_TOKEN', 'PUBLIC_POSTHOG_HOST']) {
+		if (!process.env[name]?.trim()) {
+			throw new Error(`${name} is required for ${vercelEnvironment} builds`);
+		}
+	}
+}
+
 export default defineConfig({
 	plugins: [
 		enhancedImages(),

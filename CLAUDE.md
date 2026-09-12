@@ -10,6 +10,9 @@ Spaced-repetition flashcard app (SvelteKit + Turso/libSQL + Lucia auth), deploye
 - App should work well without Mouse
 - Should work well on touch devices
 - Should work well with Firefox, Chrome
+- Always use skills ponytail, caveman
+- Try to use skill grillme when requriements are unclear
+- Our aim is posterity. Still see the latest tech that we could use to improve UX
 
 ## Commands
 
@@ -32,6 +35,13 @@ Env vars live in `.env` (see `.env.example`): `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT
 - `src/lib/actions/card.action.ts` - shared form actions (`addAction`, `reviewAction`, `deleteAction`), each parameterised by redirect target.
 - `src/lib/routes.util.ts` - `ROUTES` map; use it instead of literal paths.
 - `essays/` - design notes and gotchas, not app code.
+
+## Environments
+
+- `main` -> production (`remfo.app`), its own Turso DB.
+- `dev` -> its own separate Turso DB (Vercel env var scoped to that branch).
+- `staging` -> pre-prod branch, deliberately shares production's Turso DB rather than an isolated one (solo dev, kept simple; test writes land in real data - see remfo-0cq for the not-yet-finished Vercel wiring).
+- `REDIRECT_URI` (`src/lib/server/auth.ts`) is baked in at build time via `$env/static/private`, so `/login/google` only works on a domain with a matching redirect URI registered in Google Cloud Console. Vercel preview URLs are random per commit, so this only ever works for `main` plus any branch with its own dedicated Vercel env var override and registered redirect (Vercel's stable per-branch URL: `<project>-git-<branch>-<scope>.vercel.app`). `/login/device` needs no redirect URI at all and works on any preview URL - use it to test auth on ad-hoc branches.
 
 ## Conventions
 

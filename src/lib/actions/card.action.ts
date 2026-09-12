@@ -43,11 +43,16 @@ export function reviewAction(location: string) {
 		if (!form.valid) {
 			return fail(400, { form });
 		}
-		await reviewCard({
+		const reviewed = await reviewCard({
 			cardId: form.data.cardId,
 			userId: locals.user.id,
 			difficulty: form.data.difficulty
 		});
+		// 404 rather than 403: the card either does not exist or is not this user's, and saying
+		// which would confirm the existence of someone else's card.
+		if (!reviewed) {
+			return fail(404, { form });
+		}
 
 		redirect(302, location);
 	};

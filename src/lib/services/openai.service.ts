@@ -52,7 +52,7 @@ schema of sample output:
 		}
 		const { cards, error } = JSON.parse(completion.choices[0].message.content);
 		return { cards, error };
-	} catch (error) {
+	} catch {
 		return { cards: [], error: 'Error in generating cards' };
 	}
 }

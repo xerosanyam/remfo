@@ -2,6 +2,7 @@
 	import Logo from '$lib/assets/logo-black.png?enhanced';
 	import Logout from '$lib/components/Logout.svelte';
 	import BrainF from '~icons/arcticons/brainf';
+	import Pomodoro from '~icons/arcticons/pomodoro';
 	import JotTextEditor from '~icons/arcticons/jotatexteditor';
 	import SoloLearn from '~icons/arcticons/sololearn';
 	import GithubStar from '~icons/material-symbols-light/kid-star-outline';
@@ -18,9 +19,11 @@
 		{ href: '/record', text: 'record', icon: JotTextEditor },
 		{ href: '/revise', text: 'revise', icon: SoloLearn },
 		{ href: '/measure', text: 'measure', icon: BodyMeasures },
-		{ href: '/learn', text: 'generate with ai', icon: BrainF }
+		{ href: '/learn', text: 'generate with ai', icon: BrainF },
+		{ href: ROUTES.POMO, text: 'pomo', icon: Pomodoro }
 	];
 	const signedOuLinks = [
+		{ href: ROUTES.POMO, text: 'pomo', icon: Pomodoro },
 		{ href: 'https://github.com/xerosanyam/remfo', text: 'star on github', icon: GithubStar },
 		{
 			href: 'https://github.com/xerosanyam/remfo/tree/main/essays',

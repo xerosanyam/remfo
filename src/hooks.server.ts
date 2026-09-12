@@ -2,8 +2,7 @@ import { lucia } from '$lib/server/auth';
 import { turso_client } from '$lib/db/turso.db';
 import type { Handle } from '@sveltejs/kit';
 import { handleDeviceDetector } from 'sveltekit-device-detector';
-
-const sessionAndUserInfo: { [key: string]: App.Locals } = {};
+import { evictSessionCache, sessionAndUserInfo } from '$lib/server/session-cache';
 
 const handle: Handle = async ({ event, resolve }) => {
 	const requestStart = performance.now();
@@ -32,6 +31,13 @@ const handle: Handle = async ({ event, resolve }) => {
 	} else {
 		const authStart = performance.now();
 		let { session, user } = sessionAndUserInfo[sessionId] || {};
+		// An expired entry is as good as no entry: evict it and fall through to a real
+		// lookup, rather than keep answering from memory past the session's own expiresAt.
+		if (session && session.expiresAt.getTime() <= Date.now()) {
+			evictSessionCache(sessionId);
+			session = null;
+			user = null;
+		}
 		cacheHit = !!(session && user);
 		if (!cacheHit) {
 			({ session, user } = await lucia.validateSession(sessionId));

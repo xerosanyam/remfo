@@ -2,6 +2,7 @@
 	import { applyAction, enhance } from '$app/forms';
 	import type { CardLearnSchema } from '$lib/schemas';
 	import { shortcut } from '$lib/shortcuts';
+	import posthog from 'posthog-js';
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
 
 	export let data: SuperValidated<Infer<CardLearnSchema>>;
@@ -17,6 +18,13 @@
 		loading = true;
 		return async ({ result }) => {
 			loading = false;
+			const generatedCards =
+				result.type === 'success' && Array.isArray(result.data?.data) ? result.data.data : [];
+			if (generatedCards.length > 0) {
+				posthog.capture('flashcard_generation_completed', {
+					generated_card_count: generatedCards.length
+				});
+			}
 			await applyAction(result);
 		};
 	}}

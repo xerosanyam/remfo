@@ -1,7 +1,9 @@
+import { redirect } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 
 import { ROUTES } from '$lib/routes.util.js';
+import { sessionExists } from '$lib/common.util.js';
 
 import { cardAddSchema } from '$lib/schemas.js';
 import { addAction, deleteAction } from '$lib/actions/card.action.js';
@@ -21,6 +23,12 @@ const loadCards = async (userId: string, limit: number) => {
 };
 
 export async function load({ locals, url }) {
+	// The (protected) layout guard runs in parallel with page loads, not before them, so this
+	// cannot lean on it having already redirected.
+	if (!sessionExists(locals)) {
+		redirect(302, ROUTES.LOGIN);
+	}
+
 	const requested = Number(url.searchParams.get('limit')) || PAGE_SIZE;
 	const limit = Math.min(Math.max(requested, PAGE_SIZE), MAX_LIMIT);
 
@@ -36,7 +44,7 @@ export async function load({ locals, url }) {
 		// a card list that only exists for JS clients.
 		// The catch keeps what the old {:catch} branch gave us: a failed load degrades to a
 		// message beside a working add form, rather than a whole error page.
-		cards: await loadCards(locals.user!.id, limit).catch(() => null)
+		cards: await loadCards(locals.user.id, limit).catch(() => null)
 	};
 }
 

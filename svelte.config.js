@@ -21,7 +21,11 @@ const config = {
 			// Pinning next to the database trades one round trip of HTML latency for far-away
 			// viewers against two round trips of database latency for everyone.
 			regions: ['bom1']
-		})
+		}),
+		// Required for PostHog session replay with SSR.
+		paths: {
+			relative: false
+		}
 	}
 };
 
