@@ -14,6 +14,9 @@
 	import Google from '$lib/components/Buttons/Google.svelte';
 	import { ROUTES } from '$lib/routes.util';
 	import BodyMeasures from 'virtual:icons/arcticons/body-measures';
+	import Sun from '~icons/lucide/sun';
+	import Moon from '~icons/lucide/moon';
+	import { onMount } from 'svelte';
 
 	const signedInLinks = [
 		{ href: '/record', text: 'record', icon: JotTextEditor },
@@ -36,6 +39,40 @@
 	];
 
 	export let user;
+	let isDark = false;
+
+	onMount(() => {
+		const system = window.matchMedia('(prefers-color-scheme: dark)');
+		const syncTheme = () => {
+			let choice = null;
+			try {
+				choice = localStorage.getItem('theme');
+			} catch {
+				// A blocked storage API still allows a theme for this visit.
+			}
+			isDark = choice === 'dark' || (choice !== 'light' && system.matches);
+			document.documentElement.classList.toggle('dark', isDark);
+			document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
+		};
+		syncTheme();
+		system.addEventListener('change', syncTheme);
+		window.addEventListener('storage', syncTheme);
+		return () => {
+			system.removeEventListener('change', syncTheme);
+			window.removeEventListener('storage', syncTheme);
+		};
+	});
+
+	function toggleTheme() {
+		isDark = !isDark;
+		document.documentElement.classList.toggle('dark', isDark);
+		document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
+		try {
+			localStorage.setItem('theme', isDark ? 'dark' : 'light');
+		} catch {
+			// Theme still changes for this visit when storage is unavailable.
+		}
+	}
 
 	// Reactive on purpose. This nav lives in the root layout, so the component survives
 	// client-side navigation: after signing in without a full page load, `user` changes but a
@@ -47,9 +84,9 @@
 </script>
 
 <header
-	class="fixed bottom-0 z-20 flex w-full flex-col border-r bg-white shadow-lg sm:top-0 sm:h-screen sm:w-44"
+	class="fixed bottom-0 z-20 flex w-full flex-col border-r border-slate-200 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-950 sm:top-0 sm:h-screen sm:w-44"
 >
-	<a class="hidden items-center p-2 text-gray-900 sm:flex md:mb-0" href="/">
+	<a class="hidden items-center p-2 sm:flex md:mb-0" href="/" aria-label="remember forever home">
 		<enhanced:img
 			src={Logo}
 			class="h-10 w-10 rounded-full"
@@ -68,11 +105,11 @@
 				</span>
 			</div>
 		</summary>
-		<nav class="flex w-screen sm:mt-8 sm:w-44 sm:flex-col">
+		<nav class="flex w-full sm:mt-8 sm:w-44 sm:flex-col">
 			{#each links as link (link.href)}
 				<a
 					target={link.href.includes('https://') ? '_blank' : ''}
-					class={`${$page.url.pathname === link.href ? 'bg-gray-100' : ''} flex w-1/4 flex-col items-center whitespace-nowrap border-r p-1 px-4 text-xs ring-offset-background transition-colors hover:bg-gray-200 hover:text-gray-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 sm:h-10 sm:w-full sm:flex-row sm:gap-2 sm:py-6 sm:text-base `}
+					class={`${$page.url.pathname === link.href ? 'bg-slate-100 dark:bg-violet-900' : ''} flex min-w-0 flex-1 flex-col items-center border-r border-slate-200 px-1 py-2 text-center text-xs leading-tight ring-offset-white transition-colors hover:bg-slate-100 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 dark:border-slate-700 dark:ring-offset-slate-950 dark:hover:bg-violet-900 dark:hover:text-violet-100 dark:focus-visible:ring-teal-300 sm:h-10 sm:w-full sm:flex-none sm:flex-row sm:gap-2 sm:border-r-0 sm:px-4 sm:py-6 sm:text-left sm:text-base`}
 					href={link.href}
 				>
 					<svelte:component
@@ -82,6 +119,16 @@
 					{link.text}
 				</a>
 			{/each}
+			<button
+				type="button"
+				on:click={toggleTheme}
+				aria-label="dark mode"
+				aria-pressed={isDark}
+				class="flex min-w-0 flex-1 flex-col items-center border-r border-slate-200 px-1 py-2 text-center text-xs leading-tight ring-offset-white transition-colors hover:bg-slate-100 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 dark:border-slate-700 dark:ring-offset-slate-950 dark:hover:bg-violet-900 dark:hover:text-violet-100 dark:focus-visible:ring-teal-300 sm:h-10 sm:w-full sm:flex-none sm:flex-row sm:gap-2 sm:border-r-0 sm:px-4 sm:py-6 sm:text-left sm:text-base"
+			>
+				{#if isDark}<Sun style="font-size:1.5rem" />{:else}<Moon style="font-size:1.5rem" />{/if}
+				<span>theme</span>
+			</button>
 		</nav>
 	</details>
 	<div class="hidden sm:block">

@@ -127,7 +127,7 @@
 </svelte:head>
 
 <div class="mx-auto flex max-w-md flex-col items-center gap-6 px-4 pb-24 pt-16 sm:pt-24">
-	<h1 class="text-sm text-gray-500">pomo</h1>
+	<h1 class="text-sm text-slate-500 dark:text-slate-300">pomo</h1>
 
 	<!-- role=timer with aria-live off on purpose: announcing every second would make this unusable
 	     with a screen reader. The completion message below is the polite announcement. -->
@@ -135,7 +135,7 @@
 		{display}
 	</p>
 
-	<p aria-live="polite" class="min-h-5 text-sm text-gray-500">
+	<p aria-live="polite" class="min-h-5 text-sm text-slate-500 dark:text-slate-300">
 		{#if justFinished}
 			25 minutes done.{data.user ? '' : ' sign in to keep it.'}
 		{:else if running}
@@ -146,21 +146,21 @@
 	{#if running}
 		<button
 			on:click={stop}
-			class="rounded-sm border px-6 py-2 hover:bg-gray-50 focus-visible:outline focus-visible:outline-2"
+			class="rounded-sm border border-slate-200 px-6 py-2 hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 dark:border-slate-700 dark:hover:bg-violet-900"
 		>
 			stop
 		</button>
 	{:else}
 		<button
 			on:click={start}
-			class="rounded-sm border px-6 py-2 hover:bg-gray-50 focus-visible:outline focus-visible:outline-2"
+			class="rounded-sm border border-slate-200 px-6 py-2 hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 dark:border-slate-700 dark:hover:bg-violet-900"
 		>
 			start 25 minutes
 		</button>
 	{/if}
 
 	{#if !data.user}
-		<p class="text-center text-xs text-gray-400">
+		<p class="text-center text-xs text-slate-500 dark:text-slate-300">
 			the timer works signed out. sessions are kept in this browser until you sign in.
 		</p>
 	{/if}
@@ -172,11 +172,15 @@
 		<input type="checkbox" id="css-start" class="sr-only" />
 		<div class="flex flex-col items-center gap-4">
 			<p class="css-timer font-mono text-6xl tabular-nums" aria-hidden="true"></p>
-			<div class="h-1 w-48 bg-gray-200"><div class="css-bar h-full bg-gray-900"></div></div>
-			<label for="css-start" class="cursor-pointer rounded-sm border px-6 py-2 hover:bg-gray-50"
+			<div class="h-1 w-48 bg-slate-100 dark:bg-slate-800">
+				<div class="css-bar h-full bg-slate-900 dark:bg-slate-50"></div>
+			</div>
+			<label
+				for="css-start"
+				class="cursor-pointer rounded-sm border border-slate-200 px-6 py-2 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-violet-900"
 				>start 25 minutes</label
 			>
-			<p class="text-center text-xs text-gray-400">
+			<p class="text-center text-xs text-slate-500 dark:text-slate-300">
 				without javascript the clock runs but nothing is saved and nothing will ring.
 			</p>
 		</div>

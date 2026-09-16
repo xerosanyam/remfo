@@ -32,10 +32,12 @@
 		};
 	}}
 >
-	<div class="mx-auto max-w-xl rounded-lg border border-dashed shadow-sm">
+	<div
+		class="mx-auto max-w-xl rounded-lg border border-dashed border-slate-200 shadow-sm dark:border-slate-700"
+	>
 		{#if showHeading}
 			<div class="flex flex-col space-y-1.5 p-6 pb-4">
-				<p class="text-muted-foreground">1. Write what you want to remember</p>
+				<p class="text-slate-500 dark:text-slate-300">1. Write what you want to remember</p>
 			</div>
 		{/if}
 		<div class="p-6 pt-0">
@@ -46,7 +48,7 @@
 						for="question">question</label
 					>
 					<textarea
-						class="flex min-h-[80px] w-full rounded-md border border-input px-3 py-2 ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+						class="flex min-h-[80px] w-full rounded-md border border-slate-200 bg-white px-3 py-2 ring-offset-white placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-950 dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-teal-300"
 						id="question"
 						name="front"
 						bind:value={$form.front}
@@ -55,14 +57,14 @@
 						{...$constraints.front}
 						data-gramm="false"
 					></textarea>
-					{#if $errors.front}<div class="text-red-800">{$errors.front}</div>{/if}
+					{#if $errors.front}<div class="text-red-800 dark:text-red-400">{$errors.front}</div>{/if}
 				</div>
 				<div class="space-y-2">
 					<label
 						class="font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
 						for="answer">answer</label
 					><textarea
-						class="flex min-h-[80px] w-full rounded-md border border-input px-3 py-2 ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+						class="flex min-h-[80px] w-full rounded-md border border-slate-200 bg-white px-3 py-2 ring-offset-white placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-950 dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-teal-300"
 						id="answer"
 						name="back"
 						bind:value={$form.back}
@@ -70,7 +72,7 @@
 						{...$constraints.back}
 						data-gramm="false"
 					></textarea>
-					{#if $errors.back}<div class="text-red-800">{$errors.back}</div>{/if}
+					{#if $errors.back}<div class="text-red-800 dark:text-red-400">{$errors.back}</div>{/if}
 				</div>
 				<div class="flex items-center justify-center">
 					<!-- <button class="flex items-center space-x-1"
@@ -78,7 +80,7 @@
 					> -->
 					<button
 						disabled={loading}
-						class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-primary px-4 py-2 text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+						class="inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-slate-900 px-4 py-2 text-white ring-offset-white transition-colors hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 dark:bg-teal-300 dark:text-slate-950 dark:ring-offset-slate-950 dark:hover:bg-teal-200 dark:focus-visible:ring-teal-300"
 						type="submit"
 					>
 						save card

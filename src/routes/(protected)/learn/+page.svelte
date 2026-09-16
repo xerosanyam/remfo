@@ -18,7 +18,7 @@
 	};
 </script>
 
-<section class="body-font mx-auto mt-10 max-w-lg text-gray-600">
+<section class="body-font mx-auto mt-10 max-w-lg">
 	<div class="container mx-auto">
 		<GenerateFlashCard data={data.learnForm} />
 		<div class="container mx-auto mt-10 flex flex-wrap justify-center text-center">
@@ -34,7 +34,7 @@
 				{/each}
 			{/if}
 			{#if form?.error}
-				<span class="mt-10 text-red-800">{form?.error}</span>
+				<span role="alert" class="mt-10 text-red-800 dark:text-red-400">{form?.error}</span>
 			{/if}
 		</div>
 	</div>
