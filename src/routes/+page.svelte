@@ -16,7 +16,7 @@
 				<JotTextEditor style="font-size:2rem;" />
 				<div class="grid gap-1">
 					<h2 class="font-medium">record</h2>
-					<p class="text-gray-500 dark:text-gray-400">
+					<p class="text-slate-500 dark:text-slate-300">
 						record new words, learnings, affirmations, anything
 					</p>
 				</div>
@@ -25,7 +25,7 @@
 				<SoloLearn style="font-size:2.2rem;" />
 				<div class="grid gap-1">
 					<h2 class="font-medium">revise</h2>
-					<p class="text-gray-500 dark:text-gray-400">
+					<p class="text-slate-500 dark:text-slate-300">
 						app will intelligently schedule things for revision
 					</p>
 				</div>
@@ -34,14 +34,14 @@
 				<BodyMeasures style="font-size:2rem;" />
 				<div class="grid gap-1">
 					<h2 class="font-medium">measure</h2>
-					<p class="text-gray-500 dark:text-gray-400">visualize your progress</p>
+					<p class="text-slate-500 dark:text-slate-300">visualize your progress</p>
 				</div>
 			</li>
 			<li class="flex items-start gap-4">
 				<MyBrain style="font-size:2rem;" />
 				<div class="grid gap-1">
 					<h2 class="font-medium">powered by ai</h2>
-					<p class="text-gray-500 dark:text-gray-400">... of course its powered by ai</p>
+					<p class="text-slate-500 dark:text-slate-300">... of course its powered by ai</p>
 				</div>
 			</li>
 		</ul>
@@ -54,7 +54,7 @@
 	     primary call to action for people whose browser google accepts. It sits outside the
 	     wrapper above, which is hidden below the sm breakpoint, so it stays reachable at the
 	     narrow widths where this is actually needed. -->
-	<p class="mx-auto mt-6 max-w-xs text-center text-sm text-gray-500">
+	<p class="mx-auto mt-6 max-w-xs text-center text-sm text-slate-500 dark:text-slate-300">
 		{#if data.bouncedFromGoogle}
 			couldn't sign in? some browsers can't load google's sign-in page.
 			<a class="whitespace-nowrap underline" href={ROUTES.LOGIN_DEVICE}>sign in with a code</a>

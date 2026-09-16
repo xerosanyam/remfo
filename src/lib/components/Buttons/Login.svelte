@@ -4,7 +4,7 @@
 
 <form action="/login/google">
 	<button
-		class="flex w-full items-center space-x-2 px-6 py-4 text-gray-800 underline hover:bg-gray-100"
+		class="flex w-full items-center space-x-2 px-6 py-4 underline hover:bg-slate-100 dark:hover:bg-violet-900"
 		type="submit"
 	>
 		<span>{text} </span>

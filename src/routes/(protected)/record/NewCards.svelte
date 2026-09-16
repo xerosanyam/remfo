@@ -53,13 +53,16 @@
 {#if cards.length > 0}
 	{#each dates as date (date)}
 		<div class="relative mx-auto mt-8 max-w-lg space-y-4 rounded-lg">
-			<div class="absolute -left-14 z-10 w-12 bg-white py-2 text-center" title={date}>
+			<div
+				class="absolute -left-14 z-10 w-12 bg-white py-2 text-center dark:bg-slate-950"
+				title={date}
+			>
 				{humanReadableDate(groupedCards[date][0].createdAt)}
 			</div>
-			<div class="absolute -left-8 h-full border-r"></div>
+			<div class="absolute -left-8 h-full border-r border-slate-200 dark:border-slate-700"></div>
 			{#each groupedCards[date] as card (card.id)}
 				<div
-					class="group relative min-h-16 rounded-sm border-white px-4 py-2 hover:bg-gray-100"
+					class="group relative min-h-16 rounded-sm px-4 py-2 hover:bg-slate-100 dark:hover:bg-violet-900"
 					title={String(card.createdAt)}
 				>
 					<div class={`space-y-2 ${modifyingCardId === card.id ? 'blur-sm' : ''}`}>
@@ -69,7 +72,7 @@
 							</div>
 							<div class="flex w-full flex-col">
 								<div
-									class="flex w-full whitespace-break-spaces italic text-gray-600 ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+									class="flex w-full whitespace-break-spaces italic text-slate-500 ring-offset-white placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:text-slate-300 dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-teal-300"
 									id="question"
 									placeholder="Capital of Paris?"
 									data-gramm="false"
@@ -77,7 +80,7 @@
 									{card.front}
 								</div>
 								<div
-									class="flex w-full whitespace-break-spaces border-gray-300 text-gray-500 ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+									class="flex w-full whitespace-break-spaces border-slate-200 text-slate-500 ring-offset-white placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:text-slate-300 dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-teal-300"
 									id="answer"
 									placeholder="France"
 									data-gramm="false"
@@ -88,7 +91,7 @@
 									<form method="post" action="?/delete" use:enhance={customEnhance}>
 										<input type="hidden" hidden name="cardId" value={card.id} />
 										<button
-											class="flex items-center space-x-1 rounded-md border px-4 py-2 text-gray-900 disabled:pointer-events-none disabled:opacity-50"
+											class="flex items-center space-x-1 rounded-md border border-slate-200 px-4 py-2 disabled:pointer-events-none disabled:opacity-50 dark:border-slate-700"
 											disabled={modifyingCardId === card.id}
 											aria-label="delete card"
 											type="submit"><Trash style="stroke-width:2px;" /></button
@@ -104,7 +107,7 @@
 						<form method="post" action="?/delete" use:enhance={customEnhance}>
 							<input type="hidden" hidden name="cardId" value={card.id} />
 							<button
-								class="flex items-center space-x-1 rounded-md border bg-gray-800 px-4 py-2 text-white disabled:pointer-events-none disabled:opacity-50"
+								class="flex items-center space-x-1 rounded-md border border-slate-900 bg-slate-900 px-4 py-2 text-white disabled:pointer-events-none disabled:opacity-50 dark:border-teal-300 dark:bg-teal-300 dark:text-slate-950"
 								disabled={modifyingCardId === card.id}
 								type="submit"><Trash style="stroke-width:2px;" /><span>delete</span></button
 							>
@@ -114,13 +117,14 @@
 			{/each}
 		</div>
 	{/each}
-	<div class="space-y-4 pb-10 pt-24 text-center text-sm text-gray-500">
+	<div class="space-y-4 pb-10 pt-24 text-center text-sm text-slate-500 dark:text-slate-300">
 		{#if cards.length < totalCards}
 			<div>
 				<a
 					href="?limit={limit + 50}"
 					data-sveltekit-noscroll
-					class="rounded-md border px-4 py-2 text-gray-900 hover:bg-gray-100">load more</a
+					class="rounded-md border border-slate-200 px-4 py-2 text-slate-950 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-50 dark:hover:bg-violet-900"
+					>load more</a
 				>
 			</div>
 		{/if}
