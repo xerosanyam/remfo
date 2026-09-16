@@ -1,4 +1,4 @@
-import { render, fireEvent, screen } from '@testing-library/svelte';
+import { render, fireEvent, screen, waitFor } from '@testing-library/svelte';
 import { tick } from 'svelte';
 import CardReview from '$lib/components/Cards/CardReview.svelte';
 import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
@@ -63,6 +63,89 @@ describe('CardReview', () => {
 			expect(screen.getByText('Question 2')).toBeInTheDocument();
 			expect(disclosure().textContent).toContain('Answer 2');
 			expect(disclosure().hasAttribute('open')).toBe(false);
+		});
+
+		it('follows Anki reveal state and number mappings', async () => {
+			const requests: Record<string, FormDataEntryValue>[] = [];
+			server.use(
+				http.post('?/review', async ({ request }) => {
+					requests.push(Object.fromEntries(await request.formData()));
+					return new HttpResponse(null, { status: 200 });
+				})
+			);
+			const cards = Array(5)
+				.fill(null)
+				.map((_, i) => ({
+					id: String(i),
+					front: `Question ${i}`,
+					back: `Answer ${i}`,
+					nextPractice: new Date(),
+					createdAt: new Date()
+				}));
+			render(CardReview, { cards });
+
+			await fireEvent.keyDown(window, { key: '1', code: 'Digit1' });
+			expect(screen.getByText('Reviewed: 0/5')).toBeInTheDocument();
+
+			const shortcuts = [
+				[{ key: ' ', code: 'Space' }, { key: '1', code: 'Digit1' }, 'Challenging'],
+				[{ key: 'Enter', code: 'Enter' }, { key: '2', code: 'Numpad2' }, 'Hard'],
+				[{ key: 'Enter', code: 'NumpadEnter' }, { key: '3', code: 'Digit3' }, 'Good'],
+				[{ key: ' ', code: 'Space' }, { key: '4', code: 'Numpad4' }, 'Easy']
+			] as const;
+
+			for (const [reveal, rate] of shortcuts) {
+				await fireEvent.keyDown(window, reveal);
+				await tick();
+				expect(disclosure()).toHaveAttribute('open');
+				await fireEvent.keyDown(window, rate);
+				await tick();
+			}
+
+			await waitFor(() =>
+				expect(requests.map(({ difficulty }) => difficulty)).toEqual(
+					shortcuts.map(([, , difficulty]) => difficulty)
+				)
+			);
+			expect(screen.getByText('Reviewed: 4/5')).toBeInTheDocument();
+		});
+
+		it('uses Good after reveal unless an answer button is focused', async () => {
+			const requests: Record<string, FormDataEntryValue>[] = [];
+			server.use(
+				http.post('?/review', async ({ request }) => {
+					requests.push(Object.fromEntries(await request.formData()));
+					return new HttpResponse(null, { status: 200 });
+				})
+			);
+			render(CardReview, { cards: mockCards });
+
+			await fireEvent.keyDown(window, { key: ' ', code: 'Space' });
+			await fireEvent.keyDown(window, { key: ' ', code: 'Space' });
+			await tick();
+
+			await fireEvent.keyDown(window, { key: 'Enter', code: 'Enter' });
+			const easyButton = screen.getByRole('button', { name: 'super easy' });
+			easyButton.focus();
+			await fireEvent.keyDown(window, { key: 'Enter', code: 'Enter' });
+
+			await waitFor(() =>
+				expect(requests.map(({ difficulty }) => difficulty)).toEqual(['Good', 'Easy'])
+			);
+		});
+
+		it('puts shortcut hints in hover titles', () => {
+			render(CardReview, { cards: mockCards });
+
+			expect(screen.getByText('show answer')).toHaveAttribute('title', 'shortcut: Space or Enter');
+			expect(screen.getByRole('button', { name: 'super difficult' })).toHaveAttribute(
+				'title',
+				'shortcut: 1'
+			);
+			expect(screen.getByRole('button', { name: 'super easy' })).toHaveAttribute(
+				'title',
+				'shortcut: 4'
+			);
 		});
 	});
 

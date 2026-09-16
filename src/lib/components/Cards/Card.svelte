@@ -9,6 +9,13 @@
 	export let card: CardRevisePage;
 	export let customEnhance;
 	export let modifyingCardId: string;
+	let answerOpen = false;
+	let cardId = card.id;
+
+	$: if (card.id !== cardId) {
+		cardId = card.id;
+		answerOpen = false;
+	}
 </script>
 
 <div
@@ -47,9 +54,10 @@
 			<!-- keyed so the disclosure collapses again when the next card takes this slot:
 			     `open` is DOM state, and Svelte reuses this component across cards -->
 			{#key card.id}
-				<details class="h-full w-full overflow-y-auto" id="answer">
+				<details class="h-full w-full overflow-y-auto" id="answer" bind:open={answerOpen}>
 					<summary
 						class="cursor-pointer p-6 text-slate-500 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 dark:text-slate-300 dark:ring-offset-slate-950 dark:focus-visible:ring-teal-300"
+						title="shortcut: Space or Enter"
 					>
 						show answer
 					</summary>
@@ -58,7 +66,7 @@
 			{/key}
 		</div>
 		<div class="w-full">
-			<ReviewOptions cardId={card.id} {customEnhance} />
+			<ReviewOptions cardId={card.id} {customEnhance} bind:answerOpen />
 		</div>
 	</div>
 </div>

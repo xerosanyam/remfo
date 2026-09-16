@@ -1,5 +1,17 @@
+/**
+ * @param {HTMLElement} node
+ * @param {{
+ *   alt?: boolean,
+ *   shift?: boolean,
+ *   control?: boolean,
+ *   code?: string,
+ *   key?: string | string[],
+ *   callback?: (event: KeyboardEvent) => void
+ * }} params
+ */
 export const shortcut = (node, params) => {
-	let handler;
+	/** @type {(event: KeyboardEvent) => void} */
+	let handler = () => {};
 	const removeHandler = () => window.removeEventListener('keydown', handler),
 		setHandler = () => {
 			removeHandler();
@@ -9,11 +21,13 @@ export const shortcut = (node, params) => {
 					!!params.alt != e.altKey ||
 					!!params.shift != e.shiftKey ||
 					!!params.control != (e.ctrlKey || e.metaKey) ||
-					params.code != e.code
+					(params.key
+						? !(Array.isArray(params.key) ? params.key : [params.key]).includes(e.key)
+						: params.code != e.code)
 				)
 					return;
 				e.preventDefault();
-				if (params.callback) params.callback();
+				if (params.callback) params.callback(e);
 				else node.click();
 			};
 			window.addEventListener('keydown', handler);

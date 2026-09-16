@@ -99,6 +99,7 @@
 								<button
 									class="flex items-center space-x-1 rounded-md border border-slate-900 bg-slate-900 px-4 py-2 text-white disabled:pointer-events-none disabled:opacity-50 dark:border-teal-300 dark:bg-teal-300 dark:text-slate-950"
 									disabled={loading}
+									title="shortcut: Ctrl/Command+Enter"
 									type="submit"><Save style="stroke-width:2px;" /><span>save</span></button
 								>
 							</div>
@@ -114,6 +115,7 @@
 			<button
 				class="flex items-center space-x-1 rounded-md border border-slate-900 bg-slate-900 px-4 py-2 text-white disabled:pointer-events-none disabled:opacity-50 dark:border-teal-300 dark:bg-teal-300 dark:text-slate-950"
 				disabled={loading}
+				title="shortcut: Ctrl/Command+Enter"
 				type="submit"><Save style="stroke-width:2px;" /><span>save</span></button
 			>
 		</div>
