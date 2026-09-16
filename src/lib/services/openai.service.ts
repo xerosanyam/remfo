@@ -5,6 +5,7 @@ const openai = new OpenAI({
 	apiKey: OPENAI_API_KEY
 });
 
+/** Generates flashcards from user-provided text and returns a safe inline error on failure. */
 export async function generateCardUsingOpenAI({ userInput }: { userInput: string }) {
 	// The request itself has to be inside the try: an SDK error (quota exhausted, bad key,
 	// upstream 404, network) used to escape this function and surface to the user as a 500.
