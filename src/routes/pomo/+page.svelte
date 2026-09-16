@@ -8,8 +8,10 @@
 		deadlineOf,
 		finish,
 		format,
+		readNotifChoice,
 		readRunning,
 		secondsLeft,
+		writeNotifChoice,
 		writeRunning
 	} from '$lib/pomodoro.util';
 	import type { Running } from '$lib/pomodoro.util';
@@ -19,6 +21,8 @@
 	let running: Running | null = null;
 	let left = POMODORO_SECONDS;
 	let justFinished = false;
+	let askNotif = false;
+	let audioCtx: AudioContext | null = null;
 	let ticker: ReturnType<typeof setInterval> | undefined;
 
 	// A finished session holds at 0:00 rather than snapping back to 25:00, which would sit under
@@ -76,6 +80,8 @@
 			left = 0;
 			justFinished = true;
 			stopTicking();
+			ring();
+			ringNotify();
 			record(stored, now);
 			return;
 		}
@@ -85,9 +91,74 @@
 		if (!ticker) startTicking();
 	}
 
+	// Sound may only start within a user gesture. The Start click is that gesture, so the context
+	// is created there; when the deadline arrives the context is already running and can ring.
+	function primeAudio() {
+		if (typeof AudioContext === 'undefined') return;
+		if (!audioCtx) audioCtx = new AudioContext();
+		if (audioCtx.state === 'suspended') void audioCtx.resume();
+	}
+
+	function ring() {
+		if (!audioCtx) return;
+		// Two quick notes, low to high, like a soft version of the classic pomodoro ding.
+		for (const [at, freq] of [
+			[0, 523.25],
+			[0.18, 783.99]
+		]) {
+			const osc = audioCtx.createOscillator();
+			const gain = audioCtx.createGain();
+			osc.type = 'sine';
+			osc.frequency.value = freq;
+			gain.gain.setValueAtTime(0.001, audioCtx.currentTime + at);
+			gain.gain.exponentialRampToValueAtTime(0.2, audioCtx.currentTime + at + 0.03);
+			gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + at + 0.6);
+			osc.connect(gain).connect(audioCtx.destination);
+			osc.start(audioCtx.currentTime + at);
+			osc.stop(audioCtx.currentTime + at + 0.7);
+		}
+	}
+
+	// Best effort, and only when the user has said yes. Clicking the notification brings the tab
+	// (and the "25 minutes done" message) back to the front; it then closes itself shortly after.
+	function ringNotify() {
+		if (typeof Notification === 'undefined' || Notification.permission !== 'granted') return;
+		const n = new Notification('pomo done', {
+			body: '25 minutes are up',
+			tag: 'pomo-done'
+		});
+		const close = () => n.close();
+		n.onclick = () => {
+			window.focus();
+			close();
+		};
+		setTimeout(close, 15000);
+	}
+
+	async function allowNotifications() {
+		askNotif = false;
+		if (typeof Notification === 'undefined') return;
+		let granted = false;
+		try {
+			granted = (await Notification.requestPermission()) === 'granted';
+		} catch {
+			granted = false;
+		}
+		writeNotifChoice(granted);
+	}
+
+	const declineNotifications = () => {
+		askNotif = false;
+		writeNotifChoice(false);
+	};
+
 	function start() {
 		posthog.capture('pomodoro_started');
 		justFinished = false;
+		primeAudio();
+		// Ask once, on the first Start, never on load. The browser prompt would otherwise fire
+		// uninvited; this asks in-page first and only touches Notification if they want it.
+		if (readNotifChoice() === null) askNotif = true;
 		writeRunning({ startedAt: Date.now(), duration: POMODORO_SECONDS });
 		refresh();
 	}
@@ -157,6 +228,26 @@
 		>
 			start 25 minutes
 		</button>
+	{/if}
+
+	{#if askNotif}
+		<p class="text-center text-sm text-slate-500 dark:text-slate-300">
+			let me notify you when the 25 minutes are done?
+		</p>
+		<div class="flex gap-2">
+			<button
+				on:click={allowNotifications}
+				class="rounded-sm border border-slate-200 px-4 py-1.5 text-sm hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 dark:border-slate-700 dark:hover:bg-violet-900"
+			>
+				yes
+			</button>
+			<button
+				on:click={declineNotifications}
+				class="rounded-sm border border-slate-200 px-4 py-1.5 text-sm hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 dark:border-slate-700 dark:hover:bg-violet-900"
+			>
+				no
+			</button>
+		</div>
 	{/if}
 
 	{#if !data.user}

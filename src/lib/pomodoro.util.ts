@@ -7,6 +7,7 @@ export const POMODORO_SECONDS = 25 * 60;
 
 const RUNNING_KEY = 'pomo:running';
 const PENDING_KEY = 'pomo:pending';
+const NOTIF_CHOICE_KEY = 'pomo:notifChoice';
 
 /** startedAt is milliseconds (Date.now), duration is seconds. */
 export type Running = { startedAt: number; duration: number };
@@ -74,3 +75,7 @@ export const writeRunning = (run: Running | null) => write(RUNNING_KEY, run);
  */
 export const readPending = () => read<SessionRecord[]>(PENDING_KEY) ?? [];
 export const addPending = (record: SessionRecord) => write(PENDING_KEY, [...readPending(), record]);
+
+/** The user's standing answer to "notify me when the timer finishes?" - null until first asked. */
+export const readNotifChoice = () => read<boolean>(NOTIF_CHOICE_KEY);
+export const writeNotifChoice = (choice: boolean | null) => write(NOTIF_CHOICE_KEY, choice);
