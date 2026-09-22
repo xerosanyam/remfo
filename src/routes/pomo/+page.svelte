@@ -55,9 +55,11 @@
 			if (response.ok) {
 				posthog.capture('pomodoro_session_recorded', { completed: body.completed });
 			} else {
+				console.warn('Could not record pomodoro session:', response.status, await response.text());
 				addPending(body);
 			}
-		} catch {
+		} catch (cause) {
+			console.warn('Could not record pomodoro session:', cause);
 			addPending(body);
 		}
 	}
@@ -123,16 +125,20 @@
 	// (and the "25 minutes done" message) back to the front; it then closes itself shortly after.
 	function ringNotify() {
 		if (typeof Notification === 'undefined' || Notification.permission !== 'granted') return;
-		const n = new Notification('pomo done', {
-			body: '25 minutes are up',
-			tag: 'pomo-done'
-		});
-		const close = () => n.close();
-		n.onclick = () => {
-			window.focus();
-			close();
-		};
-		setTimeout(close, 15000);
+		try {
+			const n = new Notification('pomo done', {
+				body: '25 minutes are up',
+				tag: 'pomo-done'
+			});
+			const close = () => n.close();
+			n.onclick = () => {
+				window.focus();
+				close();
+			};
+			setTimeout(close, 15000);
+		} catch (cause) {
+			console.warn('Could not show pomodoro notification:', cause);
+		}
 	}
 
 	async function allowNotifications() {

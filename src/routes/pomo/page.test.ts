@@ -1,6 +1,9 @@
 import { render, screen } from '@testing-library/svelte';
 import { fireEvent } from '@testing-library/dom';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+
+const fetchMock = vi.fn();
+vi.stubGlobal('fetch', fetchMock);
 
 import PomoPage from './+page.svelte';
 
@@ -18,7 +21,11 @@ const pending = () => JSON.parse(localStorage.getItem('pomo:pending') ?? '[]');
 // depends on a fetch, and the buffer is exactly what remfo-e4k.5 will claim.
 const data = { user: null } as never;
 
-beforeEach(() => localStorage.clear());
+beforeEach(() => {
+	localStorage.clear();
+	fetchMock.mockReset();
+	fetchMock.mockResolvedValue(new Response('{}', { status: 200 }));
+});
 
 describe('pomo page', () => {
 	it('offers a fresh 25 minutes when nothing is running', () => {
@@ -37,6 +44,21 @@ describe('pomo page', () => {
 
 		expect(screen.getByRole('timer')).toHaveTextContent('12:00');
 		expect(screen.getByRole('button')).toHaveTextContent('stop');
+	});
+
+	it('posts a stopped session for a signed-in user', async () => {
+		seedRunning(13);
+		render(PomoPage, { data: { user: { id: 'user-1' } } as never });
+
+		await fireEvent.click(screen.getByRole('button'));
+		await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledOnce());
+
+		expect(fetchMock).toHaveBeenCalledWith(
+			'/pomo/record',
+			expect.objectContaining({ method: 'POST', headers: { 'content-type': 'application/json' } })
+		);
+		expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toMatchObject({ completed: false });
+		expect(pending()).toHaveLength(0);
 	});
 
 	it('records real elapsed minutes when a session is stopped early', async () => {
