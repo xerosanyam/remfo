@@ -31,6 +31,8 @@ const data = { user: null } as never;
 
 beforeEach(() => {
 	localStorage.clear();
+	vi.unstubAllGlobals();
+	vi.stubGlobal('fetch', fetchMock);
 	fetchMock.mockReset();
 	fetchMock.mockResolvedValue(new Response('{}', { status: 200 }));
 	vi.mocked(capture).mockClear();
@@ -114,5 +116,56 @@ describe('pomo page', () => {
 				completed: false
 			})
 		);
+	});
+
+	it('stays silent when the user declined, even with permission granted', async () => {
+		localStorage.setItem('pomo:notifChoice', JSON.stringify(false));
+		const constructed: unknown[] = [];
+		vi.stubGlobal(
+			'Notification',
+			class {
+				static permission = 'granted';
+				constructor(...args: unknown[]) {
+					constructed.push(args);
+				}
+				close() {}
+			}
+		);
+		seedRunning(40);
+
+		render(PomoPage, { data });
+
+		await vi.waitFor(() => expect(pending()).toHaveLength(1));
+		expect(constructed).toHaveLength(0);
+	});
+
+	it('stops asking when notifications are unavailable', async () => {
+		vi.stubGlobal('Notification', undefined);
+		render(PomoPage, { data });
+
+		await fireEvent.click(screen.getByRole('button', { name: 'start 25 minutes' }));
+		await fireEvent.click(screen.getByRole('button', { name: 'yes' }));
+
+		expect(JSON.parse(localStorage.getItem('pomo:notifChoice') ?? 'null')).toBe(false);
+		expect(
+			screen.queryByText('let me notify you when the 25 minutes are done?')
+		).not.toBeInTheDocument();
+	});
+
+	it('still starts the timer when audio setup throws', async () => {
+		vi.stubGlobal(
+			'AudioContext',
+			class {
+				constructor() {
+					throw new Error('no audio device');
+				}
+			}
+		);
+		render(PomoPage, { data });
+
+		await fireEvent.click(screen.getByRole('button', { name: 'start 25 minutes' }));
+
+		expect(screen.getByRole('button', { name: 'stop' })).toBeInTheDocument();
+		expect(localStorage.getItem('pomo:running')).not.toBe(null);
 	});
 });

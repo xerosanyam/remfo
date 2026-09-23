@@ -95,10 +95,18 @@
 
 	// Sound may only start within a user gesture. The Start click is that gesture, so the context
 	// is created there; when the deadline arrives the context is already running and can ring.
+	// Best-effort throughout: audio must never stop the timer from starting.
 	function primeAudio() {
 		if (typeof AudioContext === 'undefined') return;
-		if (!audioCtx) audioCtx = new AudioContext();
-		if (audioCtx.state === 'suspended') void audioCtx.resume();
+		try {
+			if (!audioCtx) audioCtx = new AudioContext();
+		} catch {
+			audioCtx = null;
+			return;
+		}
+		if (audioCtx.state === 'suspended') {
+			audioCtx.resume().catch(() => {});
+		}
 	}
 
 	function ring() {
@@ -121,9 +129,10 @@
 		}
 	}
 
-	// Best effort, and only when the user has said yes. Clicking the notification brings the tab
-	// (and the "25 minutes done" message) back to the front; it then closes itself shortly after.
+	// Best effort, and only when the user has said yes. A granted browser permission alone
+	// is not consent: declining in-page opts out even if permission was granted elsewhere.
 	function ringNotify() {
+		if (readNotifChoice() !== true) return;
 		if (typeof Notification === 'undefined' || Notification.permission !== 'granted') return;
 		try {
 			const n = new Notification('pomo done', {
@@ -143,7 +152,11 @@
 
 	async function allowNotifications() {
 		askNotif = false;
-		if (typeof Notification === 'undefined') return;
+		// Without the API there is nothing to grant: record the refusal so Start stops asking.
+		if (typeof Notification === 'undefined') {
+			writeNotifChoice(false);
+			return;
+		}
 		let granted = false;
 		try {
 			granted = (await Notification.requestPermission()) === 'granted';

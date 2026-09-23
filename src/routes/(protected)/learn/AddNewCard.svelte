@@ -14,7 +14,9 @@
 	// /learn reuse with prefilled cards keeps working.
 	let errors: { front?: string[]; back?: string[] } = data?.errors ?? {};
 	let loading = false;
-	export let action = '/home?/add';
+	// Required, no default: the old '/home?/add' default posted to a route that does not
+	// exist (ROUTES.HOME is /record). Sole consumer learn/+page passes /learn?/add.
+	export let action: string;
 </script>
 
 <form

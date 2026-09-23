@@ -5,6 +5,10 @@
 	export let data;
 </script>
 
+<svelte:head>
+	<title>Remfo | Record</title>
+</svelte:head>
+
 <AddNewCard formData={data.addForm} />
 
 {#if data.cards}

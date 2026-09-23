@@ -98,7 +98,8 @@ const handle: Handle = async ({ event, resolve }) => {
 		event.request.method === 'GET' &&
 		event.cookies.getAll().length === 0 &&
 		dbPingMs === null &&
-		response.status === 200
+		response.status === 200 &&
+		!response.headers.has('Cache-Control')
 	) {
 		response.headers.set('Cache-Control', 'private, max-age=60');
 		response.headers.set('Vary', 'Cookie');

@@ -50,7 +50,8 @@ afterEach(() => {
 describe('home AddNewCard submit path', () => {
 	it('keeps prefilled values from props for the /learn reuse', () => {
 		const { container } = render(AddNewCard, {
-			data: { data: { front: 'Capital of Ukraine?', back: 'Kyiv' }, errors: {} } as never
+			data: { data: { front: 'Capital of Ukraine?', back: 'Kyiv' }, errors: {} } as never,
+			action: '/learn?/add'
 		});
 
 		expect((container.querySelector('#question') as HTMLTextAreaElement).value).toBe(
@@ -93,13 +94,13 @@ describe('home AddNewCard submit path', () => {
 
 	it('renders server validation errors without reporting creation', async () => {
 		server.use(
-			http.post('/home', async () =>
+			http.post('/learn', async () =>
 				actionResult('failure', 400, {
 					form: { errors: { back: ['Back is required'] } }
 				})
 			)
 		);
-		const { container } = render(AddNewCard, { data });
+		const { container } = render(AddNewCard, { data, action: '/learn?/add' });
 
 		await fireEvent.submit(container.querySelector('form')!);
 

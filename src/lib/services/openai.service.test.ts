@@ -1,10 +1,14 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 
 const create = vi.fn();
+const constructorArgs: unknown[][] = [];
 
 vi.mock('$env/static/private', () => ({ OPENAI_API_KEY: 'test-key' }));
 vi.mock('openai', () => ({
 	default: class {
+		constructor(...args: unknown[]) {
+			constructorArgs.push(args);
+		}
 		chat = { completions: { create } };
 	}
 }));
@@ -48,4 +52,21 @@ describe('generateCardUsingOpenAI', () => {
 		expect(cards).toEqual([]);
 		expect(error).toBeTruthy();
 	});
+
+	test('budgets one retry inside the edge deadline', () => {
+		expect(constructorArgs[0][0]).toMatchObject({ timeout: 10_000, maxRetries: 1 });
+	});
+
+	// The crash this guards: {"cards":{}} parses fine, then the page calls .filter on it.
+	test.each([['{"cards":{}}'], ['{"cards":[{"question":1,"answer":null}]}']])(
+		'treats off-schema response %s as a generation failure',
+		async (content) => {
+			create.mockResolvedValue(reply(content));
+
+			const { cards, error } = await generateCardUsingOpenAI({ userInput: 'anything' });
+
+			expect(cards).toEqual([]);
+			expect(error).toBeTruthy();
+		}
+	);
 });

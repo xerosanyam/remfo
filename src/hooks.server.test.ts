@@ -131,4 +131,16 @@ describe('anonymous browser caching', () => {
 
 		expect((await resolve200.mock.results[0].value).headers.get('Cache-Control')).toBeNull();
 	});
+
+	it('preserves a Cache-Control the route already set', async () => {
+		const resolveNoStore = vi.fn(
+			async () => new Response('x', { headers: { 'Cache-Control': 'no-store' } })
+		);
+
+		await handle({ event: makeEvent(undefined), resolve: resolveNoStore } as never);
+
+		expect((await resolveNoStore.mock.results[0].value).headers.get('Cache-Control')).toBe(
+			'no-store'
+		);
+	});
 });

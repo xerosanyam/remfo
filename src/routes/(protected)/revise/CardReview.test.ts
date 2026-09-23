@@ -149,6 +149,53 @@ describe('CardReview', () => {
 		});
 	});
 
+	describe('Native activation outside the review form', () => {
+		// Regression for the shortcut stealing Space/Enter: preventDefault runs before the
+		// callback and cannot be undone, so focused trash/summary controls rated the card
+		// instead of performing their native click/toggle. happy-dom never performs native
+		// activation itself, which is exactly what makes the absence of side effects assertable.
+		const answer = () => document.querySelector('details#answer') as HTMLElement;
+		it('leaves a focused trash button alone on Space', async () => {
+			const requests: Record<string, FormDataEntryValue>[] = [];
+			server.use(
+				http.post('?/review', async ({ request }) => {
+					requests.push(Object.fromEntries(await request.formData()));
+					return new HttpResponse(null, { status: 200 });
+				})
+			);
+			render(CardReview, { cards: mockCards });
+
+			const trash = screen.getAllByTestId('trash')[0];
+			trash.focus();
+			await fireEvent.keyDown(trash, { key: ' ', code: 'Space' });
+			await tick();
+
+			expect(requests).toHaveLength(0);
+			expect(screen.getByText('Reviewed: 0/2')).toBeInTheDocument();
+			expect(answer().hasAttribute('open')).toBe(false);
+		});
+
+		it('leaves a focused answer summary alone on Enter', async () => {
+			const requests: Record<string, FormDataEntryValue>[] = [];
+			server.use(
+				http.post('?/review', async ({ request }) => {
+					requests.push(Object.fromEntries(await request.formData()));
+					return new HttpResponse(null, { status: 200 });
+				})
+			);
+			render(CardReview, { cards: mockCards });
+
+			const summary = answer().querySelector('summary') as HTMLElement;
+			summary.focus();
+			await fireEvent.keyDown(summary, { key: 'Enter', code: 'Enter' });
+			await tick();
+
+			expect(requests).toHaveLength(0);
+			expect(screen.getByText('Reviewed: 0/2')).toBeInTheDocument();
+			expect(answer().hasAttribute('open')).toBe(false);
+		});
+	});
+
 	describe('Card Review Functionality', () => {
 		it('sends correct requestBody when a card is reviewed', async () => {
 			const requestPromise = new Promise((resolve) => {

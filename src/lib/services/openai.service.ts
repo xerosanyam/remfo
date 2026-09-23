@@ -1,8 +1,18 @@
 import { OPENAI_API_KEY } from '$env/static/private';
 import OpenAI from 'openai';
+import { z } from 'zod';
 
+// Edge budget: Vercel kills the action at ~25s without a response. Worst case here is
+// one 10s attempt plus one retry, leaving headroom for the DB insert after it.
 const openai = new OpenAI({
-	apiKey: OPENAI_API_KEY
+	apiKey: OPENAI_API_KEY,
+	timeout: 10_000,
+	maxRetries: 1
+});
+
+const generatedSchema = z.object({
+	cards: z.array(z.object({ question: z.string(), answer: z.string() })),
+	error: z.string().nullable()
 });
 
 /** Generates flashcards from user-provided text and returns a safe inline error on failure. */
@@ -53,8 +63,13 @@ schema of sample output:
 		if (!content) {
 			throw new Error('no content in completion');
 		}
-		const { cards, error } = JSON.parse(content);
-		return { cards, error };
+		// Untyped JSON from the model: {"cards":{}} parses fine but crashes the page,
+		// which calls .filter on the result. Reject anything off-schema as a failure.
+		const parsed = generatedSchema.safeParse(JSON.parse(content));
+		if (!parsed.success) {
+			throw new Error('unexpected card shape from OpenAI');
+		}
+		return parsed.data;
 	} catch (cause) {
 		// Logged, not returned: the caller renders this string to the user, so it must not
 		// carry the upstream reason (quota, key, provider status).

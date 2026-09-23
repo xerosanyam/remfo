@@ -1,5 +1,5 @@
 <script lang="ts">
-	import AddNewCard from '../home/AddNewCard.svelte';
+	import AddNewCard from './AddNewCard.svelte';
 	import GenerateFlashCard from './GenerateFlashCard.svelte';
 	export let data;
 	export let form;
@@ -17,6 +17,10 @@
 		return true;
 	};
 </script>
+
+<svelte:head>
+	<title>Remfo | Learn</title>
+</svelte:head>
 
 <section class="body-font mx-auto mt-10 max-w-lg">
 	<div class="container mx-auto">

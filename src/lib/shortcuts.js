@@ -26,6 +26,22 @@ export const shortcut = (node, params) => {
 						: params.code != e.code)
 				)
 					return;
+				// preventDefault cannot be undone by the callback. A plain Space/Enter on a
+				// natively-activatable element outside the bound node (trash button, answer
+				// summary) must keep its default click/toggle instead of rating the card.
+				// Explicit chords like Ctrl+Enter are untouched.
+				const target = e.target;
+				if (
+					!e.altKey &&
+					!e.ctrlKey &&
+					!e.metaKey &&
+					!e.shiftKey &&
+					(e.key === ' ' || e.key === 'Enter') &&
+					target instanceof HTMLElement &&
+					!node.contains(target) &&
+					/^(BUTTON|A|SUMMARY|INPUT|TEXTAREA|SELECT)$/.test(target.tagName)
+				)
+					return;
 				e.preventDefault();
 				if (params.callback) params.callback(e);
 				else node.click();
