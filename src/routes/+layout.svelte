@@ -2,7 +2,6 @@
 	import PrimaryNav from '$lib/components/PrimaryNav.svelte';
 	import '../app.css';
 	import { onMount } from 'svelte';
-	import { pwaInfo } from 'virtual:pwa-info';
 	import { identify } from '$lib/posthog';
 
 	export let data;
@@ -23,7 +22,6 @@
 			setTimeout(run, 3000);
 		}
 	});
-	const webManifestLink = pwaInfo ? pwaInfo.webManifest.linkTag : '';
 </script>
 
 <PrimaryNav user={data?.user} />
@@ -36,6 +34,4 @@
 	<meta name="description" content="a tool that helps you remember" />
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-	<!-- eslint-disable-next-line svelte/no-at-html-tags -- trusted markup from vite-plugin-pwa -->
-	{@html webManifestLink}
 </svelte:head>

@@ -5,13 +5,16 @@
 	import MyStar from '~icons/arcticons/mykyivstar';
 	import Save from '~icons/arcticons/saveto';
 
-	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
+	import type { Infer, SuperValidated } from 'sveltekit-superforms';
 	import type { ActionResult } from '@sveltejs/kit';
 	import { capture } from '$lib/posthog';
 
 	export let formData: SuperValidated<Infer<CardAddSchema>>;
 
-	const { form, errors, constraints } = superForm(formData);
+	// Plain use:enhance instead of superForm: the superforms client runtime (36KB) stays
+	// off the page; server-side zod validation is authoritative and its errors render
+	// from the failure result below (remfo-tw9m).
+	let errors: { front?: string[]; back?: string[] } = formData?.errors ?? {};
 	let loading = false;
 	let formRef: HTMLFormElement;
 
@@ -31,8 +34,12 @@
 		HTMLFormElement.prototype.reset.call(formElement);
 		return ({ result, update }: { result: ActionResult; update: () => void }) => {
 			if (result.type === 'success') {
+				errors = {};
 				void capture('flashcard_created', { entry_point: 'record' });
-			} else if (result.type === 'error' || result.type === 'failure') {
+			} else if (result.type === 'failure') {
+				errors = ((result.data?.form ?? {}) as { errors?: typeof errors }).errors ?? {};
+				alert('unable to save.');
+			} else if (result.type === 'error') {
 				alert('unable to save.');
 			}
 			update();
@@ -72,28 +79,32 @@
 								class="flex min-h-[60px] w-full rounded-md border border-slate-200 bg-white px-3 py-2 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-950 dark:ring-offset-slate-950 dark:focus-visible:ring-teal-300"
 								id="question"
 								name="front"
-								bind:value={$form.front}
+								value={formData?.data?.front ?? ''}
 								placeholder={placeholders[randomPlaceholder].front}
 								rows="2"
 								data-gramm="false"
 								disabled={loading}
-								{...$constraints.front}
+								required
+								minlength="1"
+								maxlength="2000"
 								autofocus
 							></textarea>
-							{#if $errors.front}<div class="text-red-800 dark:text-red-400">
-									{$errors.front}
+							{#if errors.front}<div class="text-red-800 dark:text-red-400">
+									{errors.front}
 								</div>{/if}
 
 							<textarea
 								class="flex min-h-[60px] w-full rounded-md border border-slate-200 bg-white px-3 py-2 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-950 dark:ring-offset-slate-950 dark:focus-visible:ring-teal-300"
 								id="answer"
 								name="back"
-								bind:value={$form.back}
+								value={formData?.data?.back ?? ''}
 								placeholder={placeholders[randomPlaceholder].back}
 								data-gramm="false"
 								rows="2"
 								disabled={loading}
-								{...$constraints.back}
+								required
+								minlength="1"
+								maxlength="2000"
 							></textarea>
 							<div class="flex justify-end sm:hidden">
 								<button
@@ -103,8 +114,8 @@
 									type="submit"><Save style="stroke-width:2px;" /><span>save</span></button
 								>
 							</div>
-							{#if $errors.back}<div class="text-red-800 dark:text-red-400">
-									{$errors.back}
+							{#if errors.back}<div class="text-red-800 dark:text-red-400">
+									{errors.back}
 								</div>{/if}
 						</div>
 					</div>

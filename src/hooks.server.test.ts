@@ -34,13 +34,17 @@ function cache(sessionId: string, expiresAt: Date) {
 	};
 }
 
-function makeEvent(sessionId: string | undefined) {
+function makeEvent(sessionId: string | undefined, url = 'http://localhost/record') {
 	return {
+		request: new Request(url),
 		cookies: {
 			get: vi.fn((name: string) => (name === 'auth_session' ? sessionId : undefined)),
+			getAll: vi.fn(() =>
+				sessionId === undefined ? [] : [{ name: 'auth_session', value: sessionId }]
+			),
 			set: vi.fn()
 		},
-		url: new URL('http://localhost/record'),
+		url: new URL(url),
 		locals: {} as App.Locals
 	};
 }
@@ -83,5 +87,48 @@ describe('session cache', () => {
 
 		expect(validateSession).toHaveBeenCalledWith('s1');
 		expect(event.locals.session).toBeNull();
+	});
+});
+
+// remfo-o0bj: anonymous HTML is browser-cached (private, never edge-cached -- Vercel's CDN
+// key ignores cookies, so an s-maxage'd anonymous page would also serve to logged-in users).
+describe('anonymous browser caching', () => {
+	it('marks cookieless GET 200s private with Vary: Cookie', async () => {
+		const resolve200 = vi.fn(async () => new Response('x', { status: 200 }));
+
+		await handle({ event: makeEvent(undefined), resolve: resolve200 } as never);
+
+		const headers = (await resolve200.mock.results[0].value).headers;
+		expect(headers.get('Cache-Control')).toBe('private, max-age=60');
+		expect(headers.get('Vary')).toBe('Cookie');
+	});
+
+	it('sets no cache headers when the request carries cookies', async () => {
+		cache('s1', new Date(Date.now() + 100_000));
+		const resolve200 = vi.fn(async () => new Response('x', { status: 200 }));
+
+		await handle({ event: makeEvent('s1'), resolve: resolve200 } as never);
+
+		const headers = (await resolve200.mock.results[0].value).headers;
+		expect(headers.get('Cache-Control')).toBeNull();
+	});
+
+	it('sets no cache headers on non-200 responses', async () => {
+		const resolve302 = vi.fn(async () => new Response(null, { status: 302 }));
+
+		await handle({ event: makeEvent(undefined), resolve: resolve302 } as never);
+
+		expect((await resolve302.mock.results[0].value).headers.get('Cache-Control')).toBeNull();
+	});
+
+	it('sets no cache headers on the __dbping diagnostic so it always measures live', async () => {
+		const resolve200 = vi.fn(async () => new Response('x', { status: 200 }));
+
+		await handle({
+			event: makeEvent(undefined, 'http://localhost/pricing?__dbping'),
+			resolve: resolve200
+		} as never);
+
+		expect((await resolve200.mock.results[0].value).headers.get('Cache-Control')).toBeNull();
 	});
 });

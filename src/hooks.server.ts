@@ -84,6 +84,26 @@ const handle: Handle = async ({ event, resolve }) => {
 	timings.push(`shell;dur=${(performance.now() - requestStart).toFixed(1)}`);
 	response.headers.set('Server-Timing', timings.join(', '));
 
+	// Anonymous browser caching, NOT edge caching. Deliberately `private`: Vercel's CDN
+	// cache key is method + URL + host + deployment + scheme (+ Vary values) -- cookies
+	// are not in it, and `Vary: Cookie` responses are never stored (x-vercel-cache: MISS
+	// by policy). So any s-maxage'd anonymous HTML at / or /pomo would also serve to
+	// logged-in users: wrong nav, missed /home redirect, and pomodoro sessions recorded
+	// locally instead of to the DB. `private` keeps shared caches out while `Vary: Cookie`
+	// keeps each browser's entry correct, so repeat anonymous loads skip the network.
+	// A request with zero cookies is definitionally logged-out (session and
+	// google-bounce state are all cookies). ?__dbping is excluded so the diagnostic
+	// always measures a live round trip.
+	if (
+		event.request.method === 'GET' &&
+		event.cookies.getAll().length === 0 &&
+		dbPingMs === null &&
+		response.status === 200
+	) {
+		response.headers.set('Cache-Control', 'private, max-age=60');
+		response.headers.set('Vary', 'Cookie');
+	}
+
 	return response;
 };
 

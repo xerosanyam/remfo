@@ -5,7 +5,15 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 const fetchMock = vi.fn();
 vi.stubGlobal('fetch', fetchMock);
 
+vi.mock('$lib/posthog', () => ({
+	capture: vi.fn(async () => undefined),
+	identify: vi.fn(async () => undefined),
+	reset: vi.fn(async () => undefined),
+	captureException: vi.fn(async () => undefined)
+}));
+
 import PomoPage from './+page.svelte';
+import { capture } from '$lib/posthog';
 
 // The pure timer maths lives in pomodoro.util.test.ts. What is only provable here is the wiring:
 // that a session left in storage is picked back up on load, and that stopping one does not lose it.
@@ -25,6 +33,7 @@ beforeEach(() => {
 	localStorage.clear();
 	fetchMock.mockReset();
 	fetchMock.mockResolvedValue(new Response('{}', { status: 200 }));
+	vi.mocked(capture).mockClear();
 });
 
 describe('pomo page', () => {
@@ -84,5 +93,26 @@ describe('pomo page', () => {
 		expect(localStorage.getItem('pomo:running')).toBe(null);
 		expect(pending()[0]).toMatchObject({ completed: true });
 		expect(pending()[0].endedAt - pending()[0].startedAt).toBe(1500);
+	});
+
+	it('reports starting a session', async () => {
+		render(PomoPage, { data });
+
+		await fireEvent.click(screen.getByRole('button'));
+
+		await vi.waitFor(() => expect(vi.mocked(capture)).toHaveBeenCalledWith('pomodoro_started'));
+	});
+
+	it('reports a recorded session for a signed-in user', async () => {
+		seedRunning(13);
+		render(PomoPage, { data: { user: { id: 'user-1' } } as never });
+
+		await fireEvent.click(screen.getByRole('button'));
+
+		await vi.waitFor(() =>
+			expect(vi.mocked(capture)).toHaveBeenCalledWith('pomodoro_session_recorded', {
+				completed: false
+			})
+		);
 	});
 });

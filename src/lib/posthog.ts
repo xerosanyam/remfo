@@ -9,9 +9,7 @@ let instance: PostHog | null = null;
 let inflight: Promise<PostHog | null> | null = null;
 
 function configured(): boolean {
-	return (
-		!!env.PUBLIC_POSTHOG_PROJECT_TOKEN?.trim() && !!env.PUBLIC_POSTHOG_HOST?.trim()
-	);
+	return !!env.PUBLIC_POSTHOG_PROJECT_TOKEN?.trim() && !!env.PUBLIC_POSTHOG_HOST?.trim();
 }
 
 async function load(): Promise<PostHog | null> {
@@ -52,10 +50,7 @@ export async function capture(event: string, props?: Record<string, unknown>): P
 	ph?.capture(event, props);
 }
 
-export async function identify(
-	distinctId: string,
-	props?: Record<string, unknown>
-): Promise<void> {
+export async function identify(distinctId: string, props?: Record<string, unknown>): Promise<void> {
 	const ph = await load();
 	ph?.identify(distinctId, props);
 }

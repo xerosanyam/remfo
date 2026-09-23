@@ -2,13 +2,17 @@
 	import { enhance } from '$app/forms';
 	import type { CardAddSchema } from '$lib/schemas';
 	import { capture } from '$lib/posthog';
-	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
+	import type { Infer, SuperValidated } from 'sveltekit-superforms';
 
 	export let data: SuperValidated<Infer<CardAddSchema>>;
 	export let showHeading = false;
 	export let onSubmit: (question: string) => void = () => {};
 
-	const { form, errors, constraints } = superForm(data);
+	// Plain use:enhance instead of superForm: the superforms client runtime (36KB) stays
+	// off the page; server-side zod validation is authoritative and its errors render
+	// from the failure result below (remfo-tw9m). Initial values come from props so the
+	// /learn reuse with prefilled cards keeps working.
+	let errors: { front?: string[]; back?: string[] } = data?.errors ?? {};
 	let loading = false;
 	export let action = '/home?/add';
 </script>
@@ -21,9 +25,12 @@
 		return ({ result, update }) => {
 			loading = false;
 			if (result.type === 'success') {
+				errors = {};
 				void capture('flashcard_created', {
 					entry_point: action === '/learn?/add' ? 'learning' : 'home'
 				});
+			} else if (result.type === 'failure') {
+				errors = ((result.data?.form ?? {}) as { errors?: typeof errors }).errors ?? {};
 			}
 			const submittedResult = onSubmit(formData.get('front') as string);
 			if (submittedResult === undefined) {
@@ -51,13 +58,15 @@
 						class="flex min-h-[80px] w-full rounded-md border border-slate-200 bg-white px-3 py-2 ring-offset-white placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-950 dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-teal-300"
 						id="question"
 						name="front"
-						bind:value={$form.front}
+						value={data?.data?.front ?? ''}
 						placeholder="Capital of Paris?"
 						rows="4"
-						{...$constraints.front}
+						required
+						minlength="1"
+						maxlength="2000"
 						data-gramm="false"
 					></textarea>
-					{#if $errors.front}<div class="text-red-800 dark:text-red-400">{$errors.front}</div>{/if}
+					{#if errors.front}<div class="text-red-800 dark:text-red-400">{errors.front}</div>{/if}
 				</div>
 				<div class="space-y-2">
 					<label
@@ -67,12 +76,14 @@
 						class="flex min-h-[80px] w-full rounded-md border border-slate-200 bg-white px-3 py-2 ring-offset-white placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-950 dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-teal-300"
 						id="answer"
 						name="back"
-						bind:value={$form.back}
+						value={data?.data?.back ?? ''}
 						placeholder="France"
-						{...$constraints.back}
+						required
+						minlength="1"
+						maxlength="2000"
 						data-gramm="false"
 					></textarea>
-					{#if $errors.back}<div class="text-red-800 dark:text-red-400">{$errors.back}</div>{/if}
+					{#if errors.back}<div class="text-red-800 dark:text-red-400">{errors.back}</div>{/if}
 				</div>
 				<div class="flex items-center justify-center">
 					<!-- <button class="flex items-center space-x-1"

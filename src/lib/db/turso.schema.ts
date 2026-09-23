@@ -1,5 +1,5 @@
 import { sql } from 'drizzle-orm';
-import { integer, real, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import { index, integer, real, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
 export const userTable = sqliteTable('auth_user', {
 	id: text('id').primaryKey(),
@@ -61,7 +61,14 @@ export const cardTable = sqliteTable('card', {
 		.default(sql`(unixepoch())`)
 		.$onUpdate(() => new Date())
 		.notNull()
-});
+},
+// Every per-request card read filters on user_id + deleted and orders by one timestamp:
+// /record lists and counts by created_at, /revise lists due cards by next_practice.
+// Without these the queries full-scan, and the cost grows with each user's card count.
+(t) => [
+	index('card_user_deleted_created_idx').on(t.userId, t.deleted, t.createdAt),
+	index('card_user_deleted_next_idx').on(t.userId, t.deleted, t.nextPractice)
+]);
 export type InsertCard = typeof cardTable.$inferInsert;
 export type SelectCard = typeof cardTable.$inferSelect;
 
@@ -77,7 +84,9 @@ export const activityTable = sqliteTable('activity', {
 	createdAt: integer('created_at', { mode: 'timestamp' })
 		.default(sql`(unixepoch())`)
 		.notNull()
-});
+},
+// /measure aggregates the whole activity history per user; without this it full-scans.
+(t) => [index('activity_user_action_idx').on(t.userId, t.action)]);
 export type InsertActivity = typeof activityTable.$inferInsert;
 export type SelectActivity = typeof activityTable.$inferSelect;
 

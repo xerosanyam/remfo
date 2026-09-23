@@ -3,10 +3,12 @@
 	import type { CardLearnSchema } from '$lib/schemas';
 	import { shortcut } from '$lib/shortcuts';
 	import { capture } from '$lib/posthog';
-	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
+	import type { Infer, SuperValidated } from 'sveltekit-superforms';
 
 	export let data: SuperValidated<Infer<CardLearnSchema>>;
-	const { form, errors, constraints } = superForm(data);
+	// Plain use:enhance instead of superForm (remfo-tw9m): server-side zod validation is
+	// authoritative and its errors render from the failure result below.
+	let errors: { userInput?: string[] } = data?.errors ?? {};
 	let loading = false;
 	let formRef: HTMLFormElement;
 </script>
@@ -18,6 +20,11 @@
 		loading = true;
 		return async ({ result }) => {
 			loading = false;
+			if (result.type === 'failure') {
+				errors = ((result.data?.form ?? {}) as { errors?: typeof errors }).errors ?? {};
+			} else {
+				errors = {};
+			}
 			const generatedCards =
 				result.type === 'success' && Array.isArray(result.data?.data) ? result.data.data : [];
 			if (generatedCards.length > 0) {
@@ -50,12 +57,14 @@
 						name="userInput"
 						placeholder="i want to learn about..."
 						rows="3"
-						bind:value={$form.userInput}
-						{...$constraints.userInput}
+						value={data?.data?.userInput ?? ''}
+						required
+						minlength="1"
+						maxlength="140"
 						data-gramm="false"
 					></textarea>
-					{#if $errors.userInput}<div class="text-red-800 dark:text-red-400">
-							{$errors.userInput}
+					{#if errors.userInput}<div class="text-red-800 dark:text-red-400">
+							{errors.userInput}
 						</div>{/if}
 				</div>
 				<div class="flex flex-row-reverse items-center justify-between">
