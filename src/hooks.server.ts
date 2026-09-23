@@ -1,6 +1,7 @@
 import { lucia } from '$lib/server/auth';
 import { turso_client } from '$lib/db/turso.db';
 import type { Handle } from '@sveltejs/kit';
+import { building } from '$app/environment';
 import { handleDeviceDetector } from 'sveltekit-device-detector';
 import { evictSessionCache, sessionAndUserInfo } from '$lib/server/session-cache';
 
@@ -13,7 +14,8 @@ const handle: Handle = async ({ event, resolve }) => {
 	// for normal traffic, because it costs a full round trip of its own.
 	//   curl -sD - -o /dev/null 'https://www.remfo.app/pricing?__dbping'
 	let dbPingMs: number | null = null;
-	if (event.url.searchParams.has('__dbping')) {
+	// Reading url.searchParams is illegal while prerendering (build-time SSR), so skip there.
+	if (!building && event.url.searchParams.has('__dbping')) {
 		const pingStart = performance.now();
 		await turso_client.execute('SELECT 1');
 		dbPingMs = performance.now() - pingStart;
