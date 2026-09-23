@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import type { CardAddSchema } from '$lib/schemas';
-	import posthog from 'posthog-js';
+	import { capture } from '$lib/posthog';
 	import { superForm, type Infer, type SuperValidated } from 'sveltekit-superforms';
 
 	export let data: SuperValidated<Infer<CardAddSchema>>;
@@ -21,7 +21,7 @@
 		return ({ result, update }) => {
 			loading = false;
 			if (result.type === 'success') {
-				posthog.capture('flashcard_created', {
+				void capture('flashcard_created', {
 					entry_point: action === '/learn?/add' ? 'learning' : 'home'
 				});
 			}

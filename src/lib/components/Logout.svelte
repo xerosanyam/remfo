@@ -1,11 +1,11 @@
 <script>
 	import { ROUTES } from '$lib/routes.util';
 	import ExitIcon from '~icons/mdi/exit-run';
-	import posthog from 'posthog-js';
+	import { capture, reset } from '$lib/posthog';
 
-	function resetPostHog() {
-		posthog.capture('user_logged_out');
-		posthog.reset();
+	async function resetPostHog() {
+		await capture('user_logged_out');
+		await reset();
 	}
 </script>
 

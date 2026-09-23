@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
-	import posthog from 'posthog-js';
+	import { capture } from '$lib/posthog';
 
 	import {
 		POMODORO_SECONDS,
@@ -53,7 +53,7 @@
 			});
 			// Offline, edge hiccup, expired session: keep it locally rather than lose the minutes.
 			if (response.ok) {
-				posthog.capture('pomodoro_session_recorded', { completed: body.completed });
+				void capture('pomodoro_session_recorded', { completed: body.completed });
 			} else {
 				console.warn('Could not record pomodoro session:', response.status, await response.text());
 				addPending(body);
@@ -159,7 +159,7 @@
 	};
 
 	function start() {
-		posthog.capture('pomodoro_started');
+		void capture('pomodoro_started');
 		justFinished = false;
 		primeAudio();
 		// Ask once, on the first Start, never on load. The browser prompt would otherwise fire
