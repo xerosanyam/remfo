@@ -25,7 +25,7 @@
 	</p>
 	<a
 		href={resolve(home)}
-		class="mt-8 inline-flex h-10 items-center justify-center rounded-md bg-slate-900 px-4 py-6 text-white ring-offset-white transition-colors hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 dark:bg-teal-300 dark:text-slate-950 dark:ring-offset-slate-950 dark:hover:bg-teal-200 dark:focus-visible:ring-teal-300"
+		class="mt-8 inline-flex h-10 items-center justify-center rounded-md bg-slate-900 px-4 py-6 text-white ring-offset-white transition-colors hover:bg-slate-800 focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 focus-visible:outline-hidden dark:bg-teal-300 dark:text-slate-950 dark:ring-offset-slate-950 dark:hover:bg-teal-200 dark:focus-visible:ring-teal-300"
 	>
 		go home
 	</a>

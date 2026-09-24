@@ -19,14 +19,14 @@
 </script>
 
 <div
-	class="group relative rounded-md border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-900 sm:h-96"
+	class="group relative rounded-md border border-slate-200 bg-white sm:h-96 dark:border-slate-700 dark:bg-slate-900"
 >
-	<div class={`flex h-full w-full flex-col ${modifyingCardId === card.id ? 'blur-sm' : ''}`}>
+	<div class={`flex h-full w-full flex-col ${modifyingCardId === card.id ? 'blur-xs' : ''}`}>
 		<div
-			class="flex h-fit max-h-48 min-h-16 w-full justify-center overflow-y-auto rounded-md border-slate-200 ring-offset-white placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-teal-300"
+			class="flex h-fit max-h-48 min-h-16 w-full justify-center overflow-y-auto rounded-md border-slate-200 ring-offset-white placeholder:text-slate-500 focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-teal-300"
 			id="question"
 		>
-			<div class="w-full whitespace-break-spaces p-6">
+			<div class="w-full p-6 whitespace-break-spaces">
 				<ContentRenderer text={card.front} />
 			</div>
 		</div>
@@ -42,7 +42,7 @@
 			>
 				<input type="hidden" hidden name="cardId" value={card.id} />
 				<button
-					class="flex items-center space-x-1 rounded-md border border-slate-200 px-4 py-2 hover:bg-slate-100 hover:text-slate-900 hover:outline disabled:pointer-events-none disabled:opacity-50 dark:border-slate-700 dark:hover:bg-violet-900 dark:hover:text-violet-100"
+					class="flex items-center space-x-1 rounded-md border border-slate-200 px-4 py-2 hover:bg-slate-100 hover:text-slate-900 hover:outline-solid disabled:pointer-events-none disabled:opacity-50 dark:border-slate-700 dark:hover:bg-violet-900 dark:hover:text-violet-100"
 					disabled={modifyingCardId === card.id}
 					type="submit"
 					title="move to trash"
@@ -56,12 +56,12 @@
 			{#key card.id}
 				<details class="h-full w-full overflow-y-auto" id="answer" bind:open={answerOpen}>
 					<summary
-						class="cursor-pointer p-6 text-slate-500 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 dark:text-slate-300 dark:ring-offset-slate-950 dark:focus-visible:ring-teal-300"
+						class="cursor-pointer p-6 text-slate-500 ring-offset-white focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 focus-visible:outline-hidden dark:text-slate-300 dark:ring-offset-slate-950 dark:focus-visible:ring-teal-300"
 						title="shortcut: Space or Enter"
 					>
 						show answer
 					</summary>
-					<div class="answer-body whitespace-break-spaces px-6 pb-6">{card.back}</div>
+					<div class="answer-body px-6 pb-6 whitespace-break-spaces">{card.back}</div>
 				</details>
 			{/key}
 		</div>

@@ -89,7 +89,7 @@
 </script>
 
 <header
-	class="fixed bottom-0 z-20 flex w-full flex-col border-r border-slate-200 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-950 sm:top-0 sm:h-screen sm:w-44"
+	class="fixed bottom-0 z-20 flex w-full flex-col border-r border-slate-200 bg-white shadow-lg sm:top-0 sm:h-screen sm:w-44 dark:border-slate-700 dark:bg-slate-950"
 >
 	<a
 		class="hidden items-center p-2 sm:flex md:mb-0"
@@ -120,7 +120,7 @@
 				<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -- internal URLs go through resolve() inside href(); resolve() throws on the external ones -->
 				<a
 					target={link.href.includes('https://') ? '_blank' : ''}
-					class={`${page.url.pathname === link.href ? 'bg-slate-100 dark:bg-violet-900' : ''} flex min-w-0 flex-1 flex-col items-center border-r border-slate-200 px-1 py-2 text-center text-xs leading-tight ring-offset-white transition-colors hover:bg-slate-100 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 dark:border-slate-700 dark:ring-offset-slate-950 dark:hover:bg-violet-900 dark:hover:text-violet-100 dark:focus-visible:ring-teal-300 sm:h-10 sm:w-full sm:flex-none sm:flex-row sm:gap-2 sm:border-r-0 sm:px-4 sm:py-6 sm:text-left sm:text-base`}
+					class={`${page.url.pathname === link.href ? 'bg-slate-100 dark:bg-violet-900' : ''} flex min-w-0 flex-1 flex-col items-center border-r border-slate-200 px-1 py-2 text-center text-xs leading-tight ring-offset-white transition-colors hover:bg-slate-100 hover:text-slate-900 focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 focus-visible:outline-hidden sm:h-10 sm:w-full sm:flex-none sm:flex-row sm:gap-2 sm:border-r-0 sm:px-4 sm:py-6 sm:text-left sm:text-base dark:border-slate-700 dark:ring-offset-slate-950 dark:hover:bg-violet-900 dark:hover:text-violet-100 dark:focus-visible:ring-teal-300`}
 					href={href(link.href)}
 				>
 					<Icon
@@ -134,7 +134,7 @@
 				onclick={toggleTheme}
 				aria-label="dark mode"
 				aria-pressed={isDark}
-				class="flex min-w-0 flex-1 flex-col items-center border-r border-slate-200 px-1 py-2 text-center text-xs leading-tight ring-offset-white transition-colors hover:bg-slate-100 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 dark:border-slate-700 dark:ring-offset-slate-950 dark:hover:bg-violet-900 dark:hover:text-violet-100 dark:focus-visible:ring-teal-300 sm:h-10 sm:w-full sm:flex-none sm:flex-row sm:gap-2 sm:border-r-0 sm:px-4 sm:py-6 sm:text-left sm:text-base"
+				class="flex min-w-0 flex-1 flex-col items-center border-r border-slate-200 px-1 py-2 text-center text-xs leading-tight ring-offset-white transition-colors hover:bg-slate-100 hover:text-slate-900 focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 focus-visible:outline-hidden sm:h-10 sm:w-full sm:flex-none sm:flex-row sm:gap-2 sm:border-r-0 sm:px-4 sm:py-6 sm:text-left sm:text-base dark:border-slate-700 dark:ring-offset-slate-950 dark:hover:bg-violet-900 dark:hover:text-violet-100 dark:focus-visible:ring-teal-300"
 			>
 				{#if isDark}<Sun style="font-size:1.5rem" />{:else}<Moon style="font-size:1.5rem" />{/if}
 				<span>theme</span>

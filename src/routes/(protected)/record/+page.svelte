@@ -14,7 +14,7 @@
 {#if data.cards}
 	<NewCards cards={data.cards.cards} totalCards={data.cards.totalCards} limit={data.limit} />
 {:else}
-	<div class="pb-10 pt-24 text-center text-sm text-slate-500 dark:text-slate-300">
+	<div class="pt-24 pb-10 text-center text-sm text-slate-500 dark:text-slate-300">
 		could not load your cards.
 	</div>
 {/if}

@@ -53,17 +53,17 @@
 	{#each dates as date (date)}
 		<div class="mx-auto mt-8 max-w-lg space-y-4 rounded-lg">
 			<h2
-				class="px-2 text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400"
+				class="px-2 text-xs font-medium tracking-wider text-slate-500 uppercase dark:text-slate-400"
 				title={date}
 			>
 				{humanReadableDate(groupedCards[date][0].createdAt)}
 			</h2>
 			{#each groupedCards[date] as card (card.id)}
-				<div class="relative rounded-sm px-2 py-1" title={String(card.createdAt)}>
-					<div class={`space-y-2 ${modifyingCardId === card.id ? 'blur-sm' : ''}`}>
+				<div class="relative rounded-xs px-2 py-1" title={String(card.createdAt)}>
+					<div class={`space-y-2 ${modifyingCardId === card.id ? 'blur-xs' : ''}`}>
 						<div class="flex w-full flex-col">
 							<div
-								class="flex w-full whitespace-break-spaces font-medium leading-relaxed text-slate-900 ring-offset-white placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:text-slate-50 dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-teal-300"
+								class="flex w-full leading-relaxed font-medium whitespace-break-spaces text-slate-900 ring-offset-white placeholder:text-slate-500 focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 dark:text-slate-50 dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-teal-300"
 								id="question"
 								placeholder="Capital of Paris?"
 								data-gramm="false"
@@ -71,7 +71,7 @@
 								{card.front}
 							</div>
 							<div
-								class="flex w-full whitespace-break-spaces border-slate-200 text-sm leading-relaxed text-slate-500 ring-offset-white placeholder:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:text-slate-300 dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-teal-300"
+								class="flex w-full border-slate-200 text-sm leading-relaxed whitespace-break-spaces text-slate-500 ring-offset-white placeholder:text-slate-500 focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:text-slate-300 dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-teal-300"
 								id="answer"
 								placeholder="France"
 								data-gramm="false"
@@ -95,7 +95,7 @@
 			{/each}
 		</div>
 	{/each}
-	<div class="space-y-4 pb-10 pt-24 text-center text-sm text-slate-500 dark:text-slate-300">
+	<div class="space-y-4 pt-24 pb-10 text-center text-sm text-slate-500 dark:text-slate-300">
 		{#if cards.length < totalCards}
 			<div>
 				<a

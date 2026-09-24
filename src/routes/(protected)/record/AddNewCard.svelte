@@ -58,24 +58,24 @@
 	}}
 >
 	<div class="mx-auto mt-8 max-w-lg">
-		<div class="w-full rounded-sm border-dashed border-slate-200 dark:border-slate-700 sm:border">
+		<div class="w-full rounded-xs border-dashed border-slate-200 sm:border dark:border-slate-700">
 			<div class="mb-0 flex flex-col px-6 py-2">
 				<p class="ml-6 text-slate-500 dark:text-slate-300">
 					write something you'd like to remember
 				</p>
 			</div>
 			<div
-				class="group relative min-h-16 rounded-sm rounded-r-none border border-dashed border-slate-200 px-4 py-2 dark:border-slate-700"
+				class="group relative min-h-16 rounded-xs rounded-r-none border border-dashed border-slate-200 px-4 py-2 dark:border-slate-700"
 			>
 				<div class="space-y-2">
 					<div class="flex w-full flex-col space-y-2">
 						<label
-							class="text-xs font-medium uppercase tracking-wider text-slate-500 peer-disabled:cursor-not-allowed peer-disabled:opacity-70 dark:text-slate-400"
+							class="text-xs font-medium tracking-wider text-slate-500 uppercase peer-disabled:cursor-not-allowed peer-disabled:opacity-70 dark:text-slate-400"
 							for="question">question</label
 						>
 						<!-- svelte-ignore a11y_autofocus -->
 						<textarea
-							class="flex min-h-[60px] w-full rounded-md border border-slate-200 bg-white px-3 py-2 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-950 dark:ring-offset-slate-950 dark:focus-visible:ring-teal-300"
+							class="flex min-h-[60px] w-full rounded-md border border-slate-200 bg-white px-3 py-2 ring-offset-white focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-950 dark:ring-offset-slate-950 dark:focus-visible:ring-teal-300"
 							id="question"
 							name="front"
 							value={formData?.data?.front ?? ''}
@@ -93,11 +93,11 @@
 							</div>{/if}
 
 						<label
-							class="text-xs font-medium uppercase tracking-wider text-slate-500 peer-disabled:cursor-not-allowed peer-disabled:opacity-70 dark:text-slate-400"
+							class="text-xs font-medium tracking-wider text-slate-500 uppercase peer-disabled:cursor-not-allowed peer-disabled:opacity-70 dark:text-slate-400"
 							for="answer">answer</label
 						>
 						<textarea
-							class="flex min-h-[60px] w-full rounded-md border border-slate-200 bg-white px-3 py-2 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-950 dark:ring-offset-slate-950 dark:focus-visible:ring-teal-300"
+							class="flex min-h-[60px] w-full rounded-md border border-slate-200 bg-white px-3 py-2 ring-offset-white focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-950 dark:ring-offset-slate-950 dark:focus-visible:ring-teal-300"
 							id="answer"
 							name="back"
 							value={formData?.data?.back ?? ''}
