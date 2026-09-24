@@ -29,14 +29,35 @@ const pending = () => JSON.parse(localStorage.getItem('pomo:pending') ?? '[]');
 // depends on a fetch, and the buffer is exactly what remfo-e4k.5 will claim.
 const data = { user: null } as never;
 
+// /api/me answers the session lookup the prerendered shell fires on mount. Signed-out tests
+// leave it null; signed-in tests set it before render.
+let meUser: unknown = null;
+
 beforeEach(() => {
 	localStorage.clear();
+	meUser = null;
 	vi.unstubAllGlobals();
 	vi.stubGlobal('fetch', fetchMock);
 	fetchMock.mockReset();
-	fetchMock.mockResolvedValue(new Response('{}', { status: 200 }));
+	fetchMock.mockImplementation((url: unknown) =>
+		Promise.resolve(
+			new Response(url === '/api/me' ? JSON.stringify({ user: meUser }) : '{}', {
+				status: 200,
+				headers: { 'content-type': 'application/json' }
+			})
+		)
+	);
 	vi.mocked(capture).mockClear();
 });
+
+// The shell ships logged-out; tests needing a session wait for /api/me to flip it first.
+const renderSignedIn = async () => {
+	meUser = { id: 'user-1' };
+	render(PomoPage, { data });
+	await vi.waitFor(() =>
+		expect(screen.queryByText(/kept in this browser/)).not.toBeInTheDocument()
+	);
+};
 
 describe('pomo page', () => {
 	it('offers a fresh 25 minutes when nothing is running', () => {
@@ -59,16 +80,21 @@ describe('pomo page', () => {
 
 	it('posts a stopped session for a signed-in user', async () => {
 		seedRunning(13);
-		render(PomoPage, { data: { user: { id: 'user-1' } } as never });
+		await renderSignedIn();
 
 		await fireEvent.click(screen.getByRole('button'));
-		await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledOnce());
-
-		expect(fetchMock).toHaveBeenCalledWith(
-			'/pomo/record',
-			expect.objectContaining({ method: 'POST', headers: { 'content-type': 'application/json' } })
+		await vi.waitFor(() =>
+			expect(fetchMock).toHaveBeenCalledWith(
+				'/pomo/record',
+				expect.objectContaining({ method: 'POST', headers: { 'content-type': 'application/json' } })
+			)
 		);
-		expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toMatchObject({ completed: false });
+
+		expect(
+			JSON.parse(
+				fetchMock.mock.calls.find(([url]) => url === '/pomo/record')?.[1].body as string
+			)
+		).toMatchObject({ completed: false });
 		expect(pending()).toHaveLength(0);
 	});
 
@@ -107,7 +133,7 @@ describe('pomo page', () => {
 
 	it('reports a recorded session for a signed-in user', async () => {
 		seedRunning(13);
-		render(PomoPage, { data: { user: { id: 'user-1' } } as never });
+		await renderSignedIn();
 
 		await fireEvent.click(screen.getByRole('button'));
 

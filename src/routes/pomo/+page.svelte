@@ -19,6 +19,9 @@
 
 	export let data;
 
+	// Prerendered shell ships logged-out; /api/me corrects this once it returns.
+	let signedIn = !!data?.user;
+
 	let running: Running | null = null;
 	let left = POMODORO_SECONDS;
 	let justFinished = false;
@@ -44,7 +47,7 @@
 
 	async function record(session: Running, now: number) {
 		const body = finish(session, now);
-		if (!data.user) return addPending(body);
+		if (!signedIn) return addPending(body);
 
 		try {
 			const response = await fetch('/pomo/record', {
@@ -202,6 +205,12 @@
 		// A suspended phone stops firing intervals entirely, so recheck the moment it comes back.
 		// visibilitychange is fired at the document, so it is listened for there.
 		document.addEventListener('visibilitychange', refresh);
+		// Session lookup for the prerendered shell: corrects the initial data.user (null at
+		// build time) so a signed-in user's sessions post to the DB instead of local pending.
+		fetch('/api/me')
+			.then((r) => r.json())
+			.then(({ user }) => (signedIn = !!user))
+			.catch(() => {});
 	});
 
 	onDestroy(() => {
@@ -228,7 +237,7 @@
 
 	<p aria-live="polite" class="text-muted-foreground min-h-5 text-sm">
 		{#if justFinished}
-			25 minutes done.{data.user ? '' : ' sign in to keep it.'}
+			25 minutes done.{signedIn ? '' : ' sign in to keep it.'}
 		{:else if running}
 			running
 		{/if}
@@ -250,7 +259,7 @@
 		</div>
 	{/if}
 
-	{#if !data.user}
+	{#if !signedIn}
 		<p class="text-muted-foreground text-center text-xs">
 			the timer works signed out. sessions are kept in this browser until you sign in.
 		</p>
