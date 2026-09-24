@@ -1,11 +1,19 @@
 <script>
+	import { onMount } from 'svelte';
 	import Google from '$lib/components/Buttons/Google.svelte';
 	import { ROUTES } from '$lib/routes.util';
-	export let data;
 	import JotTextEditor from '~icons/arcticons/jotatexteditor';
 	import BodyMeasures from 'virtual:icons/arcticons/body-measures';
 	import MyBrain from 'virtual:icons/arcticons/my-brain';
 	import SoloLearn from 'virtual:icons/arcticons/sololearn';
+
+	// Prerendered page, no server load: read the single-use oauth cookie client-side.
+	let bouncedFromGoogle = false;
+	onMount(() => {
+		bouncedFromGoogle = document.cookie
+			.split('; ')
+			.some((c) => c.startsWith('google_oauth_state='));
+	});
 </script>
 
 <div class="container mx-auto h-screen max-w-lg items-center py-8">
@@ -51,7 +59,7 @@
 	     wrapper above, which is hidden below the sm breakpoint, so it stays reachable at the
 	     narrow widths where this is actually needed. -->
 	<p class="text-muted-foreground mx-auto mt-6 max-w-xs text-center text-sm">
-		{#if data.bouncedFromGoogle}
+		{#if bouncedFromGoogle}
 			couldn't sign in? some browsers can't load google's sign-in page.
 			<a class="whitespace-nowrap underline" href={ROUTES.LOGIN_DEVICE}>sign in with a code</a>
 		{:else}
