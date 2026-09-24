@@ -7,9 +7,11 @@ vi.mock('$app/state', () => ({
 	page: { url: new URL('http://localhost/'), data: { deviceType: { isMobile: true } } }
 }));
 
+import { page } from '$app/state';
 import PrimaryNav from './PrimaryNav.svelte';
 
 const user = { id: 'u1', name: 'sanyam', email: 'a@b.c', picture: '' };
+const at = (path: string) => ((page as { url: URL }).url = new URL(`http://localhost${path}`));
 
 beforeEach(() => {
 	localStorage.clear();
@@ -33,15 +35,26 @@ describe('PrimaryNav', () => {
 	// client-side navigation. Signing in without a full page load changes `user` on an
 	// existing instance, and a one-time assignment would leave the signed-out links up.
 	it('swaps to the signed-in links when user arrives without a remount', async () => {
+		at('/record');
 		const { container, rerender } = render(PrimaryNav, { user: null });
 		expect(screen.getByText('sign up / login')).toBeInTheDocument();
 
 		await rerender({ user });
 
 		expect(screen.getByText('revise')).toBeInTheDocument();
-		expect(container.querySelector('details')?.open).toBe(false);
+		// Off the landing page pinMenu holds details open; the regression under test is the
+		// link swap, not the menu state.
+		expect(container.querySelector('details')?.open).toBe(true);
 		expect(screen.queryByRole('link', { name: 'privacy policy' })).not.toBeInTheDocument();
 		expect(screen.queryByText('sign up / login')).not.toBeInTheDocument();
+	});
+
+	it('keeps the marketing links on the landing page even when signed in', () => {
+		at('/');
+		render(PrimaryNav, { user });
+
+		expect(screen.getByRole('link', { name: 'privacy policy' })).toBeInTheDocument();
+		expect(screen.queryByText('revise')).not.toBeInTheDocument();
 	});
 
 	it('applies a saved choice and keeps the next choice across mounts', async () => {

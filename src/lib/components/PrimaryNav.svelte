@@ -79,7 +79,9 @@
 	// Reactive on purpose. This nav lives in the root layout, so the component survives
 	// client-side navigation: after signing in without a full page load, `user` changes but a
 	// one-time assignment here would keep showing the signed-out links.
-	const links = $derived(user ? signedInLinks : signedOuLinks);
+	// The landing page is marketing: it always shows the signed-out links, even for a
+	// signed-in visitor (who gets a "go to app" button in the page body instead).
+	const links = $derived(user && page.url.pathname !== ROUTES.LOGIN ? signedInLinks : signedOuLinks);
 
 	// resolve() throws on external URLs, so only internal pathnames go through it.
 	/** @param {any} to */
