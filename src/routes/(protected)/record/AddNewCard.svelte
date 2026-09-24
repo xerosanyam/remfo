@@ -2,7 +2,6 @@
 	import { enhance } from '$app/forms';
 	import type { CardAddSchema } from '$lib/schemas';
 	import { shortcut } from '$lib/shortcuts';
-	import MyStar from '~icons/arcticons/mykyivstar';
 	import Save from '~icons/arcticons/saveto';
 
 	import type { Infer, SuperValidated } from 'sveltekit-superforms';
@@ -58,7 +57,7 @@
 		callback: () => formRef.requestSubmit()
 	}}
 >
-	<div class="relative mx-auto mt-8 flex max-w-lg space-x-1">
+	<div class="mx-auto mt-8 max-w-lg">
 		<div class="w-full rounded-sm border-dashed border-slate-200 dark:border-slate-700 sm:border">
 			<div class="mb-0 flex flex-col px-6 py-2">
 				<p class="ml-6 text-slate-500 dark:text-slate-300">
@@ -69,66 +68,62 @@
 				class="group relative min-h-16 rounded-sm rounded-r-none border border-dashed border-slate-200 px-4 py-2 dark:border-slate-700"
 			>
 				<div class="space-y-2">
-					<div class="flex space-x-2">
-						<div>
-							<MyStar style="" />
-						</div>
-						<div class="flex w-full flex-col space-y-2">
-							<!-- svelte-ignore a11y_autofocus -->
-							<textarea
-								class="flex min-h-[60px] w-full rounded-md border border-slate-200 bg-white px-3 py-2 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-950 dark:ring-offset-slate-950 dark:focus-visible:ring-teal-300"
-								id="question"
-								name="front"
-								value={formData?.data?.front ?? ''}
-								placeholder={placeholders[randomPlaceholder].front}
-								rows="2"
-								data-gramm="false"
-								disabled={loading}
-								required
-								minlength="1"
-								maxlength="2000"
-								autofocus
-							></textarea>
-							{#if errors.front}<div class="text-red-800 dark:text-red-400">
-									{errors.front}
-								</div>{/if}
+					<div class="flex w-full flex-col space-y-2">
+						<label
+							class="text-xs font-medium uppercase tracking-wider text-slate-500 peer-disabled:cursor-not-allowed peer-disabled:opacity-70 dark:text-slate-400"
+							for="question">question</label
+						>
+						<!-- svelte-ignore a11y_autofocus -->
+						<textarea
+							class="flex min-h-[60px] w-full rounded-md border border-slate-200 bg-white px-3 py-2 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-950 dark:ring-offset-slate-950 dark:focus-visible:ring-teal-300"
+							id="question"
+							name="front"
+							value={formData?.data?.front ?? ''}
+							placeholder={placeholders[randomPlaceholder].front}
+							rows="2"
+							data-gramm="false"
+							disabled={loading}
+							required
+							minlength="1"
+							maxlength="2000"
+							autofocus
+						></textarea>
+						{#if errors.front}<div class="text-red-800 dark:text-red-400">
+								{errors.front}
+							</div>{/if}
 
-							<textarea
-								class="flex min-h-[60px] w-full rounded-md border border-slate-200 bg-white px-3 py-2 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-950 dark:ring-offset-slate-950 dark:focus-visible:ring-teal-300"
-								id="answer"
-								name="back"
-								value={formData?.data?.back ?? ''}
-								placeholder={placeholders[randomPlaceholder].back}
-								data-gramm="false"
-								rows="2"
+						<label
+							class="text-xs font-medium uppercase tracking-wider text-slate-500 peer-disabled:cursor-not-allowed peer-disabled:opacity-70 dark:text-slate-400"
+							for="answer">answer</label
+						>
+						<textarea
+							class="flex min-h-[60px] w-full rounded-md border border-slate-200 bg-white px-3 py-2 ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-950 dark:ring-offset-slate-950 dark:focus-visible:ring-teal-300"
+							id="answer"
+							name="back"
+							value={formData?.data?.back ?? ''}
+							placeholder={placeholders[randomPlaceholder].back}
+							data-gramm="false"
+							rows="2"
+							disabled={loading}
+							required
+							minlength="1"
+							maxlength="2000"
+						></textarea>
+						{#if errors.back}<div class="text-red-800 dark:text-red-400">
+								{errors.back}
+							</div>{/if}
+						<div class="flex items-center justify-between pt-1">
+							<span class="text-xs text-slate-400 dark:text-slate-500">ctrl+enter to save</span>
+							<button
+								class="flex items-center space-x-1 rounded-md border border-slate-900 bg-slate-900 px-4 py-2 text-white disabled:pointer-events-none disabled:opacity-50 dark:border-teal-300 dark:bg-teal-300 dark:text-slate-950"
 								disabled={loading}
-								required
-								minlength="1"
-								maxlength="2000"
-							></textarea>
-							<div class="flex justify-end sm:hidden">
-								<button
-									class="flex items-center space-x-1 rounded-md border border-slate-900 bg-slate-900 px-4 py-2 text-white disabled:pointer-events-none disabled:opacity-50 dark:border-teal-300 dark:bg-teal-300 dark:text-slate-950"
-									disabled={loading}
-									title="shortcut: Ctrl/Command+Enter"
-									type="submit"><Save style="stroke-width:2px;" /><span>save</span></button
-								>
-							</div>
-							{#if errors.back}<div class="text-red-800 dark:text-red-400">
-									{errors.back}
-								</div>{/if}
+								title="shortcut: Ctrl/Command+Enter"
+								type="submit"><Save style="stroke-width:2px;" /><span>save</span></button
+							>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<div class="absolute -right-24 bottom-0 hidden sm:block">
-			<button
-				class="flex items-center space-x-1 rounded-md border border-slate-900 bg-slate-900 px-4 py-2 text-white disabled:pointer-events-none disabled:opacity-50 dark:border-teal-300 dark:bg-teal-300 dark:text-slate-950"
-				disabled={loading}
-				title="shortcut: Ctrl/Command+Enter"
-				type="submit"><Save style="stroke-width:2px;" /><span>save</span></button
-			>
 		</div>
 	</div>
 </form>

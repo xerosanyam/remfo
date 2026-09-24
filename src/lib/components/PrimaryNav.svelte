@@ -10,7 +10,8 @@
 	import SendIt from '~icons/arcticons/sendit';
 	import MeditationAssistant from '~icons/arcticons/atom-meditation';
 	import Hamburger from '~icons/arcticons/hamburger-menu';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
+	import { resolve } from '$app/paths';
 	import Google from '$lib/components/Buttons/Google.svelte';
 	import { ROUTES } from '$lib/routes.util';
 	import BodyMeasures from 'virtual:icons/arcticons/body-measures';
@@ -38,8 +39,8 @@
 		// { href: 'https://x.com/remfoapp', text: 'follow on x', icon: XIcon }
 	];
 
-	export let user;
-	let isDark = false;
+	let { user } = $props();
+	let isDark = $state(false);
 
 	onMount(() => {
 		const system = window.matchMedia('(prefers-color-scheme: dark)');
@@ -77,16 +78,24 @@
 	// Reactive on purpose. This nav lives in the root layout, so the component survives
 	// client-side navigation: after signing in without a full page load, `user` changes but a
 	// one-time assignment here would keep showing the signed-out links.
-	$: links = user ? signedInLinks : signedOuLinks;
+	const links = $derived(user ? signedInLinks : signedOuLinks);
 
-	$: pinMenu = $page.url.pathname !== ROUTES.LOGIN;
-	$: open = !user || pinMenu || !$page.data.deviceType?.isMobile;
+	// resolve() throws on external URLs, so only internal pathnames go through it.
+	/** @param {any} to */
+	const href = (to) => (to.startsWith('/') ? resolve(to) : to);
+
+	const pinMenu = $derived(page.url.pathname !== ROUTES.LOGIN);
+	const open = $derived(!user || pinMenu || !page.data.deviceType?.isMobile);
 </script>
 
 <header
 	class="fixed bottom-0 z-20 flex w-full flex-col border-r border-slate-200 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-950 sm:top-0 sm:h-screen sm:w-44"
 >
-	<a class="hidden items-center p-2 sm:flex md:mb-0" href="/" aria-label="remember forever home">
+	<a
+		class="hidden items-center p-2 sm:flex md:mb-0"
+		href={resolve('/')}
+		aria-label="remember forever home"
+	>
 		<enhanced:img
 			src={Logo}
 			class="h-10 w-10 rounded-full"
@@ -107,21 +116,22 @@
 		</summary>
 		<nav class="flex w-full sm:mt-8 sm:w-44 sm:flex-col">
 			{#each links as link (link.href)}
+				{@const Icon = link.icon}
+				<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -- internal URLs go through resolve() inside href(); resolve() throws on the external ones -->
 				<a
 					target={link.href.includes('https://') ? '_blank' : ''}
-					class={`${$page.url.pathname === link.href ? 'bg-slate-100 dark:bg-violet-900' : ''} flex min-w-0 flex-1 flex-col items-center border-r border-slate-200 px-1 py-2 text-center text-xs leading-tight ring-offset-white transition-colors hover:bg-slate-100 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 dark:border-slate-700 dark:ring-offset-slate-950 dark:hover:bg-violet-900 dark:hover:text-violet-100 dark:focus-visible:ring-teal-300 sm:h-10 sm:w-full sm:flex-none sm:flex-row sm:gap-2 sm:border-r-0 sm:px-4 sm:py-6 sm:text-left sm:text-base`}
-					href={link.href}
+					class={`${page.url.pathname === link.href ? 'bg-slate-100 dark:bg-violet-900' : ''} flex min-w-0 flex-1 flex-col items-center border-r border-slate-200 px-1 py-2 text-center text-xs leading-tight ring-offset-white transition-colors hover:bg-slate-100 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 dark:border-slate-700 dark:ring-offset-slate-950 dark:hover:bg-violet-900 dark:hover:text-violet-100 dark:focus-visible:ring-teal-300 sm:h-10 sm:w-full sm:flex-none sm:flex-row sm:gap-2 sm:border-r-0 sm:px-4 sm:py-6 sm:text-left sm:text-base`}
+					href={href(link.href)}
 				>
-					<svelte:component
-						this={link.icon}
-						style={`font-size:1.5rem;stroke-width:${$page.url.pathname === link.href ? '2px;' : '1.5px'}`}
-					></svelte:component>
+					<Icon
+						style={`font-size:1.5rem;stroke-width:${page.url.pathname === link.href ? '2px;' : '1.5px'}`}
+					></Icon>
 					{link.text}
 				</a>
 			{/each}
 			<button
 				type="button"
-				on:click={toggleTheme}
+				onclick={toggleTheme}
 				aria-label="dark mode"
 				aria-pressed={isDark}
 				class="flex min-w-0 flex-1 flex-col items-center border-r border-slate-200 px-1 py-2 text-center text-xs leading-tight ring-offset-white transition-colors hover:bg-slate-100 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 dark:border-slate-700 dark:ring-offset-slate-950 dark:hover:bg-violet-900 dark:hover:text-violet-100 dark:focus-visible:ring-teal-300 sm:h-10 sm:w-full sm:flex-none sm:flex-row sm:gap-2 sm:border-r-0 sm:px-4 sm:py-6 sm:text-left sm:text-base"

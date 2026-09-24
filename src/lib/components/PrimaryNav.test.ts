@@ -1,11 +1,10 @@
 import { render, screen } from '@testing-library/svelte';
 import { fireEvent } from '@testing-library/dom';
-import { readable } from 'svelte/store';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 // Pin to mobile homepage: signed-out navigation must remain visible without JavaScript.
-vi.mock('$app/stores', () => ({
-	page: readable({ url: new URL('http://localhost/'), data: { deviceType: { isMobile: true } } })
+vi.mock('$app/state', () => ({
+	page: { url: new URL('http://localhost/'), data: { deviceType: { isMobile: true } } }
 }));
 
 import PrimaryNav from './PrimaryNav.svelte';

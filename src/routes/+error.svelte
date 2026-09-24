@@ -1,12 +1,12 @@
 <script>
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import { resolve } from '$app/paths';
 	import { ROUTES } from '$lib/routes.util';
 
-	// Deliberately never renders $page.error.message: for a 500 that string can carry
+	// Deliberately never renders page.error.message: for a 500 that string can carry
 	// internal detail, and for a 404 it is only ever SvelteKit's own "Not Found".
-	$: notFound = $page.status === 404;
-	$: home = $page.data?.user ? ROUTES.HOME : ROUTES.LOGIN;
+	const notFound = $derived(page.status === 404);
+	const home = $derived(page.data?.user ? ROUTES.HOME : ROUTES.LOGIN);
 </script>
 
 <svelte:head>
@@ -14,7 +14,7 @@
 </svelte:head>
 
 <section class="mx-auto mt-10 max-w-lg px-4 text-center">
-	<p class="font-mono text-5xl text-slate-500 dark:text-slate-300">{$page.status}</p>
+	<p class="font-mono text-5xl text-slate-500 dark:text-slate-300">{page.status}</p>
 	<h1 class="mt-4 text-2xl">
 		{notFound ? 'that page does not exist' : 'something went wrong on our side'}
 	</h1>
