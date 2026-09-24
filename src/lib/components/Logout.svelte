@@ -2,9 +2,11 @@
 	import { ROUTES } from '$lib/routes.util';
 	import ExitIcon from '~icons/mdi/exit-run';
 	import { capture, reset } from '$lib/posthog';
+	import { Button } from '$lib/components/ui/button';
 
 	/** @type {HTMLFormElement | undefined} */
 	let form;
+	let busy = false;
 
 	/** @param {MouseEvent} event */
 	async function resetPostHog(event) {
@@ -14,6 +16,9 @@
 		// so logout never hangs on them. No-JS unaffected: without JS there is no click
 		// handler, the native POST just works.
 		event.preventDefault();
+		// Immediate feedback: the analytics hold below can keep the button dead for up
+		// to 1.5s on slow networks, which reads as broken.
+		busy = true;
 		try {
 			await Promise.race([
 				(async () => {
@@ -29,11 +34,8 @@
 </script>
 
 <form method="post" action={ROUTES.LOGOUT} bind:this={form}>
-	<button
-		class="flex w-full items-center gap-2 px-4 py-4 whitespace-nowrap text-slate-500 ring-offset-white transition-colors hover:bg-slate-100 hover:text-slate-900 focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50 dark:text-slate-300 dark:ring-offset-slate-950 dark:hover:bg-violet-900 dark:hover:text-violet-100 dark:focus-visible:ring-teal-300"
-		on:click={resetPostHog}
-	>
-		<ExitIcon />
+	<Button variant="ghost" class="w-full justify-start gap-2" disabled={busy} onclick={resetPostHog}>
+		<ExitIcon data-icon="inline-start" />
 		sign out
-	</button>
+	</Button>
 </form>
