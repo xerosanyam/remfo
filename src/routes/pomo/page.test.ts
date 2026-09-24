@@ -1,8 +1,19 @@
 import { render, screen } from '@testing-library/svelte';
 import { fireEvent } from '@testing-library/dom';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+
+const fetchMock = vi.fn();
+vi.stubGlobal('fetch', fetchMock);
+
+vi.mock('$lib/posthog', () => ({
+	capture: vi.fn(async () => undefined),
+	identify: vi.fn(async () => undefined),
+	reset: vi.fn(async () => undefined),
+	captureException: vi.fn(async () => undefined)
+}));
 
 import PomoPage from './+page.svelte';
+import { capture } from '$lib/posthog';
 
 // The pure timer maths lives in pomodoro.util.test.ts. What is only provable here is the wiring:
 // that a session left in storage is picked back up on load, and that stopping one does not lose it.
@@ -18,7 +29,14 @@ const pending = () => JSON.parse(localStorage.getItem('pomo:pending') ?? '[]');
 // depends on a fetch, and the buffer is exactly what remfo-e4k.5 will claim.
 const data = { user: null } as never;
 
-beforeEach(() => localStorage.clear());
+beforeEach(() => {
+	localStorage.clear();
+	vi.unstubAllGlobals();
+	vi.stubGlobal('fetch', fetchMock);
+	fetchMock.mockReset();
+	fetchMock.mockResolvedValue(new Response('{}', { status: 200 }));
+	vi.mocked(capture).mockClear();
+});
 
 describe('pomo page', () => {
 	it('offers a fresh 25 minutes when nothing is running', () => {
@@ -37,6 +55,21 @@ describe('pomo page', () => {
 
 		expect(screen.getByRole('timer')).toHaveTextContent('12:00');
 		expect(screen.getByRole('button')).toHaveTextContent('stop');
+	});
+
+	it('posts a stopped session for a signed-in user', async () => {
+		seedRunning(13);
+		render(PomoPage, { data: { user: { id: 'user-1' } } as never });
+
+		await fireEvent.click(screen.getByRole('button'));
+		await vi.waitFor(() => expect(fetchMock).toHaveBeenCalledOnce());
+
+		expect(fetchMock).toHaveBeenCalledWith(
+			'/pomo/record',
+			expect.objectContaining({ method: 'POST', headers: { 'content-type': 'application/json' } })
+		);
+		expect(JSON.parse(fetchMock.mock.calls[0][1].body)).toMatchObject({ completed: false });
+		expect(pending()).toHaveLength(0);
 	});
 
 	it('records real elapsed minutes when a session is stopped early', async () => {
@@ -62,5 +95,77 @@ describe('pomo page', () => {
 		expect(localStorage.getItem('pomo:running')).toBe(null);
 		expect(pending()[0]).toMatchObject({ completed: true });
 		expect(pending()[0].endedAt - pending()[0].startedAt).toBe(1500);
+	});
+
+	it('reports starting a session', async () => {
+		render(PomoPage, { data });
+
+		await fireEvent.click(screen.getByRole('button'));
+
+		await vi.waitFor(() => expect(vi.mocked(capture)).toHaveBeenCalledWith('pomodoro_started'));
+	});
+
+	it('reports a recorded session for a signed-in user', async () => {
+		seedRunning(13);
+		render(PomoPage, { data: { user: { id: 'user-1' } } as never });
+
+		await fireEvent.click(screen.getByRole('button'));
+
+		await vi.waitFor(() =>
+			expect(vi.mocked(capture)).toHaveBeenCalledWith('pomodoro_session_recorded', {
+				completed: false
+			})
+		);
+	});
+
+	it('stays silent when the user declined, even with permission granted', async () => {
+		localStorage.setItem('pomo:notifChoice', JSON.stringify(false));
+		const constructed: unknown[] = [];
+		vi.stubGlobal(
+			'Notification',
+			class {
+				static permission = 'granted';
+				constructor(...args: unknown[]) {
+					constructed.push(args);
+				}
+				close() {}
+			}
+		);
+		seedRunning(40);
+
+		render(PomoPage, { data });
+
+		await vi.waitFor(() => expect(pending()).toHaveLength(1));
+		expect(constructed).toHaveLength(0);
+	});
+
+	it('stops asking when notifications are unavailable', async () => {
+		vi.stubGlobal('Notification', undefined);
+		render(PomoPage, { data });
+
+		await fireEvent.click(screen.getByRole('button', { name: 'start 25 minutes' }));
+		await fireEvent.click(screen.getByRole('button', { name: 'yes' }));
+
+		expect(JSON.parse(localStorage.getItem('pomo:notifChoice') ?? 'null')).toBe(false);
+		expect(
+			screen.queryByText('let me notify you when the 25 minutes are done?')
+		).not.toBeInTheDocument();
+	});
+
+	it('still starts the timer when audio setup throws', async () => {
+		vi.stubGlobal(
+			'AudioContext',
+			class {
+				constructor() {
+					throw new Error('no audio device');
+				}
+			}
+		);
+		render(PomoPage, { data });
+
+		await fireEvent.click(screen.getByRole('button', { name: 'start 25 minutes' }));
+
+		expect(screen.getByRole('button', { name: 'stop' })).toBeInTheDocument();
+		expect(localStorage.getItem('pomo:running')).not.toBe(null);
 	});
 });

@@ -4,7 +4,7 @@
 	import { invalidateAll } from '$app/navigation';
 	import Card from './Card.svelte';
 	import ReviewProgress from './ReviewProgress.svelte';
-	import posthog from 'posthog-js';
+	import { capture } from '$lib/posthog';
 
 	export let cards: CardRevisePage[];
 	let revisedCards: string[] = [];
@@ -23,7 +23,7 @@
 		return async ({ result }: { result: ActionResult }) => {
 			modifyingCardId = '';
 			if (result.type === 'success' && difficulty) {
-				posthog.capture('flashcard_reviewed', { difficulty });
+				void capture('flashcard_reviewed', { difficulty });
 			}
 			if (result.type === 'error' || result.type === 'failure') {
 				error = 'Failed to perform that action';

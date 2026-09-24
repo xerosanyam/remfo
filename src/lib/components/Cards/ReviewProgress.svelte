@@ -14,10 +14,10 @@
 </script>
 
 <div>
-	<div class="h-2 w-full bg-gray-200">
-		<div style={`width:${progress}`} class="h-full w-0 bg-gray-400"></div>
+	<div class="h-2 w-full bg-slate-100 dark:bg-slate-800">
+		<div style={`width:${progress}`} class="h-full w-0 bg-slate-500 dark:bg-slate-400"></div>
 	</div>
-	<div class="flex justify-between text-gray-500">
+	<div class="flex justify-between text-slate-500 dark:text-slate-300">
 		<div>{progress}</div>
 		<div>Reviewed: {revisedCards.length}/{cards.length}</div>
 	</div>

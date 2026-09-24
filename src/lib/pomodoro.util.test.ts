@@ -1,8 +1,25 @@
 import { describe, expect, it } from 'vitest';
-import { POMODORO_SECONDS, finish, format, secondsLeft } from './pomodoro.util';
+import {
+	POMODORO_SECONDS,
+	finish,
+	format,
+	readNotifChoice,
+	secondsLeft,
+	writeNotifChoice
+} from './pomodoro.util';
 
 const START = 1_700_000_000_000;
 const run = { startedAt: START, duration: POMODORO_SECONDS };
+
+describe('notif choice', () => {
+	it('starts unanswered and remembers the answer', () => {
+		expect(readNotifChoice()).toBeNull();
+		writeNotifChoice(true);
+		expect(readNotifChoice()).toBe(true);
+		writeNotifChoice(false);
+		expect(readNotifChoice()).toBe(false);
+	});
+});
 
 describe('secondsLeft', () => {
 	it('counts down from the full duration', () => {

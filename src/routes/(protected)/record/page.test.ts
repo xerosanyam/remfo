@@ -27,6 +27,14 @@ const pageData = (cards: LoadedCards) => ({ addForm, limit: 50, cards }) as unkn
 // only those two states can reach this component. The no-JS guard (bun run test:nojs)
 // covers the reason for that change, which these unit tests cannot see.
 describe('record page card list', () => {
+	it('shows the Anki save shortcut on hover', () => {
+		render(RecordPage, { data: pageData({ cards: [], totalCards: 0 }) });
+
+		for (const button of screen.getAllByRole('button', { name: 'save' })) {
+			expect(button).toHaveAttribute('title', 'shortcut: Ctrl/Command+Enter');
+		}
+	});
+
 	it('renders the cards the load resolved', () => {
 		render(RecordPage, {
 			data: pageData({ cards: [card('1', 'first question')], totalCards: 1 })

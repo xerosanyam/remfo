@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
-	import posthog from 'posthog-js';
+	import { capture } from '$lib/posthog';
 
 	import {
 		POMODORO_SECONDS,
@@ -8,8 +8,10 @@
 		deadlineOf,
 		finish,
 		format,
+		readNotifChoice,
 		readRunning,
 		secondsLeft,
+		writeNotifChoice,
 		writeRunning
 	} from '$lib/pomodoro.util';
 	import type { Running } from '$lib/pomodoro.util';
@@ -19,6 +21,8 @@
 	let running: Running | null = null;
 	let left = POMODORO_SECONDS;
 	let justFinished = false;
+	let askNotif = false;
+	let audioCtx: AudioContext | null = null;
 	let ticker: ReturnType<typeof setInterval> | undefined;
 
 	// A finished session holds at 0:00 rather than snapping back to 25:00, which would sit under
@@ -49,11 +53,13 @@
 			});
 			// Offline, edge hiccup, expired session: keep it locally rather than lose the minutes.
 			if (response.ok) {
-				posthog.capture('pomodoro_session_recorded', { completed: body.completed });
+				void capture('pomodoro_session_recorded', { completed: body.completed });
 			} else {
+				console.warn('Could not record pomodoro session:', response.status, await response.text());
 				addPending(body);
 			}
-		} catch {
+		} catch (cause) {
+			console.warn('Could not record pomodoro session:', cause);
 			addPending(body);
 		}
 	}
@@ -76,6 +82,8 @@
 			left = 0;
 			justFinished = true;
 			stopTicking();
+			ring();
+			ringNotify();
 			record(stored, now);
 			return;
 		}
@@ -85,9 +93,91 @@
 		if (!ticker) startTicking();
 	}
 
+	// Sound may only start within a user gesture. The Start click is that gesture, so the context
+	// is created there; when the deadline arrives the context is already running and can ring.
+	// Best-effort throughout: audio must never stop the timer from starting.
+	function primeAudio() {
+		if (typeof AudioContext === 'undefined') return;
+		try {
+			if (!audioCtx) audioCtx = new AudioContext();
+		} catch {
+			audioCtx = null;
+			return;
+		}
+		if (audioCtx.state === 'suspended') {
+			audioCtx.resume().catch(() => {});
+		}
+	}
+
+	function ring() {
+		if (!audioCtx) return;
+		// Two quick notes, low to high, like a soft version of the classic pomodoro ding.
+		for (const [at, freq] of [
+			[0, 523.25],
+			[0.18, 783.99]
+		]) {
+			const osc = audioCtx.createOscillator();
+			const gain = audioCtx.createGain();
+			osc.type = 'sine';
+			osc.frequency.value = freq;
+			gain.gain.setValueAtTime(0.001, audioCtx.currentTime + at);
+			gain.gain.exponentialRampToValueAtTime(0.2, audioCtx.currentTime + at + 0.03);
+			gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + at + 0.6);
+			osc.connect(gain).connect(audioCtx.destination);
+			osc.start(audioCtx.currentTime + at);
+			osc.stop(audioCtx.currentTime + at + 0.7);
+		}
+	}
+
+	// Best effort, and only when the user has said yes. A granted browser permission alone
+	// is not consent: declining in-page opts out even if permission was granted elsewhere.
+	function ringNotify() {
+		if (readNotifChoice() !== true) return;
+		if (typeof Notification === 'undefined' || Notification.permission !== 'granted') return;
+		try {
+			const n = new Notification('pomo done', {
+				body: '25 minutes are up',
+				tag: 'pomo-done'
+			});
+			const close = () => n.close();
+			n.onclick = () => {
+				window.focus();
+				close();
+			};
+			setTimeout(close, 15000);
+		} catch (cause) {
+			console.warn('Could not show pomodoro notification:', cause);
+		}
+	}
+
+	async function allowNotifications() {
+		askNotif = false;
+		// Without the API there is nothing to grant: record the refusal so Start stops asking.
+		if (typeof Notification === 'undefined') {
+			writeNotifChoice(false);
+			return;
+		}
+		let granted = false;
+		try {
+			granted = (await Notification.requestPermission()) === 'granted';
+		} catch {
+			granted = false;
+		}
+		writeNotifChoice(granted);
+	}
+
+	const declineNotifications = () => {
+		askNotif = false;
+		writeNotifChoice(false);
+	};
+
 	function start() {
-		posthog.capture('pomodoro_started');
+		void capture('pomodoro_started');
 		justFinished = false;
+		primeAudio();
+		// Ask once, on the first Start, never on load. The browser prompt would otherwise fire
+		// uninvited; this asks in-page first and only touches Notification if they want it.
+		if (readNotifChoice() === null) askNotif = true;
 		writeRunning({ startedAt: Date.now(), duration: POMODORO_SECONDS });
 		refresh();
 	}
@@ -127,7 +217,7 @@
 </svelte:head>
 
 <div class="mx-auto flex max-w-md flex-col items-center gap-6 px-4 pb-24 pt-16 sm:pt-24">
-	<h1 class="text-sm text-gray-500">pomo</h1>
+	<h1 class="text-sm text-slate-500 dark:text-slate-300">pomo</h1>
 
 	<!-- role=timer with aria-live off on purpose: announcing every second would make this unusable
 	     with a screen reader. The completion message below is the polite announcement. -->
@@ -135,7 +225,7 @@
 		{display}
 	</p>
 
-	<p aria-live="polite" class="min-h-5 text-sm text-gray-500">
+	<p aria-live="polite" class="min-h-5 text-sm text-slate-500 dark:text-slate-300">
 		{#if justFinished}
 			25 minutes done.{data.user ? '' : ' sign in to keep it.'}
 		{:else if running}
@@ -146,21 +236,41 @@
 	{#if running}
 		<button
 			on:click={stop}
-			class="rounded-sm border px-6 py-2 hover:bg-gray-50 focus-visible:outline focus-visible:outline-2"
+			class="rounded-sm border border-slate-200 px-6 py-2 hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 dark:border-slate-700 dark:hover:bg-violet-900"
 		>
 			stop
 		</button>
 	{:else}
 		<button
 			on:click={start}
-			class="rounded-sm border px-6 py-2 hover:bg-gray-50 focus-visible:outline focus-visible:outline-2"
+			class="rounded-sm border border-slate-200 px-6 py-2 hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 dark:border-slate-700 dark:hover:bg-violet-900"
 		>
 			start 25 minutes
 		</button>
 	{/if}
 
+	{#if askNotif}
+		<p class="text-center text-sm text-slate-500 dark:text-slate-300">
+			let me notify you when the 25 minutes are done?
+		</p>
+		<div class="flex gap-2">
+			<button
+				on:click={allowNotifications}
+				class="rounded-sm border border-slate-200 px-4 py-1.5 text-sm hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 dark:border-slate-700 dark:hover:bg-violet-900"
+			>
+				yes
+			</button>
+			<button
+				on:click={declineNotifications}
+				class="rounded-sm border border-slate-200 px-4 py-1.5 text-sm hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 dark:border-slate-700 dark:hover:bg-violet-900"
+			>
+				no
+			</button>
+		</div>
+	{/if}
+
 	{#if !data.user}
-		<p class="text-center text-xs text-gray-400">
+		<p class="text-center text-xs text-slate-500 dark:text-slate-300">
 			the timer works signed out. sessions are kept in this browser until you sign in.
 		</p>
 	{/if}
@@ -172,11 +282,15 @@
 		<input type="checkbox" id="css-start" class="sr-only" />
 		<div class="flex flex-col items-center gap-4">
 			<p class="css-timer font-mono text-6xl tabular-nums" aria-hidden="true"></p>
-			<div class="h-1 w-48 bg-gray-200"><div class="css-bar h-full bg-gray-900"></div></div>
-			<label for="css-start" class="cursor-pointer rounded-sm border px-6 py-2 hover:bg-gray-50"
+			<div class="h-1 w-48 bg-slate-100 dark:bg-slate-800">
+				<div class="css-bar h-full bg-slate-900 dark:bg-slate-50"></div>
+			</div>
+			<label
+				for="css-start"
+				class="cursor-pointer rounded-sm border border-slate-200 px-6 py-2 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-violet-900"
 				>start 25 minutes</label
 			>
-			<p class="text-center text-xs text-gray-400">
+			<p class="text-center text-xs text-slate-500 dark:text-slate-300">
 				without javascript the clock runs but nothing is saved and nothing will ring.
 			</p>
 		</div>

@@ -10,4 +10,4 @@ export const ROUTES = {
 	LEARN: '/learn',
 	REVISE: '/revise',
 	POMO: '/pomo'
-};
+} as const;

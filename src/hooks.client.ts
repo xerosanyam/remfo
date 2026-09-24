@@ -1,6 +1,6 @@
 import type { HandleClientError } from '@sveltejs/kit';
 import { env } from '$env/dynamic/public';
-import posthog from 'posthog-js';
+import { captureException, initPostHogIdle } from '$lib/posthog';
 
 const { PUBLIC_POSTHOG_HOST, PUBLIC_POSTHOG_PROJECT_TOKEN } = env;
 
@@ -23,16 +23,14 @@ export function init() {
 		return;
 	}
 
-	posthog.init(PUBLIC_POSTHOG_PROJECT_TOKEN, {
-		api_host: PUBLIC_POSTHOG_HOST,
-		defaults: '2026-01-30',
-		capture_exceptions: true
-	});
+	// Idle-deferred: the SDK loads in its own chunk only once the browser is
+	// idle, so it never competes with FCP/LCP for bandwidth (remfo-zfo).
+	initPostHogIdle();
 }
 
 export const handleError: HandleClientError = ({ error, status, message }) => {
 	if (PUBLIC_POSTHOG_PROJECT_TOKEN?.trim() && PUBLIC_POSTHOG_HOST?.trim()) {
-		posthog.captureException(error);
+		void captureException(error);
 	}
 
 	return { message, status };

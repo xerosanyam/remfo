@@ -1,16 +1,30 @@
 import { OPENAI_API_KEY } from '$env/static/private';
 import OpenAI from 'openai';
+import { z } from 'zod';
 
+// Edge budget: Vercel kills the action at ~25s without a response. Worst case here is
+// one 10s attempt plus one retry, leaving headroom for the DB insert after it.
 const openai = new OpenAI({
-	apiKey: OPENAI_API_KEY
+	apiKey: OPENAI_API_KEY,
+	timeout: 10_000,
+	maxRetries: 1
 });
 
+const generatedSchema = z.object({
+	cards: z.array(z.object({ question: z.string(), answer: z.string() })),
+	error: z.string().nullable()
+});
+
+/** Generates flashcards from user-provided text and returns a safe inline error on failure. */
 export async function generateCardUsingOpenAI({ userInput }: { userInput: string }) {
-	const completion = await openai.chat.completions.create({
-		messages: [
-			{
-				role: 'system',
-				content: `You are a highly skilled agent which helps in building flashcards. These flashcards will be saved in Anki.
+	// The request itself has to be inside the try: an SDK error (quota exhausted, bad key,
+	// upstream 404, network) used to escape this function and surface to the user as a 500.
+	try {
+		const completion = await openai.chat.completions.create({
+			messages: [
+				{
+					role: 'system',
+					content: `You are a highly skilled agent which helps in building flashcards. These flashcards will be saved in Anki.
 User will give you a text.
 You have extract out the essence of the paragraph.
 You have to identify what is worth remembering.
@@ -35,24 +49,31 @@ schema of sample output:
 1. {cards: [{question: '', answer: ''}],error: null}
 2. {cards: [],error: ''}
 `
-			},
-			{
-				role: 'user',
-				content: userInput
-			}
-		],
-		model: 'gpt-4o',
-		response_format: { type: 'json_object' }
-	});
+				},
+				{
+					role: 'user',
+					content: userInput
+				}
+			],
+			model: 'gpt-4o',
+			response_format: { type: 'json_object' }
+		});
 
-	console.log(completion.choices[0].message.content);
-	try {
-		if (!completion.choices[0].message.content) {
-			throw new Error('no content');
+		const content = completion.choices[0].message.content;
+		if (!content) {
+			throw new Error('no content in completion');
 		}
-		const { cards, error } = JSON.parse(completion.choices[0].message.content);
-		return { cards, error };
-	} catch {
-		return { cards: [], error: 'Error in generating cards' };
+		// Untyped JSON from the model: {"cards":{}} parses fine but crashes the page,
+		// which calls .filter on the result. Reject anything off-schema as a failure.
+		const parsed = generatedSchema.safeParse(JSON.parse(content));
+		if (!parsed.success) {
+			throw new Error('unexpected card shape from OpenAI');
+		}
+		return parsed.data;
+	} catch (cause) {
+		// Logged, not returned: the caller renders this string to the user, so it must not
+		// carry the upstream reason (quota, key, provider status).
+		console.error('generateCardUsingOpenAI failed', cause);
+		return { cards: [], error: 'could not generate cards right now. please try again.' };
 	}
 }

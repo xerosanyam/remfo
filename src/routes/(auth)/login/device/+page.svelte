@@ -70,9 +70,9 @@
 
 <div class="container mx-auto max-w-md px-4 py-16 text-center">
 	{#if data.unavailable}
-		<p class="text-gray-700">could not reach google right now. please try again in a moment.</p>
+		<p>could not reach google right now. please try again in a moment.</p>
 	{:else}
-		<p class="text-gray-700">
+		<p>
 			open
 			<!-- opens away from this page on purpose: the code lives here, and sending someone off
 			     to google in the same tab takes it off their screen mid-task -->
@@ -96,18 +96,24 @@
 			{/if}
 		</p>
 
-		<p aria-live="polite" class="mt-2 min-h-6 text-center text-sm text-gray-500">
+		<p
+			aria-live="polite"
+			class="mt-2 min-h-6 text-center text-sm text-slate-500 dark:text-slate-300"
+		>
 			{#if copied}copied{:else if copyFailed}couldn't copy, select it instead{:else if canCopy}click
 				code to copy{/if}
 		</p>
 
 		<form class="mt-8" method="post" bind:this={formElement} use:enhance>
-			<button class="w-full rounded-sm bg-gray-900 px-6 py-4 text-white" type="submit">
+			<button
+				class="w-full rounded-sm bg-slate-900 px-6 py-4 text-white dark:bg-teal-300 dark:text-slate-950"
+				type="submit"
+			>
 				continue
 			</button>
 		</form>
 
-		<p role="status" class="mt-4 min-h-6 text-sm text-gray-500">
+		<p role="status" class="mt-4 min-h-6 text-sm text-slate-500 dark:text-slate-300">
 			{#if form?.pending}
 				not approved yet. finish on your other device, then press continue.
 			{:else if form?.denied}
