@@ -1,6 +1,8 @@
 <script lang="ts">
 	import AddNewCard from './AddNewCard.svelte';
 	import NewCards from './NewCards.svelte';
+	import * as Alert from '$lib/components/ui/alert';
+	import * as Empty from '$lib/components/ui/empty';
 
 	export let data;
 </script>
@@ -12,9 +14,19 @@
 <AddNewCard formData={data.addForm} />
 
 {#if data.cards}
-	<NewCards cards={data.cards.cards} totalCards={data.cards.totalCards} limit={data.limit} />
+	{#if data.cards.cards.length > 0}
+		<NewCards cards={data.cards.cards} totalCards={data.cards.totalCards} limit={data.limit} />
+	{:else}
+		<Empty.Root class="mx-auto mt-8 max-w-lg">
+			<Empty.Header>
+				<Empty.Title>nothing here yet</Empty.Title>
+				<Empty.Description>your first card is one save away. write it above.</Empty.Description>
+			</Empty.Header>
+		</Empty.Root>
+	{/if}
 {:else}
-	<div class="pt-24 pb-10 text-center text-sm text-slate-500 dark:text-slate-300">
-		could not load your cards.
-	</div>
+	<Alert.Root variant="destructive" class="mx-auto mt-8 max-w-lg">
+		<Alert.Title>could not load your cards.</Alert.Title>
+		<Alert.Description>the add form above still works. try reloading.</Alert.Description>
+	</Alert.Root>
 {/if}

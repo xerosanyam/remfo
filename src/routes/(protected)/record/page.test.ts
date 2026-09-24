@@ -50,7 +50,7 @@ describe('record page card list', () => {
 		});
 
 		// Scoped by text: the add form reuses the same ids on its own fields.
-		expect(screen.getByText('first question').className).toContain('text-slate-900');
+		expect(screen.getByText('first question').className).toContain('text-foreground');
 		expect(screen.getByText('answer 1').className).toContain('text-sm');
 	});
 
@@ -80,6 +80,13 @@ describe('record page card list', () => {
 		render(RecordPage, { data: pageData(null) });
 
 		expect(screen.getByText('could not load your cards.')).toBeInTheDocument();
+		expect(document.querySelector('form')).toBeInTheDocument();
+	});
+
+	it('shows an empty state instead of a blank page when there are no cards', () => {
+		render(RecordPage, { data: pageData({ cards: [], totalCards: 0 }) });
+
+		expect(screen.getByText('nothing here yet')).toBeInTheDocument();
 		expect(document.querySelector('form')).toBeInTheDocument();
 	});
 });

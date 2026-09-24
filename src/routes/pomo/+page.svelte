@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
 	import { capture } from '$lib/posthog';
+	import { Button } from '$lib/components/ui/button';
 
 	import {
 		POMODORO_SECONDS,
@@ -217,7 +218,7 @@
 </svelte:head>
 
 <div class="mx-auto flex max-w-md flex-col items-center gap-6 px-4 pt-16 pb-24 sm:pt-24">
-	<h1 class="text-sm text-slate-500 dark:text-slate-300">pomo</h1>
+	<h1 class="text-muted-foreground text-sm">pomo</h1>
 
 	<!-- role=timer with aria-live off on purpose: announcing every second would make this unusable
 	     with a screen reader. The completion message below is the polite announcement. -->
@@ -225,7 +226,7 @@
 		{display}
 	</p>
 
-	<p aria-live="polite" class="min-h-5 text-sm text-slate-500 dark:text-slate-300">
+	<p aria-live="polite" class="text-muted-foreground min-h-5 text-sm">
 		{#if justFinished}
 			25 minutes done.{data.user ? '' : ' sign in to keep it.'}
 		{:else if running}
@@ -234,43 +235,23 @@
 	</p>
 
 	{#if running}
-		<button
-			on:click={stop}
-			class="rounded-xs border border-slate-200 px-6 py-2 hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-solid dark:border-slate-700 dark:hover:bg-violet-900"
-		>
-			stop
-		</button>
+		<Button variant="outline" onclick={stop}>stop</Button>
 	{:else}
-		<button
-			on:click={start}
-			class="rounded-xs border border-slate-200 px-6 py-2 hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-solid dark:border-slate-700 dark:hover:bg-violet-900"
-		>
-			start 25 minutes
-		</button>
+		<Button variant="outline" onclick={start}>start 25 minutes</Button>
 	{/if}
 
 	{#if askNotif}
-		<p class="text-center text-sm text-slate-500 dark:text-slate-300">
+		<p class="text-muted-foreground text-center text-sm">
 			let me notify you when the 25 minutes are done?
 		</p>
 		<div class="flex gap-2">
-			<button
-				on:click={allowNotifications}
-				class="rounded-xs border border-slate-200 px-4 py-1.5 text-sm hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-solid dark:border-slate-700 dark:hover:bg-violet-900"
-			>
-				yes
-			</button>
-			<button
-				on:click={declineNotifications}
-				class="rounded-xs border border-slate-200 px-4 py-1.5 text-sm hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-solid dark:border-slate-700 dark:hover:bg-violet-900"
-			>
-				no
-			</button>
+			<Button variant="outline" size="sm" onclick={allowNotifications}>yes</Button>
+			<Button variant="outline" size="sm" onclick={declineNotifications}>no</Button>
 		</div>
 	{/if}
 
 	{#if !data.user}
-		<p class="text-center text-xs text-slate-500 dark:text-slate-300">
+		<p class="text-muted-foreground text-center text-xs">
 			the timer works signed out. sessions are kept in this browser until you sign in.
 		</p>
 	{/if}
@@ -282,15 +263,15 @@
 		<input type="checkbox" id="css-start" class="sr-only" />
 		<div class="flex flex-col items-center gap-4">
 			<p class="css-timer font-mono text-6xl tabular-nums" aria-hidden="true"></p>
-			<div class="h-1 w-48 bg-slate-100 dark:bg-slate-800">
-				<div class="css-bar h-full bg-slate-900 dark:bg-slate-50"></div>
+			<div class="bg-muted h-1 w-48">
+				<div class="css-bar bg-foreground h-full"></div>
 			</div>
 			<label
 				for="css-start"
-				class="cursor-pointer rounded-xs border border-slate-200 px-6 py-2 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-violet-900"
+				class="border-border hover:bg-muted cursor-pointer rounded-xs border px-6 py-2"
 				>start 25 minutes</label
 			>
-			<p class="text-center text-xs text-slate-500 dark:text-slate-300">
+			<p class="text-muted-foreground text-center text-xs">
 				without javascript the clock runs but nothing is saved and nothing will ring.
 			</p>
 		</div>

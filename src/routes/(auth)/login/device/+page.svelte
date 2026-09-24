@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { onDestroy, onMount } from 'svelte';
+	import { Button } from '$lib/components/ui/button';
 
 	export let data;
 	export let form;
@@ -96,24 +97,16 @@
 			{/if}
 		</p>
 
-		<p
-			aria-live="polite"
-			class="mt-2 min-h-6 text-center text-sm text-slate-500 dark:text-slate-300"
-		>
+		<p aria-live="polite" class="text-muted-foreground mt-2 min-h-6 text-center text-sm">
 			{#if copied}copied{:else if copyFailed}couldn't copy, select it instead{:else if canCopy}click
 				code to copy{/if}
 		</p>
 
 		<form class="mt-8" method="post" bind:this={formElement} use:enhance>
-			<button
-				class="w-full rounded-xs bg-slate-900 px-6 py-4 text-white dark:bg-teal-300 dark:text-slate-950"
-				type="submit"
-			>
-				continue
-			</button>
+			<Button type="submit" class="w-full">continue</Button>
 		</form>
 
-		<p role="status" class="mt-4 min-h-6 text-sm text-slate-500 dark:text-slate-300">
+		<p role="status" class="text-muted-foreground mt-4 min-h-6 text-sm">
 			{#if form?.pending}
 				not approved yet. finish on your other device, then press continue.
 			{:else if form?.denied}
