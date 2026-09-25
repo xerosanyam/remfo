@@ -12,7 +12,7 @@
 
 <article class="container mx-auto max-w-2xl space-y-6 px-4 py-12">
 	<h1 class="text-3xl font-medium">privacy policy</h1>
-	<p class="text-sm text-slate-500 dark:text-slate-300">effective September 2, 2026</p>
+	<p class="text-muted-foreground text-sm">effective September 2, 2026</p>
 
 	<p>
 		Remember Forever (“Remfo”) is a spaced-repetition flashcard service. This policy explains what

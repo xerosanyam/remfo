@@ -1,12 +1,12 @@
 <script lang="ts">
 	import OmIcon from '~icons/arcticons/growtracker';
+	import { Button } from '$lib/components/ui/button';
 	export let text: string = 'Sign In';
 </script>
 
 <form action="/login/google">
-	<button
-		class="flex rounded-xs bg-slate-900 px-6 py-4 text-white sm:px-8 dark:bg-teal-300 dark:text-slate-950"
-		type="submit"
-		><OmIcon class="mr-1" style="font-size:1.2rem;stroke-width:2;" /><span>{text}</span></button
+	<Button type="submit"
+		><OmIcon data-icon="inline-start" style="font-size:1.2rem;stroke-width:2;" /><span>{text}</span
+		></Button
 	>
 </form>

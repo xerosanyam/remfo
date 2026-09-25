@@ -2,8 +2,11 @@
 	import type { CardRevisePage } from '$lib/types/Card';
 	import type { ActionResult } from '@sveltejs/kit';
 	import { invalidateAll } from '$app/navigation';
+	import { resolve } from '$app/paths';
+	import { ROUTES } from '$lib/routes.util';
 	import Card from './Card.svelte';
 	import ReviewProgress from './ReviewProgress.svelte';
+	import * as Empty from '$lib/components/ui/empty';
 	import { capture } from '$lib/posthog';
 
 	export let cards: CardRevisePage[];
@@ -43,11 +46,22 @@
 {/if}
 
 <div class="relative mx-auto max-w-lg rounded-lg">
-	<ReviewProgress {revisedCards} {cards} />
+	{#if cards.length === 0}
+		<Empty.Root class="mt-20">
+			<Empty.Header>
+				<Empty.Title>You have revised all the cards.</Empty.Title>
+				<Empty.Description
+					>Go to <a href={resolve(ROUTES.RECORD)} class="underline">Record</a> to create more.</Empty.Description
+				>
+			</Empty.Header>
+		</Empty.Root>
+	{:else}
+		<ReviewProgress {revisedCards} {cards} />
 
-	<div class="mx-4 mt-10">
-		{#if remainingCards[0]}
-			<Card card={remainingCards[0]} {customEnhance} {modifyingCardId} />
-		{/if}
-	</div>
+		<div class="mx-4 mt-10">
+			{#if remainingCards[0]}
+				<Card card={remainingCards[0]} {customEnhance} {modifyingCardId} />
+			{/if}
+		</div>
+	{/if}
 </div>

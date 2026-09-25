@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import type { Component } from 'svelte';
+	import * as Card from '$lib/components/ui/card';
+	import { Skeleton } from '$lib/components/ui/skeleton';
 
 	export let data: { date: string; count: number }[] = [];
 	export let title: string;
@@ -23,14 +25,20 @@
 	$: total = data.reduce((sum, item) => sum + item.count, 0);
 </script>
 
-<div class="rounded-xs border border-slate-200 p-2 dark:border-slate-700">
-	<h2>{total} {title}</h2>
-	<!-- 13 month-domains side by side: one label row + 7 day rows ≈ 120px. -->
-	<div class="min-h-[120px]">
-		{#if Heatmap}
-			<svelte:component this={Heatmap} {data} />
-		{:else if failed}
-			<p class="text-sm text-slate-500 dark:text-slate-300">heatmap unavailable</p>
-		{/if}
-	</div>
-</div>
+<Card.Root>
+	<Card.Header>
+		<Card.Title>{total} {title}</Card.Title>
+	</Card.Header>
+	<Card.Content>
+		<!-- 13 month-domains side by side: one label row + 7 day rows ≈ 120px. -->
+		<div class="min-h-30">
+			{#if Heatmap}
+				<svelte:component this={Heatmap} {data} />
+			{:else if failed}
+				<p class="text-muted-foreground text-sm">heatmap unavailable</p>
+			{:else}
+				<Skeleton class="h-30 w-full" />
+			{/if}
+		</div>
+	</Card.Content>
+</Card.Root>

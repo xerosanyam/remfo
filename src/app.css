@@ -91,4 +91,9 @@
 	::file-selector-button {
 		border-color: var(--color-gray-200, currentcolor);
 	}
+	/* v4 preflight sets button cursor to default; the app treats buttons as actions. */
+	button:not(:disabled),
+	[role='button']:not([aria-disabled='true']) {
+		cursor: pointer;
+	}
 }
