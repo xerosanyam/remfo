@@ -79,7 +79,11 @@
 	// Reactive on purpose. This nav lives in the root layout, so the component survives
 	// client-side navigation: after signing in without a full page load, `user` changes but a
 	// one-time assignment here would keep showing the signed-out links.
-	const links = $derived(user ? signedInLinks : signedOuLinks);
+	// `/` doubles as the public landing page (ROUTES.LOGIN): it always wears the
+	// public link set, even for signed-in users (the page body gives them "go to app").
+	// Session controls below (sign-up button, sign out) still follow `user`.
+	const onLanding = $derived(page.url.pathname === ROUTES.LOGIN);
+	const links = $derived(user && !onLanding ? signedInLinks : signedOuLinks);
 
 	// resolve() throws on external URLs, so only internal pathnames go through it.
 	/** @param {any} to */
