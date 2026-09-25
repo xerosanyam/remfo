@@ -70,7 +70,6 @@
 						<div class="flex w-full flex-col">
 							<div
 								class="text-foreground flex w-full leading-relaxed font-medium whitespace-break-spaces"
-								id="question"
 								placeholder="Capital of Paris?"
 								data-gramm="false"
 							>
@@ -78,7 +77,6 @@
 							</div>
 							<div
 								class="text-muted-foreground flex w-full text-sm leading-relaxed whitespace-break-spaces"
-								id="answer"
 								placeholder="France"
 								data-gramm="false"
 							>

@@ -118,7 +118,7 @@
 		<nav class="flex w-full sm:mt-8 sm:w-44 sm:flex-col">
 			{#each links as link (link.href)}
 				{@const Icon = link.icon}
-				<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -- internal URLs go through resolve() inside href(); resolve() throws on the external ones -->
+				<!-- eslint-disable svelte/no-navigation-without-resolve -- internal URLs go through resolve() inside href(); resolve() throws on the external ones -->
 				<a
 					target={link.href.includes('https://') ? '_blank' : ''}
 					class={cn(
@@ -132,6 +132,7 @@
 					></Icon>
 					{link.text}
 				</a>
+				<!-- eslint-enable svelte/no-navigation-without-resolve -->
 			{/each}
 			<button
 				type="button"

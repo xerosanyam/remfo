@@ -3,8 +3,7 @@
 	"version": "0.0.1",
 	"private": true,
 	"browserslist": [
-		"defaults",
-		"Safari 6"
+		"defaults"
 	],
 	"scripts": {
 		"prepare": "svelte-kit sync || echo ''",

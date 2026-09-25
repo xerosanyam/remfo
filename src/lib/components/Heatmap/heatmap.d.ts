@@ -4,6 +4,7 @@ declare module 'cal-heatmap';
 // callback cal-heatmap's own PluginOptions does not declare, so a precise constructor
 // type would only move the error to the options literal.
 declare module 'cal-heatmap/plugins/Tooltip' {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any -- untyped plugin; options carry a `text` callback PluginOptions does not declare
 	const Tooltip: any;
 	export default Tooltip;
 }
