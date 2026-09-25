@@ -20,7 +20,8 @@ async function load(): Promise<PostHog | null> {
 			.then(({ default: ph }) => {
 				ph.init(env.PUBLIC_POSTHOG_PROJECT_TOKEN, {
 					api_host: env.PUBLIC_POSTHOG_HOST,
-					defaults: '2026-01-30',
+					ui_host: 'https://us.posthog.com',
+					defaults: '2026-05-30',
 					capture_exceptions: true,
 					capture_performance: { web_vitals: true },
 					person_profiles: 'identified_only'
