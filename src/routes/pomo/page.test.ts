@@ -91,9 +91,7 @@ describe('pomo page', () => {
 		);
 
 		expect(
-			JSON.parse(
-				fetchMock.mock.calls.find(([url]) => url === '/pomo/record')?.[1].body as string
-			)
+			JSON.parse(fetchMock.mock.calls.find(([url]) => url === '/pomo/record')?.[1].body as string)
 		).toMatchObject({ completed: false });
 		expect(pending()).toHaveLength(0);
 	});

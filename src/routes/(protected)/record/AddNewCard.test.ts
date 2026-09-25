@@ -80,9 +80,14 @@ describe('record AddNewCard submit path', () => {
 	it('posts the card and reports creation on success', async () => {
 		const bodies: Record<string, string>[] = [];
 		server.use(
-			http.post('/record', async ({ request }) => {
+			http.post('/api/card-actions', async ({ request }) => {
 				bodies.push(Object.fromEntries(await request.formData()) as Record<string, string>);
-				return actionResult('success', 200, {});
+				// The action ends in redirect(302); enhance reports that as type 'redirect'.
+				// Shape mirrors the real server payload: location lives top-level, not in data.
+				return HttpResponse.text(
+					JSON.stringify({ type: 'redirect', status: 302, location: '/record' }),
+					{ status: 200 }
+				);
 			})
 		);
 		const { container } = render(AddNewCard, { formData });
@@ -98,13 +103,14 @@ describe('record AddNewCard submit path', () => {
 				entry_point: 'record'
 			})
 		);
-		expect(vi.mocked(invalidateAll)).toHaveBeenCalled();
+		// The card patches in locally; a full load rerun would refetch every card.
+		expect(vi.mocked(invalidateAll)).not.toHaveBeenCalled();
 		expect(screen.queryByText(/unable to save/)).not.toBeInTheDocument();
 	});
 
 	it('renders server validation errors and stays silent on analytics when rejected', async () => {
 		server.use(
-			http.post('/record', async () =>
+			http.post('/api/card-actions', async () =>
 				actionResult('failure', 400, {
 					form: { errors: { front: ['Front is required'] } }
 				})

@@ -11,6 +11,9 @@
 	export let cards: CardEssentials[];
 	export let totalCards: number;
 	export let limit: number;
+
+	// Callback prop, not createEventDispatcher (deprecated in Svelte 5).
+	export let ondeleted: (detail: { cardId: string }) => void = () => {};
 	let groupedCards: { [key: string]: CardEssentials[] } = {};
 	let dates: string[] = [];
 
@@ -35,17 +38,19 @@
 
 	let modifyingCardId = '';
 
+	// Cross-route action like AddNewCard: the row drops locally on redirect.
 	const customEnhance = ({ formData }: { formData: FormData }) => {
 		const tCardId = formData.get('cardId') as string;
 		modifyingCardId = tCardId;
 		return ({ result, update }: { result: ActionResult; update: () => void }) => {
-			if (result.type === 'success') {
+			if (result.type === 'redirect') {
+				ondeleted({ cardId: tCardId });
 				void capture('flashcard_deleted');
 			} else if (result.type === 'error' || result.type === 'failure') {
 				alert('unable to delete.');
+				update();
 			}
 			modifyingCardId = '';
-			update();
 		};
 	};
 </script>
@@ -80,7 +85,7 @@
 								{card.back}
 							</div>
 							<div class="flex justify-end px-2">
-								<form method="post" action="?/delete" use:enhance={customEnhance}>
+								<form method="post" action="/api/card-actions?/delete" use:enhance={customEnhance}>
 									<input type="hidden" hidden name="cardId" value={card.id} />
 									<Button
 										variant="outline"

@@ -16,3 +16,11 @@ export function sessionExists(
 export function humanReadableDate(date: Date | string) {
 	return format(date, 'd MMM').toLowerCase();
 }
+
+const CARD_PAGE_SIZE = 50;
+// a hostile ?limit= would put the whole table back on the page, which is the thing we just fixed
+const CARD_MAX_LIMIT = 500;
+
+export function clampCardLimit(requested: number) {
+	return Math.min(Math.max(requested || CARD_PAGE_SIZE, CARD_PAGE_SIZE), CARD_MAX_LIMIT);
+}
