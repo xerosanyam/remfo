@@ -1,5 +1,7 @@
-import { fontFamily } from 'tailwindcss/defaultTheme';
 import type { Config } from 'tailwindcss';
+
+// No tailwindcss/* runtime imports: the upgrade tool reads this file with its own
+// packages, and the old fontFamily.sans spread only re-applied the default stack.
 
 const config: Config = {
 	darkMode: ['class'],
@@ -11,11 +13,6 @@ const config: Config = {
 			padding: '2rem',
 			screens: {
 				'2xl': '1400px'
-			}
-		},
-		extend: {
-			fontFamily: {
-				sans: [...fontFamily.sans]
 			}
 		}
 	}

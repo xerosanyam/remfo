@@ -8,7 +8,7 @@
 </script>
 
 <div
-	class="rounded-sm border border-slate-200 p-2 text-center text-slate-500 dark:border-slate-700 dark:text-slate-300"
+	class="rounded-xs border border-slate-200 p-2 text-center text-slate-500 dark:border-slate-700 dark:text-slate-300"
 >
 	<div class="text-lg">
 		Current Streak: <span class="cursor-default text-slate-950 dark:text-slate-50">{streak}</span>

@@ -23,7 +23,7 @@
 	$: total = data.reduce((sum, item) => sum + item.count, 0);
 </script>
 
-<div class="rounded-sm border border-slate-200 p-2 dark:border-slate-700">
+<div class="rounded-xs border border-slate-200 p-2 dark:border-slate-700">
 	<h2>{total} {title}</h2>
 	<!-- 13 month-domains side by side: one label row + 7 day rows ≈ 120px. -->
 	<div class="min-h-[120px]">

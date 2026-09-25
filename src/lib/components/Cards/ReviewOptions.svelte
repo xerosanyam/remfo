@@ -40,11 +40,11 @@
 >
 	<input type="hidden" hidden name="cardId" value={cardId} />
 	<div
-		class="flex w-full flex-col border-t border-slate-200 dark:border-slate-700 sm:flex-row sm:rounded-bl-md sm:rounded-br-md"
+		class="flex w-full flex-col border-t border-slate-200 sm:flex-row sm:rounded-br-md sm:rounded-bl-md dark:border-slate-700"
 	>
 		{#each options as { value, text, shortcut: shortcutKey } (value)}
 			<button
-				class="w-full whitespace-nowrap border-b border-slate-200 bg-white px-4 py-4 text-center -outline-offset-2 ring-offset-white transition-colors last:rounded-b-sm hover:bg-slate-100 hover:text-slate-900 hover:outline focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 dark:border-slate-700 dark:bg-slate-950 dark:ring-offset-slate-950 dark:hover:bg-violet-900 dark:hover:text-violet-100 dark:focus-visible:ring-teal-300 sm:border-b-0 sm:border-l sm:first:rounded-bl-sm sm:first:border-l-0 sm:last:rounded-bl-none sm:last:rounded-br-sm"
+				class="w-full border-b border-slate-200 bg-white px-4 py-4 text-center whitespace-nowrap ring-offset-white -outline-offset-2 transition-colors last:rounded-b-sm hover:bg-slate-100 hover:text-slate-900 hover:outline-solid focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 sm:border-b-0 sm:border-l sm:first:rounded-bl-sm sm:first:border-l-0 sm:last:rounded-br-sm sm:last:rounded-bl-none dark:border-slate-700 dark:bg-slate-950 dark:ring-offset-slate-950 dark:hover:bg-violet-900 dark:hover:text-violet-100 dark:focus-visible:ring-teal-300"
 				name="difficulty"
 				{value}
 				data-shortcut={shortcutKey}
