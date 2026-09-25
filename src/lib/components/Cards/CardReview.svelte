@@ -37,7 +37,7 @@
 </script>
 
 {#if error}
-	<div class="fixed right-8 top-6 z-50 rounded bg-red-700 px-4 py-3 text-white" role="status">
+	<div class="fixed top-6 right-8 z-50 rounded-sm bg-red-700 px-4 py-3 text-white" role="status">
 		{error}
 	</div>
 {/if}

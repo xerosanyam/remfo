@@ -128,7 +128,8 @@ describe('Anki shortcuts in Chromium', () => {
 		await userEvent.tab();
 		expect(back).toHaveFocus();
 		await userEvent.tab({ shift: true });
-		expect(front).toHaveFocus();
+		// Focus moves asynchronously in the automation; a sync read races it and flakes.
+		await vi.waitFor(() => expect(front).toHaveFocus());
 
 		await userEvent.fill(front, 'Question');
 		await userEvent.fill(back, 'Answer');

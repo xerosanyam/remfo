@@ -49,5 +49,12 @@ export default [
 			'no-useless-assignment': 'off'
 		}
 	},
+	{
+		// Registry-generated shadcn-svelte code: polymorphic hrefs accept external URLs,
+		// which resolve() throws on, so the rule is unsatisfiable here by construction.
+		// Never hand-edit these files (update overwrites them); fix app code instead.
+		files: ['src/lib/components/ui/**/*.svelte'],
+		rules: { 'svelte/no-navigation-without-resolve': 'off' }
+	},
 	prettier
 ];

@@ -1,9 +1,8 @@
 import { render } from '@testing-library/svelte';
-import { readable } from 'svelte/store';
 import { describe, expect, it, vi } from 'vitest';
 
-vi.mock('$app/stores', () => ({
-	page: readable({ url: new URL('http://localhost/'), data: { deviceType: { isMobile: false } } })
+vi.mock('$app/state', () => ({
+	page: { url: new URL('http://localhost/'), data: { deviceType: { isMobile: false } } }
 }));
 
 import Layout from './+layout.svelte';

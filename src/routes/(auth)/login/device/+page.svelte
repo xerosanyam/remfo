@@ -106,7 +106,7 @@
 
 		<form class="mt-8" method="post" bind:this={formElement} use:enhance>
 			<button
-				class="w-full rounded-sm bg-slate-900 px-6 py-4 text-white dark:bg-teal-300 dark:text-slate-950"
+				class="w-full rounded-xs bg-slate-900 px-6 py-4 text-white dark:bg-teal-300 dark:text-slate-950"
 				type="submit"
 			>
 				continue

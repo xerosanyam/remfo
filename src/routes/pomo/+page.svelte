@@ -216,7 +216,7 @@
 	<meta name="description" content="a 25 minute timer, so time gets spent on purpose" />
 </svelte:head>
 
-<div class="mx-auto flex max-w-md flex-col items-center gap-6 px-4 pb-24 pt-16 sm:pt-24">
+<div class="mx-auto flex max-w-md flex-col items-center gap-6 px-4 pt-16 pb-24 sm:pt-24">
 	<h1 class="text-sm text-slate-500 dark:text-slate-300">pomo</h1>
 
 	<!-- role=timer with aria-live off on purpose: announcing every second would make this unusable
@@ -236,14 +236,14 @@
 	{#if running}
 		<button
 			on:click={stop}
-			class="rounded-sm border border-slate-200 px-6 py-2 hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 dark:border-slate-700 dark:hover:bg-violet-900"
+			class="rounded-xs border border-slate-200 px-6 py-2 hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-solid dark:border-slate-700 dark:hover:bg-violet-900"
 		>
 			stop
 		</button>
 	{:else}
 		<button
 			on:click={start}
-			class="rounded-sm border border-slate-200 px-6 py-2 hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 dark:border-slate-700 dark:hover:bg-violet-900"
+			class="rounded-xs border border-slate-200 px-6 py-2 hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-solid dark:border-slate-700 dark:hover:bg-violet-900"
 		>
 			start 25 minutes
 		</button>
@@ -256,13 +256,13 @@
 		<div class="flex gap-2">
 			<button
 				on:click={allowNotifications}
-				class="rounded-sm border border-slate-200 px-4 py-1.5 text-sm hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 dark:border-slate-700 dark:hover:bg-violet-900"
+				class="rounded-xs border border-slate-200 px-4 py-1.5 text-sm hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-solid dark:border-slate-700 dark:hover:bg-violet-900"
 			>
 				yes
 			</button>
 			<button
 				on:click={declineNotifications}
-				class="rounded-sm border border-slate-200 px-4 py-1.5 text-sm hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 dark:border-slate-700 dark:hover:bg-violet-900"
+				class="rounded-xs border border-slate-200 px-4 py-1.5 text-sm hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-solid dark:border-slate-700 dark:hover:bg-violet-900"
 			>
 				no
 			</button>
@@ -287,7 +287,7 @@
 			</div>
 			<label
 				for="css-start"
-				class="cursor-pointer rounded-sm border border-slate-200 px-6 py-2 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-violet-900"
+				class="cursor-pointer rounded-xs border border-slate-200 px-6 py-2 hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-violet-900"
 				>start 25 minutes</label
 			>
 			<p class="text-center text-xs text-slate-500 dark:text-slate-300">

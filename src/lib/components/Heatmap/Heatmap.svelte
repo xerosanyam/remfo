@@ -4,8 +4,8 @@
 	import Tooltip from 'cal-heatmap/plugins/Tooltip';
 	import 'cal-heatmap/cal-heatmap.css';
 
-	export let data;
-	let cal;
+	export let data: { date: string; count: number }[];
+	let cal: InstanceType<typeof CalHeatmap> | null = null;
 	let divElement: HTMLDivElement;
 
 	// Built in one shot rather than mutated after construction: this is only the calendar's
@@ -13,6 +13,17 @@
 	// equivalent to setMonth(month - 12), Feb 29 normalisation included.
 	const today = new Date();
 	const currentDate = new Date(today.getFullYear() - 1, today.getMonth(), today.getDate());
+	// Extracted (not inline): the Tooltip plugin is untyped, so an inline literal would
+	// fail excess-property checking against PluginOptions, which declares no `text`.
+	const tooltipOptions = {
+		text: (
+			date: number,
+			value: number | null,
+			dayjsDate: { format: (template?: string) => string }
+		) => {
+			return (value ? value + ' items' : 'No data') + ' on ' + dayjsDate.format('LL');
+		}
+	};
 	onMount(() => {
 		cal = new CalHeatmap();
 		cal.paint(
@@ -35,7 +46,7 @@
 				data: {
 					source: data,
 					x: 'date',
-					y: (d) => +d['count']
+					y: (d: { count: number }) => +d['count']
 				},
 				scale: {
 					color: {
@@ -45,16 +56,7 @@
 					}
 				}
 			},
-			[
-				[
-					Tooltip,
-					{
-						text: function (date, value, dayjsDate) {
-							return (value ? value + ' items' : 'No data') + ' on ' + dayjsDate.format('LL');
-						}
-					}
-				]
-			]
+			[[Tooltip, tooltipOptions]]
 		);
 	});
 </script>
