@@ -25,7 +25,7 @@
 	},
 	"devDependencies": {
 		"@eslint/js": "10.0.1",
-		"@iconify/json": "^2.2.230",
+		"@iconify-json/lucide": "^1.2.136",
 		"@libsql/client": "0.18.0",
 		"@lucia-auth/adapter-sqlite": "3.0.2",
 		"@sveltejs/adapter-vercel": "6.3.4",

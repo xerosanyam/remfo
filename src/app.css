@@ -97,3 +97,14 @@
 		cursor: pointer;
 	}
 }
+
+/* Lucide pins stroke-width="2" on its inner shapes as a presentation attribute.
+That counts as a directly-specified value, so it beats the inherited stroke-width
+from a style attribute on the <svg> -- per-icon style tweaks silently do nothing.
+The weight has to be set on the shapes themselves. Scoped to icon containers
+(sidebar, landing feature list) so brand marks elsewhere are untouched. */
+@layer components {
+	:is(.primary-nav, .landing-features) :is(path, circle, rect, line, polyline, polygon, ellipse) {
+		stroke-width: 1;
+	}
+}

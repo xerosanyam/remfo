@@ -1,8 +1,8 @@
 <script>
 	import { ROUTES } from '$lib/routes.util';
-	import ExitIcon from '~icons/mdi/exit-run';
+	import LogOut from '~icons/lucide/log-out';
 	import { capture, reset } from '$lib/posthog';
-	import { Button } from '$lib/components/ui/button';
+	import { navRowClass, navIconStyle } from '$lib/components/nav-row';
 
 	/** @type {HTMLFormElement | undefined} */
 	let form;
@@ -34,8 +34,13 @@
 </script>
 
 <form method="post" action={ROUTES.LOGOUT} bind:this={form}>
-	<Button variant="ghost" class="w-full justify-start gap-2" disabled={busy} onclick={resetPostHog}>
-		<ExitIcon data-icon="inline-start" />
-		sign out
-	</Button>
+	<!-- Native submit styled as a nav row: matches the theme toggle and links above.
+	TYPE MATTERS: the shadcn Button defaulted to type="button", so without JS the
+	click submitted nothing despite the comment claiming otherwise. type="submit"
+	keeps the no-JS POST working; with JS, resetPostHog holds it for analytics. -->
+	<button type="submit" class={navRowClass} disabled={busy} onclick={resetPostHog}>
+		<!-- Lucide like the rest of the sidebar, same shared icon weight. -->
+		<LogOut style={navIconStyle()} />
+		<span>sign out</span>
+	</button>
 </form>

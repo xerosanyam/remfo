@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { CardRevisePage } from '$lib/types/Card';
 	import { formatDistanceToNow } from 'date-fns';
-	import Trash from '~icons/arcticons/trashcan';
+	import Trash from '~icons/lucide/trash-2';
 	import ReviewOptions from './ReviewOptions.svelte';
 	import { enhance } from '$app/forms';
 	import ContentRenderer from '$lib/components/ContentRenderer.svelte';
@@ -45,7 +45,7 @@
 					type="submit"
 					title="move to trash"
 					aria-label="move to trash"
-					data-testid="trash"><Trash data-icon="inline-start" style="stroke-width:2px;" /></Button
+					data-testid="trash"><Trash data-icon="inline-start" /></Button
 				>
 			</form>
 			<!-- keyed so the disclosure collapses again when the next card takes this slot:

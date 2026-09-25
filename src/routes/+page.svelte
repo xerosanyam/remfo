@@ -3,10 +3,10 @@
 	import Google from '$lib/components/Buttons/Google.svelte';
 	import { Button } from '$lib/components/ui/button';
 	import { ROUTES } from '$lib/routes.util';
-	import JotTextEditor from '~icons/arcticons/jotatexteditor';
-	import BodyMeasures from 'virtual:icons/arcticons/body-measures';
-	import MyBrain from 'virtual:icons/arcticons/my-brain';
-	import SoloLearn from 'virtual:icons/arcticons/sololearn';
+	import NotebookPen from '~icons/lucide/notebook-pen';
+	import ChartLine from '~icons/lucide/chart-line';
+	import Brain from '~icons/lucide/brain';
+	import Repeat from '~icons/lucide/repeat';
 
 	// Prerendered page, no server load: read the single-use oauth cookie client-side, and
 	// swap the sign-in block for a "go to app" button when /api/me reports a session.
@@ -27,30 +27,30 @@
 <div class="container mx-auto h-screen max-w-lg items-center py-8">
 	<div class="mx-auto font-sans">
 		<h1 class="mb-2 text-3xl font-medium">a tool that helps you remember.</h1>
-		<ul class="mt-10 grid gap-8">
+		<ul class="landing-features mt-10 grid gap-8">
 			<li class="flex items-start gap-4">
-				<JotTextEditor style="font-size:2rem;" />
+				<NotebookPen style="font-size:2rem;" />
 				<div class="grid gap-1">
 					<h2 class="font-medium">record</h2>
 					<p class="text-muted-foreground">record new words, learnings, affirmations, anything</p>
 				</div>
 			</li>
 			<li class="flex items-start gap-4">
-				<SoloLearn style="font-size:2.2rem;" />
+				<Repeat style="font-size:2.2rem;" />
 				<div class="grid gap-1">
 					<h2 class="font-medium">revise</h2>
 					<p class="text-muted-foreground">app will intelligently schedule things for revision</p>
 				</div>
 			</li>
 			<li class="flex items-start gap-4">
-				<BodyMeasures style="font-size:2rem;" />
+				<ChartLine style="font-size:2rem;" />
 				<div class="grid gap-1">
 					<h2 class="font-medium">measure</h2>
 					<p class="text-muted-foreground">visualize your progress</p>
 				</div>
 			</li>
 			<li class="flex items-start gap-4">
-				<MyBrain style="font-size:2rem;" />
+				<Brain style="font-size:2rem;" />
 				<div class="grid gap-1">
 					<h2 class="font-medium">powered by ai</h2>
 					<p class="text-muted-foreground">... of course its powered by ai</p>

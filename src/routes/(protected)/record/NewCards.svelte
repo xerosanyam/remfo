@@ -4,7 +4,7 @@
 	import type { CardEssentials } from '$lib/types/Card';
 	import type { ActionResult } from '@sveltejs/kit';
 	import { format } from 'date-fns';
-	import Trash from '~icons/arcticons/trashcan';
+	import Trash from '~icons/lucide/trash-2';
 	import { Button } from '$lib/components/ui/button';
 	import { capture } from '$lib/posthog';
 
@@ -90,8 +90,7 @@
 										class="opacity-60 hover:opacity-100"
 										disabled={modifyingCardId === card.id}
 										aria-label="delete card"
-										type="submit"
-										><Trash data-icon="inline-start" style="stroke-width:2px;" /></Button
+										type="submit"><Trash data-icon="inline-start" /></Button
 									>
 								</form>
 							</div>

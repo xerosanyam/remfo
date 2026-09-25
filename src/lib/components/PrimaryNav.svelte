@@ -1,42 +1,45 @@
 <script>
 	import Logo from '$lib/assets/logo-black.png?enhanced';
 	import Logout from '$lib/components/Logout.svelte';
-	import BrainF from '~icons/arcticons/brainf';
-	import Pomodoro from '~icons/arcticons/pomodoro';
-	import JotTextEditor from '~icons/arcticons/jotatexteditor';
-	import SoloLearn from '~icons/arcticons/sololearn';
-	import GithubStar from '~icons/material-symbols-light/kid-star-outline';
-	import PrivacyTip from '~icons/material-symbols-light/privacy-tip-outline';
-	import SendIt from '~icons/arcticons/sendit';
-	import MeditationAssistant from '~icons/arcticons/atom-meditation';
-	import Hamburger from '~icons/arcticons/hamburger-menu';
+	// Sidebar icons are lucide throughout (single library, single 24-unit grid),
+	// so one shared stroke rule in app.css keeps every icon at the same weight.
+	import NotebookPen from '~icons/lucide/notebook-pen';
+	import Repeat from '~icons/lucide/repeat';
+	import ChartLine from '~icons/lucide/chart-line';
+	import Brain from '~icons/lucide/brain';
+	import Timer from '~icons/lucide/timer';
+	import Star from '~icons/lucide/star';
+	import ScrollText from '~icons/lucide/scroll-text';
+	import Send from '~icons/lucide/send';
+	import ShieldCheck from '~icons/lucide/shield-check';
+	import Menu from '~icons/lucide/menu';
 	import { page } from '$app/state';
 	import { resolve } from '$app/paths';
 	import { cn } from '$lib/utils';
+	import { navRowClass, navIconStyle } from '$lib/components/nav-row';
 	import Google from '$lib/components/Buttons/Google.svelte';
 	import { ROUTES } from '$lib/routes.util';
-	import BodyMeasures from 'virtual:icons/arcticons/body-measures';
 	import Sun from '~icons/lucide/sun';
 	import Moon from '~icons/lucide/moon';
 	import { onMount } from 'svelte';
 
 	const signedInLinks = [
-		{ href: '/record', text: 'record', icon: JotTextEditor },
-		{ href: '/revise', text: 'revise', icon: SoloLearn },
-		{ href: '/measure', text: 'measure', icon: BodyMeasures },
-		{ href: '/learn', text: 'generate with ai', icon: BrainF },
-		{ href: ROUTES.POMO, text: 'pomo', icon: Pomodoro }
+		{ href: '/record', text: 'record', icon: NotebookPen },
+		{ href: '/revise', text: 'revise', icon: Repeat },
+		{ href: '/measure', text: 'measure', icon: ChartLine },
+		{ href: '/learn', text: 'generate with ai', icon: Brain },
+		{ href: ROUTES.POMO, text: 'pomo', icon: Timer }
 	];
 	const signedOuLinks = [
-		{ href: ROUTES.POMO, text: 'pomo', icon: Pomodoro },
-		{ href: 'https://github.com/xerosanyam/remfo', text: 'star on github', icon: GithubStar },
+		{ href: ROUTES.POMO, text: 'pomo', icon: Timer },
+		{ href: 'https://github.com/xerosanyam/remfo', text: 'star on github', icon: Star },
 		{
 			href: 'https://github.com/xerosanyam/remfo/tree/main/essays',
 			text: 'essays',
-			icon: MeditationAssistant
+			icon: ScrollText
 		},
-		{ href: 'https://twitter.com/xerosanyam', text: 'share feedback', icon: SendIt },
-		{ href: ROUTES.PRIVACY, text: 'privacy policy', icon: PrivacyTip }
+		{ href: 'https://twitter.com/xerosanyam', text: 'share feedback', icon: Send },
+		{ href: ROUTES.PRIVACY, text: 'privacy policy', icon: ShieldCheck }
 		// { href: 'https://x.com/remfoapp', text: 'follow on x', icon: XIcon }
 	];
 
@@ -94,7 +97,7 @@
 </script>
 
 <header
-	class="border-border bg-background fixed bottom-0 z-20 flex w-full flex-col border-r shadow-lg sm:top-0 sm:h-screen sm:w-44"
+	class="primary-nav border-border bg-background fixed bottom-0 z-20 flex w-full flex-col border-r shadow-lg sm:top-0 sm:h-screen sm:w-44"
 >
 	<a
 		class="hidden items-center p-2 sm:flex md:mb-0"
@@ -111,7 +114,7 @@
 	<details {open}>
 		<summary class={`list-none p-4 sm:hidden ${pinMenu ? 'hidden' : ''}`}>
 			<div class="flex items-center justify-between">
-				<Hamburger class="text-xl" />
+				<Menu style={navIconStyle()} />
 				<span class="flex space-x-1">
 					{#if !user}
 						<Google text="sign up / login" />
@@ -126,14 +129,12 @@
 				<a
 					target={link.href.includes('https://') ? '_blank' : ''}
 					class={cn(
-						'border-border hover:bg-accent hover:text-accent-foreground focus-visible:ring-ring flex min-w-0 flex-1 flex-col items-center border-r px-1 py-2 text-center text-xs leading-tight transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-hidden sm:h-10 sm:w-full sm:flex-none sm:flex-row sm:gap-2 sm:border-r-0 sm:px-4 sm:py-6 sm:text-left sm:text-base',
+						navRowClass,
 						page.url.pathname === link.href && 'bg-accent text-accent-foreground'
 					)}
 					href={href(link.href)}
 				>
-					<Icon
-						style={`font-size:1.5rem;stroke-width:${page.url.pathname === link.href ? '2px;' : '1.5px'}`}
-					></Icon>
+					<Icon style={navIconStyle()}></Icon>
 					{link.text}
 				</a>
 				<!-- eslint-enable svelte/no-navigation-without-resolve -->
@@ -143,9 +144,9 @@
 				onclick={toggleTheme}
 				aria-label="dark mode"
 				aria-pressed={isDark}
-				class="border-border hover:bg-accent hover:text-accent-foreground focus-visible:ring-ring flex min-w-0 flex-1 flex-col items-center border-r px-1 py-2 text-center text-xs leading-tight transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-hidden sm:h-10 sm:w-full sm:flex-none sm:flex-row sm:gap-2 sm:border-r-0 sm:px-4 sm:py-6 sm:text-left sm:text-base"
+				class={navRowClass}
 			>
-				{#if isDark}<Sun style="font-size:1.5rem" />{:else}<Moon style="font-size:1.5rem" />{/if}
+				{#if isDark}<Sun style={navIconStyle()} />{:else}<Moon style={navIconStyle()} />{/if}
 				<span>theme</span>
 			</button>
 		</nav>

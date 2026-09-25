@@ -2,7 +2,7 @@
 	import { enhance } from '$app/forms';
 	import type { CardAddSchema } from '$lib/schemas';
 	import { shortcut } from '$lib/shortcuts';
-	import Save from '~icons/arcticons/saveto';
+	import Save from '~icons/lucide/save';
 
 	import type { Infer, SuperValidated } from 'sveltekit-superforms';
 	import type { ActionResult } from '@sveltejs/kit';
@@ -127,7 +127,7 @@
 								><KbdGroup><Kbd>Ctrl</Kbd>+<Kbd>Enter</Kbd></KbdGroup> to save</span
 							>
 							<Button type="submit" disabled={loading} title="shortcut: Ctrl/Command+Enter"
-								><Save data-icon="inline-start" style="stroke-width:2px;" />save</Button
+								><Save data-icon="inline-start" />save</Button
 							>
 						</div>
 					</div>
