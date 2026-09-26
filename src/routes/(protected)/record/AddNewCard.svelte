@@ -7,6 +7,10 @@
 	import type { Infer, SuperValidated } from 'sveltekit-superforms';
 	import type { ActionResult } from '@sveltejs/kit';
 	import { capture } from '$lib/posthog';
+	import { Button } from '$lib/components/ui/button';
+	import { Kbd, KbdGroup } from '$lib/components/ui/kbd';
+	import { Label } from '$lib/components/ui/label';
+	import { Textarea } from '$lib/components/ui/textarea';
 
 	export let formData: SuperValidated<Infer<CardAddSchema>>;
 
@@ -58,67 +62,55 @@
 	}}
 >
 	<div class="mx-auto mt-8 max-w-lg">
-		<div class="w-full rounded-xs border-dashed border-slate-200 sm:border dark:border-slate-700">
+		<div class="border-border w-full rounded-xs border-dashed sm:border">
 			<div class="mb-0 flex flex-col px-6 py-2">
-				<p class="ml-6 text-slate-500 dark:text-slate-300">
-					write something you'd like to remember
-				</p>
+				<p class="text-muted-foreground ml-6">write something you'd like to remember</p>
 			</div>
 			<div
-				class="group relative min-h-16 rounded-xs rounded-r-none border border-dashed border-slate-200 px-4 py-2 dark:border-slate-700"
+				class="group border-border relative min-h-16 rounded-xs rounded-r-none border border-dashed px-4 py-2"
 			>
-				<div class="space-y-2">
-					<div class="flex w-full flex-col space-y-2">
-						<label
-							class="text-xs font-medium tracking-wider text-slate-500 uppercase peer-disabled:cursor-not-allowed peer-disabled:opacity-70 dark:text-slate-400"
-							for="question">question</label
-						>
-						<!-- svelte-ignore a11y_autofocus -->
-						<textarea
-							class="flex min-h-[60px] w-full rounded-md border border-slate-200 bg-white px-3 py-2 ring-offset-white focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-950 dark:ring-offset-slate-950 dark:focus-visible:ring-teal-300"
+				<div class="flex flex-col gap-2">
+					<div class="flex w-full flex-col gap-2">
+						<Label for="question">question</Label>
+						<Textarea
 							id="question"
 							name="front"
 							value={formData?.data?.front ?? ''}
 							placeholder={placeholders[randomPlaceholder].front}
-							rows="2"
+							rows={2}
 							data-gramm="false"
 							disabled={loading}
 							required
-							minlength="1"
-							maxlength="2000"
+							minlength={1}
+							maxlength={2000}
 							autofocus
-						></textarea>
+						/>
 						{#if errors.front}<div class="text-red-800 dark:text-red-400">
 								{errors.front}
 							</div>{/if}
 
-						<label
-							class="text-xs font-medium tracking-wider text-slate-500 uppercase peer-disabled:cursor-not-allowed peer-disabled:opacity-70 dark:text-slate-400"
-							for="answer">answer</label
-						>
-						<textarea
-							class="flex min-h-[60px] w-full rounded-md border border-slate-200 bg-white px-3 py-2 ring-offset-white focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-950 dark:ring-offset-slate-950 dark:focus-visible:ring-teal-300"
+						<Label for="answer">answer</Label>
+						<Textarea
 							id="answer"
 							name="back"
 							value={formData?.data?.back ?? ''}
 							placeholder={placeholders[randomPlaceholder].back}
 							data-gramm="false"
-							rows="2"
+							rows={2}
 							disabled={loading}
 							required
-							minlength="1"
-							maxlength="2000"
-						></textarea>
+							minlength={1}
+							maxlength={2000}
+						/>
 						{#if errors.back}<div class="text-red-800 dark:text-red-400">
 								{errors.back}
 							</div>{/if}
 						<div class="flex items-center justify-between pt-1">
-							<span class="text-xs text-slate-400 dark:text-slate-500">ctrl+enter to save</span>
-							<button
-								class="flex items-center space-x-1 rounded-md border border-slate-900 bg-slate-900 px-4 py-2 text-white disabled:pointer-events-none disabled:opacity-50 dark:border-teal-300 dark:bg-teal-300 dark:text-slate-950"
-								disabled={loading}
-								title="shortcut: Ctrl/Command+Enter"
-								type="submit"><Save style="stroke-width:2px;" /><span>save</span></button
+							<span class="text-muted-foreground flex items-center gap-1 text-xs"
+								><KbdGroup><Kbd>Ctrl</Kbd>+<Kbd>Enter</Kbd></KbdGroup> to save</span
+							>
+							<Button type="submit" disabled={loading} title="shortcut: Ctrl/Command+Enter"
+								><Save data-icon="inline-start" style="stroke-width:2px;" />save</Button
 							>
 						</div>
 					</div>

@@ -5,6 +5,7 @@
 	import ReviewOptions from './ReviewOptions.svelte';
 	import { enhance } from '$app/forms';
 	import ContentRenderer from '$lib/components/ContentRenderer.svelte';
+	import { Button } from '$lib/components/ui/button';
 
 	export let card: CardRevisePage;
 	export let customEnhance;
@@ -18,12 +19,10 @@
 	}
 </script>
 
-<div
-	class="group relative rounded-md border border-slate-200 bg-white sm:h-96 dark:border-slate-700 dark:bg-slate-900"
->
+<div class="group border-border bg-card relative rounded-md border sm:h-96">
 	<div class={`flex h-full w-full flex-col ${modifyingCardId === card.id ? 'blur-xs' : ''}`}>
 		<div
-			class="flex h-fit max-h-48 min-h-16 w-full justify-center overflow-y-auto rounded-md border-slate-200 ring-offset-white placeholder:text-slate-500 focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-teal-300"
+			class="flex h-fit max-h-48 min-h-16 w-full justify-center overflow-y-auto rounded-md"
 			id="question"
 		>
 			<div class="w-full p-6 whitespace-break-spaces">
@@ -31,32 +30,30 @@
 			</div>
 		</div>
 
-		<div
-			class="relative flex min-h-48 grow border-t border-dashed border-slate-200 dark:border-slate-700"
-		>
+		<div class="border-border relative flex min-h-48 grow border-t border-dashed">
 			<form
-				class="absolute -top-5 right-0 z-10 bg-white dark:bg-slate-900"
+				class="bg-card absolute -top-5 right-0 z-10"
 				method="post"
 				action="?/delete"
 				use:enhance={customEnhance}
 			>
 				<input type="hidden" hidden name="cardId" value={card.id} />
-				<button
-					class="flex items-center space-x-1 rounded-md border border-slate-200 px-4 py-2 hover:bg-slate-100 hover:text-slate-900 hover:outline-solid disabled:pointer-events-none disabled:opacity-50 dark:border-slate-700 dark:hover:bg-violet-900 dark:hover:text-violet-100"
+				<Button
+					variant="outline"
+					class="opacity-60 hover:opacity-100"
 					disabled={modifyingCardId === card.id}
 					type="submit"
 					title="move to trash"
-					data-testid="trash"
+					aria-label="move to trash"
+					data-testid="trash"><Trash data-icon="inline-start" style="stroke-width:2px;" /></Button
 				>
-					<Trash style="stroke-width:2px;" /><span></span>
-				</button>
 			</form>
 			<!-- keyed so the disclosure collapses again when the next card takes this slot:
 			     `open` is DOM state, and Svelte reuses this component across cards -->
 			{#key card.id}
 				<details class="h-full w-full overflow-y-auto" id="answer" bind:open={answerOpen}>
 					<summary
-						class="cursor-pointer p-6 text-slate-500 ring-offset-white focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 focus-visible:outline-hidden dark:text-slate-300 dark:ring-offset-slate-950 dark:focus-visible:ring-teal-300"
+						class="text-muted-foreground cursor-pointer p-6"
 						title="shortcut: Space or Enter"
 					>
 						show answer
@@ -70,10 +67,7 @@
 		</div>
 	</div>
 </div>
-<div
-	class="p-2 text-right text-sm text-slate-500 dark:text-slate-300"
-	title={String(card.createdAt)}
->
+<div class="text-muted-foreground p-2 text-right text-sm" title={String(card.createdAt)}>
 	added {formatDistanceToNow(card.createdAt)} ago
 </div>
 

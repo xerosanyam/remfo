@@ -3,6 +3,9 @@
 	import type { CardAddSchema } from '$lib/schemas';
 	import { capture } from '$lib/posthog';
 	import type { Infer, SuperValidated } from 'sveltekit-superforms';
+	import { Button } from '$lib/components/ui/button';
+	import { Label } from '$lib/components/ui/label';
+	import { Textarea } from '$lib/components/ui/textarea';
 
 	export let data: SuperValidated<Infer<CardAddSchema>>;
 	export let showHeading = false;
@@ -41,63 +44,45 @@
 		};
 	}}
 >
-	<div
-		class="mx-auto max-w-xl rounded-lg border border-dashed border-slate-200 shadow-xs dark:border-slate-700"
-	>
+	<div class="border-border mx-auto max-w-xl rounded-lg border border-dashed shadow-xs">
 		{#if showHeading}
 			<div class="flex flex-col space-y-1.5 p-6 pb-4">
-				<p class="text-slate-500 dark:text-slate-300">1. Write what you want to remember</p>
+				<p class="text-muted-foreground">1. Write what you want to remember</p>
 			</div>
 		{/if}
 		<div class="p-6 pt-0">
-			<div class="space-y-4">
-				<div class="space-y-2">
-					<label
-						class="leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-						for="question">question</label
-					>
-					<textarea
-						class="flex min-h-[80px] w-full rounded-md border border-slate-200 bg-white px-3 py-2 ring-offset-white placeholder:text-slate-500 focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-950 dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-teal-300"
+			<div class="flex flex-col gap-4">
+				<div class="flex flex-col gap-2">
+					<Label for="question">question</Label>
+					<Textarea
 						id="question"
 						name="front"
 						value={data?.data?.front ?? ''}
 						placeholder="Capital of Paris?"
-						rows="4"
+						rows={4}
 						required
-						minlength="1"
-						maxlength="2000"
+						minlength={1}
+						maxlength={2000}
 						data-gramm="false"
-					></textarea>
+					/>
 					{#if errors.front}<div class="text-red-800 dark:text-red-400">{errors.front}</div>{/if}
 				</div>
-				<div class="space-y-2">
-					<label
-						class="leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-						for="answer">answer</label
-					><textarea
-						class="flex min-h-[80px] w-full rounded-md border border-slate-200 bg-white px-3 py-2 ring-offset-white placeholder:text-slate-500 focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-950 dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-teal-300"
+				<div class="flex flex-col gap-2">
+					<Label for="answer">answer</Label>
+					<Textarea
 						id="answer"
 						name="back"
 						value={data?.data?.back ?? ''}
 						placeholder="France"
 						required
-						minlength="1"
-						maxlength="2000"
+						minlength={1}
+						maxlength={2000}
 						data-gramm="false"
-					></textarea>
+					/>
 					{#if errors.back}<div class="text-red-800 dark:text-red-400">{errors.back}</div>{/if}
 				</div>
 				<div class="flex items-center justify-center">
-					<!-- <button class="flex items-center space-x-1"
-						><EmojiLockOpen style="stroke-width:2px;" /><span>Public</span></button
-					> -->
-					<button
-						disabled={loading}
-						class="inline-flex h-10 items-center justify-center rounded-md bg-slate-900 px-4 py-2 whitespace-nowrap text-white ring-offset-white transition-colors hover:bg-slate-800 focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50 dark:bg-teal-300 dark:text-slate-950 dark:ring-offset-slate-950 dark:hover:bg-teal-200 dark:focus-visible:ring-teal-300"
-						type="submit"
-					>
-						save card
-					</button>
+					<Button type="submit" disabled={loading}>save card</Button>
 				</div>
 			</div>
 		</div>

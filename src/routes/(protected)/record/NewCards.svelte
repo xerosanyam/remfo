@@ -5,6 +5,7 @@
 	import type { ActionResult } from '@sveltejs/kit';
 	import { format } from 'date-fns';
 	import Trash from '~icons/arcticons/trashcan';
+	import { Button } from '$lib/components/ui/button';
 	import { capture } from '$lib/posthog';
 
 	export let cards: CardEssentials[];
@@ -53,7 +54,7 @@
 	{#each dates as date (date)}
 		<div class="mx-auto mt-8 max-w-lg space-y-4 rounded-lg">
 			<h2
-				class="px-2 text-xs font-medium tracking-wider text-slate-500 uppercase dark:text-slate-400"
+				class="text-muted-foreground px-2 text-xs font-medium tracking-wider uppercase"
 				title={date}
 			>
 				{humanReadableDate(groupedCards[date][0].createdAt)}
@@ -63,7 +64,7 @@
 					<div class={`space-y-2 ${modifyingCardId === card.id ? 'blur-xs' : ''}`}>
 						<div class="flex w-full flex-col">
 							<div
-								class="flex w-full leading-relaxed font-medium whitespace-break-spaces text-slate-900 ring-offset-white placeholder:text-slate-500 focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 dark:text-slate-50 dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-teal-300"
+								class="text-foreground flex w-full leading-relaxed font-medium whitespace-break-spaces"
 								id="question"
 								placeholder="Capital of Paris?"
 								data-gramm="false"
@@ -71,7 +72,7 @@
 								{card.front}
 							</div>
 							<div
-								class="flex w-full border-slate-200 text-sm leading-relaxed whitespace-break-spaces text-slate-500 ring-offset-white placeholder:text-slate-500 focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:text-slate-300 dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus-visible:ring-teal-300"
+								class="text-muted-foreground flex w-full text-sm leading-relaxed whitespace-break-spaces"
 								id="answer"
 								placeholder="France"
 								data-gramm="false"
@@ -81,11 +82,13 @@
 							<div class="flex justify-end px-2">
 								<form method="post" action="?/delete" use:enhance={customEnhance}>
 									<input type="hidden" hidden name="cardId" value={card.id} />
-									<button
-										class="flex items-center space-x-1 rounded-md border border-slate-200 px-4 py-2 opacity-60 hover:opacity-100 disabled:pointer-events-none disabled:opacity-50 dark:border-slate-700"
+									<Button
+										variant="outline"
+										class="opacity-60 hover:opacity-100"
 										disabled={modifyingCardId === card.id}
 										aria-label="delete card"
-										type="submit"><Trash style="stroke-width:2px;" /></button
+										type="submit"
+										><Trash data-icon="inline-start" style="stroke-width:2px;" /></Button
 									>
 								</form>
 							</div>
@@ -95,13 +98,13 @@
 			{/each}
 		</div>
 	{/each}
-	<div class="space-y-4 pt-24 pb-10 text-center text-sm text-slate-500 dark:text-slate-300">
+	<div class="text-muted-foreground space-y-4 pt-24 pb-10 text-center text-sm">
 		{#if cards.length < totalCards}
 			<div>
 				<a
 					href="?limit={limit + 50}"
 					data-sveltekit-noscroll
-					class="rounded-md border border-slate-200 px-4 py-2 text-slate-950 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-50 dark:hover:bg-violet-900"
+					class="border-border text-foreground hover:bg-muted rounded-md border px-4 py-2"
 					>load more</a
 				>
 			</div>

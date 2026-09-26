@@ -4,6 +4,9 @@
 	import { shortcut } from '$lib/shortcuts';
 	import { capture } from '$lib/posthog';
 	import type { Infer, SuperValidated } from 'sveltekit-superforms';
+	import { Button } from '$lib/components/ui/button';
+	import { Label } from '$lib/components/ui/label';
+	import { Textarea } from '$lib/components/ui/textarea';
 
 	export let data: SuperValidated<Infer<CardLearnSchema>>;
 	// Plain use:enhance instead of superForm (remfo-tw9m): server-side zod validation is
@@ -42,39 +45,28 @@
 		callback: () => formRef.requestSubmit()
 	}}
 >
-	<div
-		class="mx-auto mt-4 max-w-xl rounded-lg border border-dashed border-slate-200 shadow-xs dark:border-slate-700"
-	>
-		<div class="flex flex-col p-6 pb-4">
-			<p class="text-slate-500 dark:text-slate-300">what do you want to learn about?</p>
-		</div>
+	<div class="border-border mx-auto mt-4 max-w-xl rounded-lg border border-dashed shadow-xs">
 		<div class="px-4 py-2">
-			<div class="space-y-2">
-				<div class="flex w-full flex-col space-x-2">
-					<textarea
-						class="flex min-h-[60px] w-full rounded-md border border-slate-200 bg-white px-3 py-2 ring-offset-white focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:bg-slate-950 dark:ring-offset-slate-950 dark:focus-visible:ring-teal-300"
+			<div class="flex flex-col gap-2">
+				<div class="flex w-full flex-col gap-2">
+					<Label for="question">what do you want to learn about?</Label>
+					<Textarea
 						id="question"
 						name="userInput"
 						placeholder="i want to learn about..."
-						rows="3"
+						rows={3}
 						value={data?.data?.userInput ?? ''}
 						required
-						minlength="1"
-						maxlength="140"
+						minlength={1}
+						maxlength={140}
 						data-gramm="false"
-					></textarea>
+					/>
 					{#if errors.userInput}<div class="text-red-800 dark:text-red-400">
 							{errors.userInput}
 						</div>{/if}
 				</div>
 				<div class="flex flex-row-reverse items-center justify-between">
-					<button
-						disabled={loading}
-						class="inline-flex h-10 items-center justify-center rounded-md bg-slate-900 px-4 py-6 whitespace-nowrap text-white ring-offset-white transition-colors hover:bg-slate-800 focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2 focus-visible:outline-hidden disabled:pointer-events-none disabled:opacity-50 dark:bg-teal-300 dark:text-slate-950 dark:ring-offset-slate-950 dark:hover:bg-teal-200 dark:focus-visible:ring-teal-300"
-						type="submit"
-					>
-						generate flashcards
-					</button>
+					<Button type="submit" disabled={loading}>generate flashcards</Button>
 				</div>
 			</div>
 		</div>

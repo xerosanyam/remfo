@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { CardRevisePage } from '$lib/types/Card';
+	import { Progress } from '$lib/components/ui/progress';
 
 	export let cards: CardRevisePage[];
 	export let revisedCards: string[];
@@ -14,17 +15,9 @@
 </script>
 
 <div>
-	<div class="h-2 w-full bg-slate-100 dark:bg-slate-800">
-		<div style={`width:${progress}`} class="h-full w-0 bg-slate-500 dark:bg-slate-400"></div>
-	</div>
-	<div class="flex justify-between text-slate-500 dark:text-slate-300">
+	<Progress value={revisedCards.length} max={cards.length || 1} />
+	<div class="text-muted-foreground flex justify-between">
 		<div>{progress}</div>
 		<div>Reviewed: {revisedCards.length}/{cards.length}</div>
 	</div>
 </div>
-
-{#if cards.length === 0}
-	<div class="mt-20 text-center">
-		You have revised all the cards. Go to <a href="/record" class="underline">Record</a> to create more
-	</div>
-{/if}
