@@ -34,7 +34,13 @@
 </script>
 
 <form method="post" action={ROUTES.LOGOUT} bind:this={form}>
-	<Button variant="ghost" class="w-full justify-start gap-2" disabled={busy} onclick={resetPostHog}>
+	<Button
+		type="submit"
+		variant="ghost"
+		class="w-full justify-start gap-2"
+		disabled={busy}
+		onclick={resetPostHog}
+	>
 		<ExitIcon data-icon="inline-start" />
 		sign out
 	</Button>
