@@ -1,10 +1,10 @@
 import { fail, redirect } from '@sveltejs/kit';
-import { GOOGLE_DEVICE_CLIENT_ID, GOOGLE_DEVICE_CLIENT_SECRET } from '$env/static/private';
+import { GOOGLE_DEVICE_CLIENT_ID, GOOGLE_DEVICE_CLIENT_SECRET } from '$app/env/private';
 
-import { dev } from '$app/environment';
-import { ROUTES } from '$lib/routes.util.js';
-import { sessionExists } from '$lib/common.util.js';
-import { createSessionFromGoogleToken } from '$lib/server/auth';
+import { dev } from '$app/env';
+import { ROUTES } from '#lib/routes.util.js';
+import { sessionExists } from '#lib/common.util.js';
+import { createSessionFromGoogleToken } from '#lib/server/auth.js';
 
 // OAuth 2.0 Device Authorization Grant (RFC 8628). Google's normal sign-in page refuses some
 // browsers outright, telling the user their browser has JavaScript disabled when it does not.

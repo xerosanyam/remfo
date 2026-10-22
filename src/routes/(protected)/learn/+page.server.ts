@@ -1,12 +1,12 @@
-import { sessionExists } from '$lib/common.util.js';
-import { ROUTES } from '$lib/routes.util.js';
-import { cardAddSchema, cardLearnSchema } from '$lib/schemas.js';
-import { generateCardUsingOpenAI } from '$lib/services/openai.service.js';
+import { sessionExists } from '#lib/common.util.js';
+import { ROUTES } from '#lib/routes.util.js';
+import { cardAddSchema, cardLearnSchema } from '#lib/schemas.js';
+import { generateCardUsingOpenAI } from '#lib/services/openai.service.js';
 import { fail, redirect } from '@sveltejs/kit';
 import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import type { RequestEvent } from './$types.js';
-import { addAction } from '$lib/actions/card.action.js';
+import { addAction } from '#lib/actions/card.action.js';
 
 export async function load({ locals }) {
 	if (!sessionExists(locals)) {

@@ -1,8 +1,8 @@
 <script>
-	import { ROUTES } from '$lib/routes.util';
+	import { ROUTES } from '#lib/routes.util.js';
 	import LogOut from '~icons/lucide/log-out';
-	import { capture, reset } from '$lib/posthog';
-	import { navRowClass, navIconStyle } from '$lib/components/nav-row';
+	import { capture, reset } from '#lib/posthog.js';
+	import { navRowClass, navIconStyle } from '#lib/components/nav-row.js';
 
 	/** @type {HTMLFormElement | undefined} */
 	let form;

@@ -7,11 +7,11 @@
 		"baseColor": "zinc"
 	},
 	"aliases": {
-		"components": "$lib/components",
-		"utils": "$lib/utils",
-		"hooks": "$lib/hooks",
-		"lib": "$lib",
-		"ui": "$lib/components/ui"
+		"components": "#lib/components",
+		"utils": "#lib/utils",
+		"hooks": "#lib/hooks",
+		"lib": "#lib",
+		"ui": "#lib/components/ui"
 	},
 	"typescript": true,
 	"iconLibrary": "lucide"

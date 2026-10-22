@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '@testing-library/svelte';
 import { fireEvent } from '@testing-library/dom';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-vi.mock('$lib/posthog', () => ({
+vi.mock('#lib/posthog.js', () => ({
 	capture: vi.fn(async () => undefined),
 	identify: vi.fn(async () => undefined),
 	reset: vi.fn(async () => undefined),
@@ -10,7 +10,7 @@ vi.mock('$lib/posthog', () => ({
 }));
 
 import Logout from './Logout.svelte';
-import { capture, reset } from '$lib/posthog';
+import { capture, reset } from '#lib/posthog.js';
 
 afterEach(() => {
 	vi.clearAllMocks();

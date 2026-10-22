@@ -1,7 +1,7 @@
 import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 
-import { cardAddSchema } from '$lib/schemas.js';
+import { cardAddSchema } from '#lib/schemas.js';
 
 export async function load() {
 	// Prerender the shell; the card list loads client-side (/api/cards 401s logged-out

@@ -1,12 +1,11 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
-	import { humanReadableDate } from '$lib/common.util';
-	import type { CardEssentials } from '$lib/types/Card';
-	import type { ActionResult } from '@sveltejs/kit';
+	import { enhance, type ActionResult } from '$app/forms';
+	import { humanReadableDate } from '#lib/common.util.js';
+	import type { CardEssentials } from '#lib/types/Card.js';
 	import { format } from 'date-fns';
 	import Trash from '~icons/lucide/trash-2';
-	import { Button } from '$lib/components/ui/button';
-	import { capture } from '$lib/posthog';
+	import { Button } from '#lib/components/ui/button/index.js';
+	import { capture } from '#lib/posthog.js';
 
 	export let cards: CardEssentials[];
 	export let totalCards: number;
@@ -42,13 +41,19 @@
 	const customEnhance = ({ formData }: { formData: FormData }) => {
 		const tCardId = formData.get('cardId') as string;
 		modifyingCardId = tCardId;
-		return ({ result, update }: { result: ActionResult; update: () => void }) => {
+		return ({
+			result,
+			update
+		}: {
+			result: ActionResult;
+			update: (options?: { navigate?: boolean }) => void;
+		}) => {
 			if (result.type === 'redirect') {
 				ondeleted({ cardId: tCardId });
 				void capture('flashcard_deleted');
 			} else if (result.type === 'error' || result.type === 'failure') {
 				alert('unable to delete.');
-				update();
+				update({ navigate: false });
 			}
 			modifyingCardId = '';
 		};
@@ -105,7 +110,7 @@
 			<div>
 				<a
 					href="?limit={limit + 50}"
-					data-sveltekit-noscroll
+					data-sveltekit-reset="false"
 					class="border-border text-foreground hover:bg-muted rounded-md border px-4 py-2"
 					>load more</a
 				>

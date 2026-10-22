@@ -17,7 +17,8 @@ import { prerender } from './(protected)/record/+page';
 
 const user = { id: 'u1', email: 'a@b.c', name: 'sanyam' };
 const fetchMock = vi.fn();
-const navigate = () => afterNavigate.mock.calls.at(-1)![0]();
+const navigate = (shallow = false) =>
+	afterNavigate.mock.calls.at(-1)![0]({ shallow, type: 'goto' });
 
 beforeEach(() => {
 	afterNavigate.mockClear();
@@ -27,6 +28,14 @@ beforeEach(() => {
 });
 
 describe('prerendered navigation session', () => {
+	it('does not refetch the session for a shallow navigation', async () => {
+		render(Layout, { data: { user: null } as never });
+
+		await navigate(true);
+
+		expect(fetchMock).not.toHaveBeenCalled();
+	});
+
 	it('keeps /record prerendered and replaces public links after the session arrives', async () => {
 		fetchMock.mockResolvedValue(Response.json({ user }));
 		render(Layout, { data: { user: null } as never });

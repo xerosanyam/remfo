@@ -1,6 +1,6 @@
 <script>
-	import Logo from '$lib/assets/logo-black-40.png?enhanced';
-	import Logout from '$lib/components/Logout.svelte';
+	import Logo from '#lib/assets/logo-black-40.png?enhanced';
+	import Logout from '#lib/components/Logout.svelte';
 	// Sidebar icons are lucide throughout (single library, single 24-unit grid),
 	// so one shared stroke rule in app.css keeps every icon at the same weight.
 	import NotebookPen from '~icons/lucide/notebook-pen';
@@ -15,10 +15,10 @@
 	import Menu from '~icons/lucide/menu';
 	import { page } from '$app/state';
 	import { resolve } from '$app/paths';
-	import { cn } from '$lib/utils';
-	import { navRowClass, navIconStyle } from '$lib/components/nav-row';
-	import Google from '$lib/components/Buttons/Google.svelte';
-	import { ROUTES } from '$lib/routes.util';
+	import { cn } from '#lib/utils.js';
+	import { navRowClass, navIconStyle } from '#lib/components/nav-row.js';
+	import Google from '#lib/components/Buttons/Google.svelte';
+	import { ROUTES } from '#lib/routes.util.js';
 	import Sun from '~icons/lucide/sun';
 	import Moon from '~icons/lucide/moon';
 	import { onMount } from 'svelte';
@@ -88,9 +88,9 @@
 	const onLanding = $derived(page.url.pathname === ROUTES.LOGIN);
 	const links = $derived(user && !onLanding ? signedInLinks : signedOuLinks);
 
-	// resolve() throws on external URLs, so only internal pathnames go through it.
+	// Pathnames omit the leading slash; external URLs must not go through resolve().
 	/** @param {any} to */
-	const href = (to) => (to.startsWith('/') ? resolve(to) : to);
+	const href = (to) => (to.startsWith('/') ? resolve(to.slice(1)) : to);
 
 	const pinMenu = $derived(page.url.pathname !== ROUTES.LOGIN);
 	const open = $derived(!user || pinMenu || !page.data.deviceType?.isMobile);

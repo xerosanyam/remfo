@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { CardRevisePage } from '$lib/types/Card';
-	import { Progress } from '$lib/components/ui/progress';
+	import type { CardRevisePage } from '#lib/types/Card.js';
+	import { Progress } from '#lib/components/ui/progress/index.js';
 
 	export let cards: CardRevisePage[];
 	export let revisedCards: string[];

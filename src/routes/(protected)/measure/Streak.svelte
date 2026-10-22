@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { calculateMaxStreak, calculateStreak, type info } from '$lib/algo.utils';
-	import * as Card from '$lib/components/ui/card';
+	import { calculateMaxStreak, calculateStreak, type info } from '#lib/algo.utils.js';
+	import * as Card from '#lib/components/ui/card/index.js';
 
 	export let data: info = [];
 	const maxStreakInfo = calculateMaxStreak(data);

@@ -1,15 +1,15 @@
-import { dev } from '$app/environment';
-import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, REDIRECT_URI } from '$env/static/private';
+import { dev } from '$app/env';
+import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, REDIRECT_URI } from '$app/env/private';
 
 import type { Cookies } from '@sveltejs/kit';
-import { getGoogleUserWhereEmail, insertOrUpdateGoogleUser } from '$lib/db/tables/user.table';
+import { getGoogleUserWhereEmail, insertOrUpdateGoogleUser } from '#lib/db/tables/user.table.js';
 
 import { Lucia } from 'lucia';
 import { LibSQLAdapter } from '@lucia-auth/adapter-sqlite';
 
 import { Google } from 'arctic';
 
-import { turso_client } from '$lib/db/turso.db';
+import { turso_client } from '#lib/db/turso.db.js';
 
 const adapter = new LibSQLAdapter(turso_client, {
 	user: 'auth_user',

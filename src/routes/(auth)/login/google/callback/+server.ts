@@ -1,8 +1,8 @@
 import { OAuth2RequestError } from 'arctic';
-import { createSessionFromGoogleToken, google } from '$lib/server/auth';
+import { createSessionFromGoogleToken, google } from '#lib/server/auth.js';
 
 import type { RequestEvent } from '@sveltejs/kit';
-import { ROUTES } from '$lib/routes.util';
+import { ROUTES } from '#lib/routes.util.js';
 
 export async function GET(event: RequestEvent): Promise<Response> {
 	const code = event.url.searchParams.get('code');

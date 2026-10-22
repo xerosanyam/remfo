@@ -1,9 +1,9 @@
-import { lucia } from '$lib/server/auth';
-import { turso_client } from '$lib/db/turso.db';
-import type { Handle } from '@sveltejs/kit';
-import { building } from '$app/environment';
+import type { Handle } from '@sveltejs/kit/hooks';
+import { lucia } from '#lib/server/auth.js';
+import { turso_client } from '#lib/db/turso.db.js';
+import { building } from '$app/env';
 import { handleDeviceDetector } from 'sveltekit-device-detector';
-import { evictSessionCache, sessionAndUserInfo } from '$lib/server/session-cache';
+import { evictSessionCache, sessionAndUserInfo } from '#lib/server/session-cache.js';
 
 const handle: Handle = async ({ event, resolve }) => {
 	const requestStart = performance.now();

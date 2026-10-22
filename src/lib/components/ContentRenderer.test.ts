@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/svelte';
 import { describe, expect, it } from 'vitest';
-import ContentRenderer from '$lib/components/ContentRenderer.svelte';
+import ContentRenderer from '#lib/components/ContentRenderer.svelte';
 
 describe('ContentRenderer', () => {
 	it('renders an image for a url ending in an image extension', () => {

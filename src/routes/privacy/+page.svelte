@@ -1,5 +1,5 @@
 <script>
-	import { ROUTES } from '$lib/routes.util';
+	import { ROUTES } from '#lib/routes.util.js';
 </script>
 
 <svelte:head>

@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import type { CardAddSchema } from '$lib/schemas';
-	import { capture } from '$lib/posthog';
+	import type { CardAddSchema } from '#lib/schemas.js';
+	import { capture } from '#lib/posthog.js';
 	import type { Infer, SuperValidated } from 'sveltekit-superforms';
-	import { Button } from '$lib/components/ui/button';
-	import { Label } from '$lib/components/ui/label';
-	import { Textarea } from '$lib/components/ui/textarea';
+	import { Button } from '#lib/components/ui/button/index.js';
+	import { Label } from '#lib/components/ui/label/index.js';
+	import { Textarea } from '#lib/components/ui/textarea/index.js';
 
 	export let data: SuperValidated<Infer<CardAddSchema>>;
 	export let showHeading = false;

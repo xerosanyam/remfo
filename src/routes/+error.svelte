@@ -1,13 +1,12 @@
 <script>
 	import { page } from '$app/state';
 	import { resolve } from '$app/paths';
-	import { ROUTES } from '$lib/routes.util';
-	import { Button } from '$lib/components/ui/button';
+	import { Button } from '#lib/components/ui/button/index.js';
 
 	// Deliberately never renders page.error.message: for a 500 that string can carry
 	// internal detail, and for a 404 it is only ever SvelteKit's own "Not Found".
 	const notFound = $derived(page.status === 404);
-	const home = $derived(page.data?.user ? ROUTES.HOME : ROUTES.LOGIN);
+	const home = $derived(page.data?.user ? 'record' : '');
 </script>
 
 <svelte:head>

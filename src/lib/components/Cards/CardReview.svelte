@@ -1,13 +1,12 @@
 <script lang="ts">
-	import type { CardRevisePage } from '$lib/types/Card';
-	import type { ActionResult } from '@sveltejs/kit';
-	import { invalidateAll } from '$app/navigation';
+	import type { ActionResult } from '$app/forms';
+	import type { CardRevisePage } from '#lib/types/Card.js';
+	import { refreshAll } from '$app/navigation';
 	import { resolve } from '$app/paths';
-	import { ROUTES } from '$lib/routes.util';
 	import Card from './Card.svelte';
 	import ReviewProgress from './ReviewProgress.svelte';
-	import * as Empty from '$lib/components/ui/empty';
-	import { capture } from '$lib/posthog';
+	import * as Empty from '#lib/components/ui/empty/index.js';
+	import { capture } from '#lib/posthog.js';
 
 	export let cards: CardRevisePage[];
 	let revisedCards: string[] = [];
@@ -33,7 +32,7 @@
 				setTimeout(() => (error = ''), 4000);
 			} else if (remainingCards.length === 0) {
 				revisedCards = [];
-				await invalidateAll();
+				await refreshAll();
 			}
 		};
 	};
@@ -51,7 +50,7 @@
 			<Empty.Header>
 				<Empty.Title>You have revised all the cards.</Empty.Title>
 				<Empty.Description
-					>Go to <a href={resolve(ROUTES.RECORD)} class="underline">Record</a> to create more.</Empty.Description
+					>Go to <a href={resolve('record')} class="underline">Record</a> to create more.</Empty.Description
 				>
 			</Empty.Header>
 		</Empty.Root>

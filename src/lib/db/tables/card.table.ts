@@ -1,7 +1,7 @@
-import { db } from '$lib/db/turso.db';
-import { activityTable, cardTable } from '$lib/db/turso.schema';
-import type { Difficulty } from '$lib/schemas';
-import { calculateSuperMemo2Algorithm } from '$lib/algo.utils';
+import { db } from '#lib/db/turso.db.js';
+import { activityTable, cardTable } from '#lib/db/turso.schema.js';
+import type { Difficulty } from '#lib/schemas.js';
+import { calculateSuperMemo2Algorithm } from '#lib/algo.utils.js';
 import { and, count, desc, eq, lt, sql } from 'drizzle-orm';
 
 // const initialCard = {

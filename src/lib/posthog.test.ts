@@ -3,8 +3,9 @@ import { describe, expect, it, vi } from 'vitest';
 // Overrides the vitest-setup.ts mock for this file: here the SDK is configured, so the
 // lazy load path is exercised. Every other test file keeps the empty (disabled) env, which
 // implicitly proves the helper never fetches posthog-js when unconfigured.
-vi.mock('$env/dynamic/public', () => ({
-	env: { PUBLIC_POSTHOG_PROJECT_TOKEN: 'test-token', PUBLIC_POSTHOG_HOST: 'https://ph.test' }
+vi.mock('$app/env/public', () => ({
+	PUBLIC_POSTHOG_PROJECT_TOKEN: 'test-token',
+	PUBLIC_POSTHOG_HOST: 'https://ph.test'
 }));
 
 vi.mock('posthog-js', () => ({

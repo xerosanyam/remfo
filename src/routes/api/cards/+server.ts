@@ -1,7 +1,7 @@
-import { error, json } from '@sveltejs/kit';
+import { error } from '@sveltejs/kit';
 
-import { clampCardLimit, sessionExists } from '$lib/common.util.js';
-import { getCardsOrderByCreated, getTotalCards } from '$lib/db/tables/card.table.js';
+import { clampCardLimit, sessionExists } from '#lib/common.util.js';
+import { getCardsOrderByCreated, getTotalCards } from '#lib/db/tables/card.table.js';
 
 // List island for the prerendered /record shell: per-user data can never bake into CDN
 // HTML, so the shell fetches it client-side. no-store: a cached list served post-logout
@@ -15,5 +15,5 @@ export async function GET({ locals, url }) {
 		getCardsOrderByCreated(locals.user.id, limit),
 		getTotalCards(locals.user.id)
 	]);
-	return json({ cards, totalCards }, { headers: { 'Cache-Control': 'no-store' } });
+	return Response.json({ cards, totalCards }, { headers: { 'Cache-Control': 'no-store' } });
 }

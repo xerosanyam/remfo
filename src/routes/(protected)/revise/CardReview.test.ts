@@ -1,10 +1,12 @@
 import { render, fireEvent, screen, waitFor } from '@testing-library/svelte';
 import { tick } from 'svelte';
-import CardReview from '$lib/components/Cards/CardReview.svelte';
-import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
+import CardReview from '#lib/components/Cards/CardReview.svelte';
+import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { server } from '../../../mocks/node';
 import { http, HttpResponse } from 'msw';
 import { mockCards } from '../../../mocks/mockData';
+
+vi.mock('$app/navigation', () => ({ refreshAll: vi.fn(async () => undefined) }));
 
 // 'error' rather than the default 'warn': warn also PERFORMS the unhandled request, so a
 // mock that stops matching turns into a real socket to localhost:3000 (happy-dom's default
@@ -70,7 +72,7 @@ describe('CardReview', () => {
 			server.use(
 				http.post('?/review', async ({ request }) => {
 					requests.push(Object.fromEntries(await request.formData()));
-					return new HttpResponse(null, { status: 200 });
+					return HttpResponse.json({ type: 'success', status: 200, location: '/' });
 				})
 			);
 			const cards = Array(5)
@@ -115,7 +117,7 @@ describe('CardReview', () => {
 			server.use(
 				http.post('?/review', async ({ request }) => {
 					requests.push(Object.fromEntries(await request.formData()));
-					return new HttpResponse(null, { status: 200 });
+					return HttpResponse.json({ type: 'success', status: 200, location: '/' });
 				})
 			);
 			render(CardReview, { cards: mockCards });
@@ -160,7 +162,7 @@ describe('CardReview', () => {
 			server.use(
 				http.post('?/review', async ({ request }) => {
 					requests.push(Object.fromEntries(await request.formData()));
-					return new HttpResponse(null, { status: 200 });
+					return HttpResponse.json({ type: 'success', status: 200, location: '/' });
 				})
 			);
 			render(CardReview, { cards: mockCards });
@@ -180,7 +182,7 @@ describe('CardReview', () => {
 			server.use(
 				http.post('?/review', async ({ request }) => {
 					requests.push(Object.fromEntries(await request.formData()));
-					return new HttpResponse(null, { status: 200 });
+					return HttpResponse.json({ type: 'success', status: 200, location: '/' });
 				})
 			);
 			render(CardReview, { cards: mockCards });
@@ -206,7 +208,7 @@ describe('CardReview', () => {
 						resolve(requestBody);
 						// returning nothing makes MSW fall through and replay the real request,
 						// whose body this handler has already consumed -> ReadableStream is locked
-						return new HttpResponse(null, { status: 200 });
+						return HttpResponse.json({ type: 'success', status: 200, location: '/' });
 					})
 				);
 			});
@@ -276,7 +278,7 @@ describe('CardReview', () => {
 						const formData = await request.formData();
 						const requestBody = Object.fromEntries(formData);
 						resolve(requestBody);
-						return new HttpResponse(null, { status: 200 });
+						return HttpResponse.json({ type: 'success', status: 200, location: '/' });
 					})
 				);
 			});

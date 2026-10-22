@@ -3,9 +3,9 @@ import { generateCodeVerifier, generateState } from 'arctic';
 import { redirect } from '@sveltejs/kit';
 import type { RequestEvent } from '@sveltejs/kit';
 
-import { dev } from '$app/environment';
+import { dev } from '$app/env';
 
-import { google } from '$lib/server/auth';
+import { google } from '#lib/server/auth.js';
 
 export async function GET(event: RequestEvent): Promise<Response> {
 	const state = generateState();
@@ -30,5 +30,5 @@ export async function GET(event: RequestEvent): Promise<Response> {
 		sameSite: 'lax'
 	});
 
-	redirect(302, url);
+	redirect(302, url, { external: ['https://accounts.google.com'] });
 }

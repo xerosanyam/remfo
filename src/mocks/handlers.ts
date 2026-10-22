@@ -8,5 +8,5 @@ import { http, HttpResponse } from 'msw';
 // `use:enhance` reads the reply with `deserialize(await response.text())`, a bare
 // JSON.parse, so the body has to be a serialized ActionResult rather than arbitrary JSON.
 export const handlers = [
-	http.post('/', () => HttpResponse.text(JSON.stringify({ type: 'success', status: 200 })))
+	http.post('/', () => HttpResponse.json({ type: 'success', status: 200, location: '/' }))
 ];

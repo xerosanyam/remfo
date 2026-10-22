@@ -11,7 +11,7 @@ vi.mock('sveltekit-device-detector', () => ({
 }));
 
 const validateSession = vi.fn();
-vi.mock('$lib/server/auth', () => ({
+vi.mock('#lib/server/auth.js', () => ({
 	lucia: {
 		sessionCookieName: 'auth_session',
 		validateSession,
@@ -20,12 +20,12 @@ vi.mock('$lib/server/auth', () => ({
 	}
 }));
 
-vi.mock('$lib/db/turso.db', () => ({
+vi.mock('#lib/db/turso.db.js', () => ({
 	turso_client: { execute: vi.fn() }
 }));
 
 const { handle } = await import('./hooks.server');
-const { evictSessionCache, sessionAndUserInfo } = await import('$lib/server/session-cache');
+const { evictSessionCache, sessionAndUserInfo } = await import('#lib/server/session-cache.js');
 
 function cache(sessionId: string, expiresAt: Date) {
 	sessionAndUserInfo[sessionId] = {

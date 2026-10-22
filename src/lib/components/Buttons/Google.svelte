@@ -1,6 +1,6 @@
 <script lang="ts">
 	import LogIn from '~icons/lucide/log-in';
-	import { Button } from '$lib/components/ui/button';
+	import { Button } from '#lib/components/ui/button/index.js';
 	export let text: string = 'Sign In';
 </script>
 

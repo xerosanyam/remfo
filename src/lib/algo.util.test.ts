@@ -3,7 +3,7 @@ import {
 	calculateStreak,
 	calculateSuperMemo2Algorithm,
 	type info
-} from '$lib/algo.utils';
+} from '#lib/algo.utils.js';
 import { afterEach, describe, expect, test, vi } from 'vitest';
 
 const days = (...dates: string[]): info => dates.map((date) => ({ date }));
