@@ -121,9 +121,9 @@
 								{errors.back}
 							</div>{/if}
 						<div class="flex items-center justify-between pt-1">
-							<!-- Ctrl+Enter is a JS shortcut action: hidden without scripts. -->
+							<!-- Command+Enter is a JS shortcut action: hidden without scripts. -->
 							<span class="text-muted-foreground js-only flex items-center gap-1 text-xs"
-								><KbdGroup><Kbd>Ctrl</Kbd>+<Kbd>Enter</Kbd></KbdGroup> to save</span
+								><KbdGroup><Kbd>Command</Kbd>+<Kbd>Enter</Kbd></KbdGroup> to save</span
 							>
 							<Button type="submit" disabled={loading} title="shortcut: Ctrl/Command+Enter"
 								><Save data-icon="inline-start" />save</Button

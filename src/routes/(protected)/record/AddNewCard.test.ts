@@ -72,6 +72,7 @@ describe('record AddNewCard submit path', () => {
 		}
 		// One docked save button at every width, never the old mobile/desktop pair.
 		expect(container.querySelectorAll('button[type="submit"]')).toHaveLength(1);
+		expect(container).toHaveTextContent('Command+Enter to save');
 		// Fields stay labelled once filled: placeholders vanish while typing.
 		expect(container.querySelector('label[for="question"]')).toHaveTextContent('question');
 		expect(container.querySelector('label[for="answer"]')).toHaveTextContent('answer');

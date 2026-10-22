@@ -2,9 +2,27 @@
 	import PrimaryNav from '$lib/components/PrimaryNav.svelte';
 	import '../app.css';
 	import { onMount } from 'svelte';
+	import { afterNavigate } from '$app/navigation';
 	import { identify } from '$lib/posthog';
 
 	export let data;
+
+	let user = data?.user;
+	$: user = data?.user;
+
+	// Prerendered layouts contain no session; refresh the nav without delaying hydration.
+	afterNavigate(async () => {
+		if (data?.user) return;
+		const currentData = data;
+		try {
+			const response = await fetch('/api/me');
+			if (!response.ok) return;
+			const session = await response.json();
+			if (data === currentData) user = session.user;
+		} catch {
+			// Offline: keep the server-rendered navigation.
+		}
+	});
 
 	onMount(() => {
 		const user = data?.user;
@@ -24,7 +42,7 @@
 	});
 </script>
 
-<PrimaryNav user={data?.user} />
+<PrimaryNav {user} />
 <main class="sm:ml-44">
 	<slot></slot>
 </main>
