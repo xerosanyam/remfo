@@ -109,6 +109,7 @@
 			class="h-10 w-10 rounded-full"
 			width="40"
 			height="40"
+			sizes="40px"
 			decoding="async"
 			title="logo of remember forever"
 			alt="logo of remember forever"

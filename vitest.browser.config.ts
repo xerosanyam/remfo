@@ -1,4 +1,5 @@
 import { sveltekit } from '@sveltejs/kit/vite';
+import { enhancedImages } from '@sveltejs/enhanced-img';
 import { svelteTesting } from '@testing-library/svelte/vite';
 import { playwright } from '@vitest/browser-playwright';
 import { defineConfig } from 'vitest/config';
@@ -16,7 +17,12 @@ export default defineConfig({
 			'zod'
 		]
 	},
-	plugins: [sveltekit(), svelteTesting({ autoCleanup: false }), Icons({ compiler: 'svelte' })],
+	plugins: [
+		enhancedImages(),
+		sveltekit(),
+		svelteTesting({ autoCleanup: false }),
+		Icons({ compiler: 'svelte' })
+	],
 	test: {
 		include: ['src/**/*.browser.ts'],
 		setupFiles: ['./vitest-setup.ts'],
