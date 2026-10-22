@@ -1,12 +1,12 @@
 <script lang="ts">
 	import { applyAction, enhance } from '$app/forms';
-	import type { CardLearnSchema } from '$lib/schemas';
-	import { shortcut } from '$lib/shortcuts';
-	import { capture } from '$lib/posthog';
+	import type { CardLearnSchema } from '#lib/schemas.js';
+	import { shortcut } from '#lib/shortcuts.js';
+	import { capture } from '#lib/posthog.js';
 	import type { Infer, SuperValidated } from 'sveltekit-superforms';
-	import { Button } from '$lib/components/ui/button';
-	import { Label } from '$lib/components/ui/label';
-	import { Textarea } from '$lib/components/ui/textarea';
+	import { Button } from '#lib/components/ui/button/index.js';
+	import { Label } from '#lib/components/ui/label/index.js';
+	import { Textarea } from '#lib/components/ui/textarea/index.js';
 
 	export let data: SuperValidated<Infer<CardLearnSchema>>;
 	// Plain use:enhance instead of superForm (remfo-tw9m): server-side zod validation is

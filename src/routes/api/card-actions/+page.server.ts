@@ -1,5 +1,5 @@
-import { ROUTES } from '$lib/routes.util.js';
-import { addAction, deleteAction } from '$lib/actions/card.action.js';
+import { ROUTES } from '#lib/routes.util.js';
+import { addAction, deleteAction } from '#lib/actions/card.action.js';
 
 // Mutations for the prerendered /record shell live here, not on the shell itself:
 // SvelteKit cannot prerender a page that owns actions, and +server.ts claims the whole

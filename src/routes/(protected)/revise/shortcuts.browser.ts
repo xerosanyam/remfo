@@ -4,8 +4,8 @@ import { zod } from 'sveltekit-superforms/adapters';
 import { userEvent } from 'vitest/browser';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import Card from '$lib/components/Cards/Card.svelte';
-import { cardAddSchema } from '$lib/schemas';
+import Card from '#lib/components/Cards/Card.svelte';
+import { cardAddSchema } from '#lib/schemas.js';
 import AddNewCard from '../record/AddNewCard.svelte';
 
 vi.mock('$app/forms', async (importOriginal) => ({

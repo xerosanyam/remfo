@@ -1,5 +1,5 @@
-import { db } from '$lib/db/turso.db';
-import { pomodoroSessionTable } from '$lib/db/turso.schema';
+import { db } from '#lib/db/turso.db.js';
+import { pomodoroSessionTable } from '#lib/db/turso.schema.js';
 
 export const insertPomodoroSession = async (values: {
 	id: string;

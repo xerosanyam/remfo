@@ -1,4 +1,4 @@
-import { env } from '$env/dynamic/public';
+import { PUBLIC_POSTHOG_PROJECT_TOKEN, PUBLIC_POSTHOG_HOST } from '$app/env/public';
 import type { PostHog } from 'posthog-js';
 
 // Lazy singleton: posthog-js (~48KB) is never statically imported anywhere in
@@ -9,7 +9,7 @@ let instance: PostHog | null = null;
 let inflight: Promise<PostHog | null> | null = null;
 
 function configured(): boolean {
-	return !!env.PUBLIC_POSTHOG_PROJECT_TOKEN?.trim() && !!env.PUBLIC_POSTHOG_HOST?.trim();
+	return !!PUBLIC_POSTHOG_PROJECT_TOKEN?.trim() && !!PUBLIC_POSTHOG_HOST?.trim();
 }
 
 async function load(): Promise<PostHog | null> {
@@ -18,8 +18,8 @@ async function load(): Promise<PostHog | null> {
 	if (!inflight) {
 		inflight = import('posthog-js')
 			.then(({ default: ph }) => {
-				ph.init(env.PUBLIC_POSTHOG_PROJECT_TOKEN, {
-					api_host: env.PUBLIC_POSTHOG_HOST,
+				ph.init(PUBLIC_POSTHOG_PROJECT_TOKEN, {
+					api_host: PUBLIC_POSTHOG_HOST,
 					ui_host: 'https://us.posthog.com',
 					defaults: '2026-05-30',
 					capture_exceptions: true,

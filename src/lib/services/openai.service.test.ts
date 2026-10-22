@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, test, vi } from 'vitest';
 const create = vi.fn();
 const constructorArgs: unknown[][] = [];
 
-vi.mock('$env/static/private', () => ({ OPENAI_API_KEY: 'test-key' }));
+vi.mock('$app/env/private', () => ({ OPENAI_API_KEY: 'test-key' }));
 vi.mock('openai', () => ({
 	default: class {
 		constructor(...args: unknown[]) {
@@ -13,7 +13,7 @@ vi.mock('openai', () => ({
 	}
 }));
 
-const { generateCardUsingOpenAI } = await import('$lib/services/openai.service');
+const { generateCardUsingOpenAI } = await import('#lib/services/openai.service.js');
 
 const reply = (content: string) => ({ choices: [{ message: { content } }] });
 

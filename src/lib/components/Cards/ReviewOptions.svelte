@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { shortcut } from '$lib/shortcuts';
+	import { shortcut } from '#lib/shortcuts.js';
 
 	export let cardId: string;
 	export let customEnhance;

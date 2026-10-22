@@ -6,7 +6,7 @@ import { describe, expect, it, vi } from 'vitest';
 // reviewCard reads the card by (id, user_id) and used to hand cards[0] straight to the SM-2
 // calculation. A forged or foreign cardId matches nothing, so that was undefined.repetitions --
 // a 500 on attacker-controlled input rather than a 4xx (remfo-e67).
-vi.mock('$lib/db/turso.db', async () => {
+vi.mock('#lib/db/turso.db.js', async () => {
 	const { createClient } = await import('@libsql/client/sqlite3');
 	// matching /sqlite3 entry: drizzle-orm/libsql pulls the default @libsql/client, and `ws`
 	// with it

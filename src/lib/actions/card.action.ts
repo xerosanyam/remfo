@@ -1,10 +1,10 @@
-import { sessionExists } from '$lib/common.util';
+import { sessionExists } from '#lib/common.util.js';
 import { fail, redirect, type RequestEvent } from '@sveltejs/kit';
-import { ROUTES } from '$lib/routes.util';
+import { ROUTES } from '#lib/routes.util.js';
 import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
-import { cardAddSchema, cardReviewSchema } from '$lib/schemas';
-import { deleteCard, insertCard, reviewCard } from '$lib/db/tables/card.table';
+import { cardAddSchema, cardReviewSchema } from '#lib/schemas.js';
+import { deleteCard, insertCard, reviewCard } from '#lib/db/tables/card.table.js';
 import type { RequestEvent as R5 } from '../../routes/(protected)/revise/$types';
 
 // RequestEvent, not a union of per-route types: these factories serve actions on several

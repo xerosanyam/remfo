@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 const fetchMock = vi.fn();
 vi.stubGlobal('fetch', fetchMock);
 
-vi.mock('$lib/posthog', () => ({
+vi.mock('#lib/posthog.js', () => ({
 	capture: vi.fn(async () => undefined),
 	identify: vi.fn(async () => undefined),
 	reset: vi.fn(async () => undefined),
@@ -13,7 +13,7 @@ vi.mock('$lib/posthog', () => ({
 }));
 
 import PomoPage from './+page.svelte';
-import { capture } from '$lib/posthog';
+import { capture } from '#lib/posthog.js';
 
 // The pure timer maths lives in pomodoro.util.test.ts. What is only provable here is the wiring:
 // that a session left in storage is picked back up on load, and that stopping one does not lose it.

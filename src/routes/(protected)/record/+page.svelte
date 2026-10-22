@@ -4,12 +4,12 @@
 	import { resolve } from '$app/paths';
 	import AddNewCard from './AddNewCard.svelte';
 	import NewCards from './NewCards.svelte';
-	import * as Alert from '$lib/components/ui/alert';
-	import * as Empty from '$lib/components/ui/empty';
-	import { Skeleton } from '$lib/components/ui/skeleton';
-	import { clampCardLimit } from '$lib/common.util';
-	import { ROUTES } from '$lib/routes.util';
-	import type { CardEssentials } from '$lib/types/Card';
+	import * as Alert from '#lib/components/ui/alert/index.js';
+	import * as Empty from '#lib/components/ui/empty/index.js';
+	import { Skeleton } from '#lib/components/ui/skeleton/index.js';
+	import { clampCardLimit } from '#lib/common.util.js';
+	import { ROUTES } from '#lib/routes.util.js';
+	import type { CardEssentials } from '#lib/types/Card.js';
 
 	let { data } = $props();
 
@@ -33,7 +33,7 @@
 		// Logged out (or session expired between shell paint and fetch): the shell is
 		// static, so guard client-side. Form posts still guard server-side.
 		if (res?.status === 401) {
-			await goto(resolve(ROUTES.LOGIN), { replaceState: true });
+			await goto(resolve(ROUTES.LOGIN), { replace: true });
 			return;
 		}
 		live = res?.ok ? await res.json().catch(() => null) : null;

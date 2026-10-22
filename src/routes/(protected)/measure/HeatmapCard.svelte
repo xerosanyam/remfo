@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import type { Component } from 'svelte';
-	import * as Card from '$lib/components/ui/card';
-	import { Skeleton } from '$lib/components/ui/skeleton';
+	import * as Card from '#lib/components/ui/card/index.js';
+	import { Skeleton } from '#lib/components/ui/skeleton/index.js';
 
 	export let data: { date: string; count: number }[] = [];
 	export let title: string;
@@ -15,7 +15,7 @@
 
 	onMount(async () => {
 		try {
-			Heatmap = (await import('$lib/components/Heatmap/Heatmap.svelte')).default;
+			Heatmap = (await import('#lib/components/Heatmap/Heatmap.svelte')).default;
 		} catch {
 			// Titles, totals and streak above are SSR'd; the heatmap is enhancement.
 			failed = true;

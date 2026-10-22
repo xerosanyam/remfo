@@ -5,20 +5,7 @@ import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest
 import { server } from '../../../mocks/node';
 import { http, HttpResponse } from 'msw';
 
-// Headless deserialize needs the client decoder table; same block lives in the record and
-// home form tests, change all three in lockstep. Pinned to kit version by bun.lock.
-vi.mock(
-	'../../../../node_modules/@sveltejs/kit/src/runtime/client/client.js',
-	async (importOriginal) => {
-		const actual = (await (importOriginal as () => Promise<Record<string, unknown>>)()) as Record<
-			string,
-			unknown
-		>;
-		return { ...actual, app: { ...((actual.app as object) ?? {}), decoders: {} } };
-	}
-);
-
-vi.mock('$lib/posthog', () => ({
+vi.mock('#lib/posthog.js', () => ({
 	capture: vi.fn(async () => undefined),
 	identify: vi.fn(async () => undefined),
 	reset: vi.fn(async () => undefined),
@@ -37,10 +24,12 @@ vi.mock('$app/forms', async (importOriginal) => {
 
 import GenerateFlashCard from './GenerateFlashCard.svelte';
 import { applyAction } from '$app/forms';
-import { capture } from '$lib/posthog';
+import { capture } from '#lib/posthog.js';
 
 const actionResult = (type: string, status: number, data: unknown) =>
-	HttpResponse.text(JSON.stringify({ type, status, data: stringify(data) }), { status });
+	HttpResponse.text(JSON.stringify({ type, status, location: '/', data: stringify(data) }), {
+		status
+	});
 
 const data = { data: { userInput: '' }, errors: {} } as never;
 

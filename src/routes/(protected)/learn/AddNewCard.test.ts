@@ -1,18 +1,17 @@
 import { render, screen, waitFor } from '@testing-library/svelte';
 import { fireEvent } from '@testing-library/dom';
 import { stringify } from 'devalue';
-import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
+import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { server } from '../../../mocks/node';
 import { http, HttpResponse } from 'msw';
 
 vi.mock('$app/navigation', () => ({
-	invalidateAll: vi.fn(async () => undefined),
+	refreshAll: vi.fn(async () => undefined),
 	invalidate: vi.fn(async () => undefined),
 	goto: vi.fn(async () => undefined)
 }));
 
-// Headless deserialize needs the client decoder table; same block lives in the record and
-// learn form tests, change all three in lockstep. Pinned to kit version by bun.lock.
+// Keep real fetch/deserialization but stub router effects in this headless component test.
 vi.mock(
 	'../../../../node_modules/@sveltejs/kit/src/runtime/client/client.js',
 	async (importOriginal) => {
@@ -20,11 +19,16 @@ vi.mock(
 			string,
 			unknown
 		>;
-		return { ...actual, app: { ...((actual.app as object) ?? {}), decoders: {} } };
+		return {
+			...actual,
+			applyAction: vi.fn(async () => undefined),
+			is_current_location: (href: string) => href === location.href,
+			apply_action_navigation: vi.fn(async () => undefined)
+		};
 	}
 );
 
-vi.mock('$lib/posthog', () => ({
+vi.mock('#lib/posthog.js', () => ({
 	capture: vi.fn(async () => undefined),
 	identify: vi.fn(async () => undefined),
 	reset: vi.fn(async () => undefined),
@@ -32,17 +36,21 @@ vi.mock('$lib/posthog', () => ({
 }));
 
 import AddNewCard from './AddNewCard.svelte';
-import { invalidateAll } from '$app/navigation';
-import { capture } from '$lib/posthog';
+import { refreshAll } from '$app/navigation';
+import { capture } from '#lib/posthog.js';
 
 const actionResult = (type: string, status: number, data: unknown) =>
-	HttpResponse.text(JSON.stringify({ type, status, data: stringify(data) }), { status });
+	HttpResponse.text(JSON.stringify({ type, status, location: '/learn', data: stringify(data) }), {
+		status
+	});
 
 const data = { data: { front: '', back: '' }, errors: {} } as never;
 
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
 afterAll(() => server.close());
+beforeEach(() => window.history.replaceState({}, '', '/learn'));
 afterEach(() => {
+	window.history.replaceState({}, '', '/');
 	server.resetHandlers();
 	vi.clearAllMocks();
 });
@@ -89,7 +97,7 @@ describe('home AddNewCard submit path', () => {
 				entry_point: 'learning'
 			})
 		);
-		expect(vi.mocked(invalidateAll)).toHaveBeenCalled();
+		expect(vi.mocked(refreshAll)).toHaveBeenCalled();
 	});
 
 	it('renders server validation errors without reporting creation', async () => {

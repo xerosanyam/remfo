@@ -1,8 +1,6 @@
-import type { HandleClientError } from '@sveltejs/kit';
-import { env } from '$env/dynamic/public';
-import { captureException, initPostHogIdle } from '$lib/posthog';
-
-const { PUBLIC_POSTHOG_HOST, PUBLIC_POSTHOG_PROJECT_TOKEN } = env;
+import type { HandleClientError } from '@sveltejs/kit/hooks';
+import { PUBLIC_POSTHOG_HOST, PUBLIC_POSTHOG_PROJECT_TOKEN } from '$app/env/public';
+import { captureException, initPostHogIdle } from '#lib/posthog.js';
 
 export function init() {
 	if (!PUBLIC_POSTHOG_PROJECT_TOKEN?.trim()) {
@@ -28,10 +26,9 @@ export function init() {
 	initPostHogIdle();
 }
 
-export const handleError: HandleClientError = ({ error, status, message }) => {
-	if (PUBLIC_POSTHOG_PROJECT_TOKEN?.trim() && PUBLIC_POSTHOG_HOST?.trim()) {
-		void captureException(error);
+export const handleError: HandleClientError = ({ error, kind }) => {
+	// Expected app/framework errors keep their status and do not become analytics exceptions.
+	if (kind === 'unknown' && PUBLIC_POSTHOG_PROJECT_TOKEN?.trim() && PUBLIC_POSTHOG_HOST?.trim()) {
+		void captureException(error).catch(() => {});
 	}
-
-	return { message, status };
 };

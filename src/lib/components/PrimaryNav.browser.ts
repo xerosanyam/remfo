@@ -11,7 +11,19 @@ afterEach(cleanup);
 // shapes as a presentation attribute, which beats inherited CSS from a style
 // attribute on the <svg>. Only a real rule on the shapes (app.css) thins them,
 // so this asserts the COMPUTED weight in Chromium, not the markup.
-describe('sidebar icon weight in Chromium', () => {
+describe('sidebar assets in Chromium', () => {
+	it('decodes the logo asynchronously at its rendered size', async () => {
+		const { container } = render(PrimaryNav, { user: null });
+		const image = container.querySelector('img')!;
+		await image.decode();
+
+		expect(image.decoding).toBe('async');
+		expect(image.naturalWidth).toBe(40);
+		expect(image.naturalHeight).toBe(40);
+		expect(image.width).toBe(40);
+		expect(image.height).toBe(40);
+	});
+
 	it('renders every sidebar icon shape at 1px, not the baked-in 2px', () => {
 		render(PrimaryNav, { user: { id: 'u1', email: 'a@b.c', name: 'sanyam' } });
 

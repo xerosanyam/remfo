@@ -1,11 +1,11 @@
 <script lang="ts">
-	import type { CardRevisePage } from '$lib/types/Card';
+	import type { CardRevisePage } from '#lib/types/Card.js';
 	import { formatDistanceToNow } from 'date-fns';
 	import Trash from '~icons/lucide/trash-2';
 	import ReviewOptions from './ReviewOptions.svelte';
 	import { enhance } from '$app/forms';
-	import ContentRenderer from '$lib/components/ContentRenderer.svelte';
-	import { Button } from '$lib/components/ui/button';
+	import ContentRenderer from '#lib/components/ContentRenderer.svelte';
+	import { Button } from '#lib/components/ui/button/index.js';
 
 	export let card: CardRevisePage;
 	export let customEnhance;

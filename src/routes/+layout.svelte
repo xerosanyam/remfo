@@ -1,10 +1,29 @@
 <script>
-	import PrimaryNav from '$lib/components/PrimaryNav.svelte';
+	import PrimaryNav from '#lib/components/PrimaryNav.svelte';
 	import '../app.css';
 	import { onMount } from 'svelte';
-	import { identify } from '$lib/posthog';
+	import { afterNavigate } from '$app/navigation';
+	import { identify } from '#lib/posthog.js';
 
 	export let data;
+
+	let user = data?.user;
+	$: user = data?.user;
+
+	// Prerendered layouts contain no session; refresh the nav without delaying hydration.
+	afterNavigate(async ({ shallow, type }) => {
+		if (shallow && type === 'goto') return;
+		if (data?.user) return;
+		const currentData = data;
+		try {
+			const response = await fetch('/api/me');
+			if (!response.ok) return;
+			const session = await response.json();
+			if (data === currentData) user = session.user;
+		} catch {
+			// Offline: keep the server-rendered navigation.
+		}
+	});
 
 	onMount(() => {
 		const user = data?.user;
@@ -24,10 +43,8 @@
 	});
 </script>
 
-<PrimaryNav user={data?.user} />
-<main class="sm:ml-44">
-	<slot></slot>
-</main>
+<PrimaryNav {user} />
+<main class="sm:ml-44"><slot></slot></main>
 
 <svelte:head>
 	<title>remember forever</title>

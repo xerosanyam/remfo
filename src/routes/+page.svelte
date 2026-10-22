@@ -1,8 +1,8 @@
 <script>
 	import { onMount } from 'svelte';
-	import Google from '$lib/components/Buttons/Google.svelte';
-	import { Button } from '$lib/components/ui/button';
-	import { ROUTES } from '$lib/routes.util';
+	import Google from '#lib/components/Buttons/Google.svelte';
+	import { Button } from '#lib/components/ui/button/index.js';
+	import { ROUTES } from '#lib/routes.util.js';
 	import NotebookPen from '~icons/lucide/notebook-pen';
 	import ChartLine from '~icons/lucide/chart-line';
 	import Brain from '~icons/lucide/brain';

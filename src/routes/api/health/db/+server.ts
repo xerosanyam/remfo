@@ -1,4 +1,4 @@
-import { TURSO_AUTH_TOKEN, TURSO_CONNECTION_URL } from '$env/static/private';
+import { TURSO_AUTH_TOKEN, TURSO_CONNECTION_URL } from '$app/env/private';
 
 export async function POST() {
 	const url = `https://${TURSO_CONNECTION_URL.split('//')[1]}/v2/pipeline`;

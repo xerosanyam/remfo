@@ -1,8 +1,8 @@
-import { error, json } from '@sveltejs/kit';
+import { error } from '@sveltejs/kit';
 
-import { sessionExists } from '$lib/common.util.js';
-import { pomodoroRecordSchema } from '$lib/schemas.js';
-import { insertPomodoroSession } from '$lib/db/tables/pomodoro.table.js';
+import { sessionExists } from '#lib/common.util.js';
+import { pomodoroRecordSchema } from '#lib/schemas.js';
+import { insertPomodoroSession } from '#lib/db/tables/pomodoro.table.js';
 
 // A sibling endpoint rather than a form action on /pomo, because nothing here is a form: the POST
 // is fired by a countdown reaching zero, and there are no validation messages to render back into
@@ -26,5 +26,5 @@ export async function POST({ request, locals }) {
 		completed
 	});
 
-	return json({ ok: true });
+	return Response.json({ ok: true });
 }

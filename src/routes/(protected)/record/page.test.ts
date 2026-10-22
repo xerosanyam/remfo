@@ -3,8 +3,8 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 
-import { cardAddSchema } from '$lib/schemas';
-import type { CardEssentials } from '$lib/types/Card';
+import { cardAddSchema } from '#lib/schemas.js';
+import type { CardEssentials } from '#lib/types/Card.js';
 import RecordPage from './+page.svelte';
 import type { PageData } from './$types';
 

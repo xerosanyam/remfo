@@ -5,20 +5,16 @@ import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } 
 import { server } from '../../../mocks/node';
 import { http, HttpResponse } from 'msw';
 
-// update() inside the enhance callback hits SvelteKit's invalidateAll, which needs a
+// update() inside the enhance callback can hit SvelteKit's refreshAll, which needs a
 // router. Headless there is none, so it is stubbed; the request/response round trip --
 // the thing this file exists to prove -- still runs for real through MSW.
 vi.mock('$app/navigation', () => ({
-	invalidateAll: vi.fn(async () => undefined),
+	refreshAll: vi.fn(async () => undefined),
 	invalidate: vi.fn(async () => undefined),
 	goto: vi.fn(async () => undefined)
 }));
 
-// enhance deserializes action payloads with devalue using the SvelteKit client's decoders,
-// which only exist after the client runtime initializes. Headless there is no client, so
-// any payload WITH data throws before the result callback runs (payloads without data are
-// why the existing MSW tests never hit this). Our plain-object payloads need no revivers,
-// so an empty decoder table is faithful. Pinned to the installed kit version by bun.lock.
+// Keep real fetch/deserialization but stub router effects in this headless component test.
 vi.mock(
 	'../../../../node_modules/@sveltejs/kit/src/runtime/client/client.js',
 	async (importOriginal) => {
@@ -26,11 +22,15 @@ vi.mock(
 			string,
 			unknown
 		>;
-		return { ...actual, app: { ...((actual.app as object) ?? {}), decoders: {} } };
+		return {
+			...actual,
+			applyAction: vi.fn(async () => undefined),
+			apply_action_navigation: vi.fn(async () => undefined)
+		};
 	}
 );
 
-vi.mock('$lib/posthog', () => ({
+vi.mock('#lib/posthog.js', () => ({
 	capture: vi.fn(async () => undefined),
 	identify: vi.fn(async () => undefined),
 	reset: vi.fn(async () => undefined),
@@ -38,11 +38,15 @@ vi.mock('$lib/posthog', () => ({
 }));
 
 import AddNewCard from './AddNewCard.svelte';
-import { invalidateAll } from '$app/navigation';
-import { capture } from '$lib/posthog';
+import { refreshAll } from '$app/navigation';
+import { applyAction } from '$app/forms';
+import { capture } from '#lib/posthog.js';
 
 const actionResult = (type: string, status: number, data: unknown) =>
-	HttpResponse.text(JSON.stringify({ type, status, data: stringify(data) }), { status });
+	HttpResponse.text(
+		JSON.stringify({ type, status, location: '/api/card-actions', data: stringify(data) }),
+		{ status }
+	);
 
 const formData = { data: { front: '', back: '' }, errors: {} } as never;
 const alertMock = vi.fn();
@@ -72,6 +76,7 @@ describe('record AddNewCard submit path', () => {
 		}
 		// One docked save button at every width, never the old mobile/desktop pair.
 		expect(container.querySelectorAll('button[type="submit"]')).toHaveLength(1);
+		expect(container).toHaveTextContent('Command+Enter to save');
 		// Fields stay labelled once filled: placeholders vanish while typing.
 		expect(container.querySelector('label[for="question"]')).toHaveTextContent('question');
 		expect(container.querySelector('label[for="answer"]')).toHaveTextContent('answer');
@@ -104,7 +109,7 @@ describe('record AddNewCard submit path', () => {
 			})
 		);
 		// The card patches in locally; a full load rerun would refetch every card.
-		expect(vi.mocked(invalidateAll)).not.toHaveBeenCalled();
+		expect(vi.mocked(refreshAll)).not.toHaveBeenCalled();
 		expect(screen.queryByText(/unable to save/)).not.toBeInTheDocument();
 	});
 
@@ -123,5 +128,10 @@ describe('record AddNewCard submit path', () => {
 		await waitFor(() => expect(screen.getByText('Front is required')).toBeInTheDocument());
 		expect(vi.mocked(capture)).not.toHaveBeenCalled();
 		expect(alertMock).toHaveBeenCalled();
+		await waitFor(() =>
+			expect(vi.mocked(applyAction)).toHaveBeenCalledWith(
+				expect.objectContaining({ type: 'failure', status: 400, location: '/api/card-actions' })
+			)
+		);
 	});
 });

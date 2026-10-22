@@ -1,16 +1,15 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
-	import type { CardAddSchema } from '$lib/schemas';
-	import { shortcut } from '$lib/shortcuts';
+	import { enhance, type ActionResult } from '$app/forms';
+	import type { CardAddSchema } from '#lib/schemas.js';
+	import { shortcut } from '#lib/shortcuts.js';
 	import Save from '~icons/lucide/save';
 
 	import type { Infer, SuperValidated } from 'sveltekit-superforms';
-	import type { ActionResult } from '@sveltejs/kit';
-	import { capture } from '$lib/posthog';
-	import { Button } from '$lib/components/ui/button';
-	import { Kbd, KbdGroup } from '$lib/components/ui/kbd';
-	import { Label } from '$lib/components/ui/label';
-	import { Textarea } from '$lib/components/ui/textarea';
+	import { capture } from '#lib/posthog.js';
+	import { Button } from '#lib/components/ui/button/index.js';
+	import { Kbd, KbdGroup } from '#lib/components/ui/kbd/index.js';
+	import { Label } from '#lib/components/ui/label/index.js';
+	import { Textarea } from '#lib/components/ui/textarea/index.js';
 
 	export let formData: SuperValidated<Infer<CardAddSchema>>;
 
@@ -48,7 +47,13 @@
 		HTMLFormElement.prototype.reset.call(formElement);
 		const front = String(formData.get('front') ?? '');
 		const back = String(formData.get('back') ?? '');
-		return ({ result, update }: { result: ActionResult; update: () => void }) => {
+		return ({
+			result,
+			update
+		}: {
+			result: ActionResult;
+			update: (options?: { navigate?: boolean }) => void;
+		}) => {
 			if (result.type === 'redirect') {
 				errors = {};
 				onadded({ front, back });
@@ -56,10 +61,10 @@
 			} else if (result.type === 'failure') {
 				errors = ((result.data?.form ?? {}) as { errors?: typeof errors }).errors ?? {};
 				alert('unable to save.');
-				update();
+				update({ navigate: false });
 			} else if (result.type === 'error') {
 				alert('unable to save.');
-				update();
+				update({ navigate: false });
 			}
 		};
 	};
@@ -121,10 +126,12 @@
 								{errors.back}
 							</div>{/if}
 						<div class="flex items-center justify-between pt-1">
-							<!-- Ctrl+Enter is a JS shortcut action: hidden without scripts. -->
-							<span class="text-muted-foreground js-only flex items-center gap-1 text-xs"
-								><KbdGroup><Kbd>Ctrl</Kbd>+<Kbd>Enter</Kbd></KbdGroup> to save</span
-							>
+							<!-- Command+Enter is a JS shortcut action: hidden without scripts. -->
+							<span class="text-muted-foreground js-only flex items-center gap-1 text-xs">
+								<KbdGroup><Kbd>Command</Kbd>+<Kbd>Enter</Kbd></KbdGroup>
+								to save
+							</span>
+
 							<Button type="submit" disabled={loading} title="shortcut: Ctrl/Command+Enter"
 								><Save data-icon="inline-start" />save</Button
 							>

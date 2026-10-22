@@ -12,7 +12,7 @@ export const db = drizzle(
 	// { logger: true }
 );
 
-import { activityTable, cardTable } from '$lib/db/turso.schema';
+import { activityTable, cardTable } from '#lib/db/turso.schema.js';
 
 async function insertActivityFromCards() {
 	// Fetch all rows from the card table

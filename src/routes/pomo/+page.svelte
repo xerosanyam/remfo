@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
-	import { capture } from '$lib/posthog';
-	import { Button } from '$lib/components/ui/button';
+	import { capture } from '#lib/posthog.js';
+	import { Button } from '#lib/components/ui/button/index.js';
 
 	import {
 		POMODORO_SECONDS,
@@ -14,8 +14,8 @@
 		secondsLeft,
 		writeNotifChoice,
 		writeRunning
-	} from '$lib/pomodoro.util';
-	import type { Running } from '$lib/pomodoro.util';
+	} from '#lib/pomodoro.util.js';
+	import type { Running } from '#lib/pomodoro.util.js';
 
 	export let data;
 
