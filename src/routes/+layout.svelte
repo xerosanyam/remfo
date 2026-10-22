@@ -35,3 +35,13 @@
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 </svelte:head>
+
+<!-- Anything JS-only (skeletons, shortcut hints) hides itself when scripts are off, so
+     no-JS never stares at a fake loading state. -->
+<noscript
+	><style>
+		.js-only {
+			display: none !important;
+		}
+	</style></noscript
+>

@@ -4,13 +4,16 @@
 	import type { CardEssentials } from '$lib/types/Card';
 	import type { ActionResult } from '@sveltejs/kit';
 	import { format } from 'date-fns';
-	import Trash from '~icons/arcticons/trashcan';
+	import Trash from '~icons/lucide/trash-2';
 	import { Button } from '$lib/components/ui/button';
 	import { capture } from '$lib/posthog';
 
 	export let cards: CardEssentials[];
 	export let totalCards: number;
 	export let limit: number;
+
+	// Callback prop, not createEventDispatcher (deprecated in Svelte 5).
+	export let ondeleted: (detail: { cardId: string }) => void = () => {};
 	let groupedCards: { [key: string]: CardEssentials[] } = {};
 	let dates: string[] = [];
 
@@ -35,17 +38,19 @@
 
 	let modifyingCardId = '';
 
+	// Cross-route action like AddNewCard: the row drops locally on redirect.
 	const customEnhance = ({ formData }: { formData: FormData }) => {
 		const tCardId = formData.get('cardId') as string;
 		modifyingCardId = tCardId;
 		return ({ result, update }: { result: ActionResult; update: () => void }) => {
-			if (result.type === 'success') {
+			if (result.type === 'redirect') {
+				ondeleted({ cardId: tCardId });
 				void capture('flashcard_deleted');
 			} else if (result.type === 'error' || result.type === 'failure') {
 				alert('unable to delete.');
+				update();
 			}
 			modifyingCardId = '';
-			update();
 		};
 	};
 </script>
@@ -65,7 +70,6 @@
 						<div class="flex w-full flex-col">
 							<div
 								class="text-foreground flex w-full leading-relaxed font-medium whitespace-break-spaces"
-								id="question"
 								placeholder="Capital of Paris?"
 								data-gramm="false"
 							>
@@ -73,22 +77,20 @@
 							</div>
 							<div
 								class="text-muted-foreground flex w-full text-sm leading-relaxed whitespace-break-spaces"
-								id="answer"
 								placeholder="France"
 								data-gramm="false"
 							>
 								{card.back}
 							</div>
 							<div class="flex justify-end px-2">
-								<form method="post" action="?/delete" use:enhance={customEnhance}>
+								<form method="post" action="/api/card-actions?/delete" use:enhance={customEnhance}>
 									<input type="hidden" hidden name="cardId" value={card.id} />
 									<Button
 										variant="outline"
 										class="opacity-60 hover:opacity-100"
 										disabled={modifyingCardId === card.id}
 										aria-label="delete card"
-										type="submit"
-										><Trash data-icon="inline-start" style="stroke-width:2px;" /></Button
+										type="submit"><Trash data-icon="inline-start" /></Button
 									>
 								</form>
 							</div>

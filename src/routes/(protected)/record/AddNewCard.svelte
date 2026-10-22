@@ -2,7 +2,7 @@
 	import { enhance } from '$app/forms';
 	import type { CardAddSchema } from '$lib/schemas';
 	import { shortcut } from '$lib/shortcuts';
-	import Save from '~icons/arcticons/saveto';
+	import Save from '~icons/lucide/save';
 
 	import type { Infer, SuperValidated } from 'sveltekit-superforms';
 	import type { ActionResult } from '@sveltejs/kit';
@@ -14,14 +14,17 @@
 
 	export let formData: SuperValidated<Infer<CardAddSchema>>;
 
-	// Plain use:enhance instead of superForm: the superforms client runtime (36KB) stays
-	// off the page; server-side zod validation is authoritative and its errors render
-	// from the failure result below (remfo-tw9m).
+	// Callback prop, not createEventDispatcher (deprecated in Svelte 5).
+	export let onadded: (card: { front: string; back: string }) => void = () => {};
+
+	// use:enhance against the cross-route action (/api/card-actions?/add): the shell prerenders,
+	// so it owns no actions itself. Redirect results patch the list locally, skipping the
+	// full load rerun; failures render server errors and resync via update().
 	let errors: { front?: string[]; back?: string[] } = formData?.errors ?? {};
 	let loading = false;
 	let formRef: HTMLFormElement;
 
-	let placeholders = [
+	const placeholders = [
 		{
 			front: `i'm grateful for`,
 			back: 'the beautiful weather today, which brightened my mood and filled me with energy'
@@ -33,26 +36,38 @@
 	];
 	const randomPlaceholder = Math.floor(Math.random() * placeholders.length);
 
-	const customEnhance = ({ formElement }: { formElement: HTMLFormElement }) => {
+	// The action answers 302, which enhance reports as type 'redirect'. Custom enhance
+	// replaces default handling, so ignoring it here skips the full load rerun.
+	const customEnhance = ({
+		formElement,
+		formData
+	}: {
+		formElement: HTMLFormElement;
+		formData: FormData;
+	}) => {
 		HTMLFormElement.prototype.reset.call(formElement);
+		const front = String(formData.get('front') ?? '');
+		const back = String(formData.get('back') ?? '');
 		return ({ result, update }: { result: ActionResult; update: () => void }) => {
-			if (result.type === 'success') {
+			if (result.type === 'redirect') {
 				errors = {};
+				onadded({ front, back });
 				void capture('flashcard_created', { entry_point: 'record' });
 			} else if (result.type === 'failure') {
 				errors = ((result.data?.form ?? {}) as { errors?: typeof errors }).errors ?? {};
 				alert('unable to save.');
+				update();
 			} else if (result.type === 'error') {
 				alert('unable to save.');
+				update();
 			}
-			update();
 		};
 	};
 </script>
 
 <form
 	method="post"
-	action="/record?/add"
+	action="/api/card-actions?/add"
 	use:enhance={customEnhance}
 	bind:this={formRef}
 	use:shortcut={{
@@ -106,11 +121,12 @@
 								{errors.back}
 							</div>{/if}
 						<div class="flex items-center justify-between pt-1">
-							<span class="text-muted-foreground flex items-center gap-1 text-xs"
+							<!-- Ctrl+Enter is a JS shortcut action: hidden without scripts. -->
+							<span class="text-muted-foreground js-only flex items-center gap-1 text-xs"
 								><KbdGroup><Kbd>Ctrl</Kbd>+<Kbd>Enter</Kbd></KbdGroup> to save</span
 							>
 							<Button type="submit" disabled={loading} title="shortcut: Ctrl/Command+Enter"
-								><Save data-icon="inline-start" style="stroke-width:2px;" />save</Button
+								><Save data-icon="inline-start" />save</Button
 							>
 						</div>
 					</div>

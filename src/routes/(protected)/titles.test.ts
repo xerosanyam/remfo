@@ -11,9 +11,7 @@ describe('protected page titles', () => {
 	it('record names its tab', () => {
 		render(RecordPage, {
 			data: {
-				addForm: { data: { front: '', back: '' }, errors: {} },
-				cards: null,
-				limit: 50
+				addForm: { data: { front: '', back: '' }, errors: {} }
 			} as never
 		});
 

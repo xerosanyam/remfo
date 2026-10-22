@@ -63,13 +63,20 @@ const CHECKS = [
 		page: '/record',
 		present: [
 			{ what: 'the add-card form', match: (html) => /<textarea/.test(html) },
-			// NewCards renders this footer only once the list is in hand, so it doubles as
-			// proof that the load resolved rather than that a shell was returned
-			{ what: 'the card list', match: (html) => /showing \d+ of \d+ cards/.test(html) },
-			{ what: 'no load failure', match: (html) => !html.includes('could not load your cards.') }
+			// The list is a client island over /api/cards, so no-JS stays on the pending
+			// branch. The contract is a sane degraded state: skeletons hidden via the
+			// .js-only rule, honest note shown.
+			{ what: 'the no-JS note', match: (html) => html.includes('the list needs javascript') },
+			{ what: 'the js-only hide rule', match: (html) => html.includes('.js-only') }
 		],
 		absent: [
-			{ what: 'a streamed-promise resolve() script', match: (html) => /\.resolve\(/.test(html) }
+			// The footer only renders once the island fetch resolves, so its absence proves
+			// no-JS really stays on the pending branch (and the .resolve() check used on
+			// other pages does not apply: nothing streams here).
+			{
+				what: 'the card list footer (needs JS to resolve)',
+				match: (html) => /showing \d+ of \d+ cards/.test(html)
+			}
 		]
 	},
 	{

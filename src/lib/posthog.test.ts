@@ -40,6 +40,7 @@ describe('lazy posthog helper', () => {
 			'test-token',
 			expect.objectContaining({
 				api_host: 'https://ph.test',
+				ui_host: 'https://us.posthog.com',
 				capture_exceptions: true,
 				capture_performance: { web_vitals: true },
 				person_profiles: 'identified_only'

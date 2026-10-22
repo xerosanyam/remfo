@@ -1,16 +1,16 @@
 import { sessionExists } from '$lib/common.util';
-import { fail, redirect } from '@sveltejs/kit';
+import { fail, redirect, type RequestEvent } from '@sveltejs/kit';
 import { ROUTES } from '$lib/routes.util';
 import { superValidate } from 'sveltekit-superforms';
 import { zod } from 'sveltekit-superforms/adapters';
 import { cardAddSchema, cardReviewSchema } from '$lib/schemas';
 import { deleteCard, insertCard, reviewCard } from '$lib/db/tables/card.table';
-import type { RequestEvent as R2 } from '../../routes/(protected)/learn/$types';
-import type { RequestEvent as RecordType } from '../../routes/(protected)/record/$types';
 import type { RequestEvent as R5 } from '../../routes/(protected)/revise/$types';
 
+// RequestEvent, not a union of per-route types: these factories serve actions on several
+// routes, including cross-route targets like /api/cards that own no page of their own.
 export function addAction(location: string) {
-	return async (event: R2 | RecordType) => {
+	return async (event: RequestEvent) => {
 		const { locals } = event;
 		if (!sessionExists(locals)) {
 			redirect(302, ROUTES.LOGIN);
@@ -59,7 +59,7 @@ export function reviewAction(location: string) {
 }
 
 export function deleteAction(location: string) {
-	return async ({ locals, request }: RecordType | R5) => {
+	return async ({ locals, request }: RequestEvent) => {
 		const data = await request.formData();
 		const id = data.get('cardId') as string;
 

@@ -62,7 +62,7 @@
 	}: ButtonProps = $props();
 </script>
 
-{#if href}
+{#if href !== undefined}
 	<a
 		bind:this={ref}
 		data-slot="button"
