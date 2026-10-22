@@ -1,5 +1,5 @@
 <script>
-	import Logo from '$lib/assets/logo-black.png?enhanced';
+	import Logo from '$lib/assets/logo-black-40.png?enhanced';
 	import Logout from '$lib/components/Logout.svelte';
 	// Sidebar icons are lucide throughout (single library, single 24-unit grid),
 	// so one shared stroke rule in app.css keeps every icon at the same weight.
@@ -107,6 +107,9 @@
 		<enhanced:img
 			src={Logo}
 			class="h-10 w-10 rounded-full"
+			width="40"
+			height="40"
+			decoding="async"
 			title="logo of remember forever"
 			alt="logo of remember forever"
 		></enhanced:img>
